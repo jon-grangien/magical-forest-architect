@@ -1,0 +1,17 @@
+{
+  "name": "magical-forest-architect",
+  "version": "1.0.0",
+  "description": "Procedural landscape generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "webgl",
+    "three",
+    "procedural",
+    "shaders"
+  ],
+  "author": "Jonathan Grangien",
+  "license": "ISC"
+}

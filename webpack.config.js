@@ -24,11 +24,23 @@ module.exports = {
 				test: /\.js$/,
 				exclude: /node_modules/,
 				loader: 'babel-loader',
-				query: { presets: [ 'es2015', 'stage-0' ] }
+				query: {
+					presets: [ 'es2015', 'stage-0' ]
+				}
 			},
 			{
 				test: /(\.scss|\.css)$/,
 				loader: 'style-loader!css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]-[local]___[hash:base64:5]!sass-loader?sourceMap'
+			},
+			{
+				test: /\.(glsl|frag|vert)$/,
+				loader: 'raw',
+				exclude: /node_modules/
+			},
+			{
+				test: /\.(glsl|frag|vert)$/,
+				loader: 'glslify',
+				exclude: /node_modules/
 			}
 		]
   }

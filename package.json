@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack -p",
-    "serve": "node_modules/webpack-dev-server/bin/webpack-dev-server.js"
+    "serve": "node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --colors",
+    "serve:budo": "budo src/main.js:public/bundle.js --live -p 8080",
+    "build:browserify": "browserify src/main.js | uglifyjs -m -c warnings=false > public/bundle.js"
   },
   "keywords": [
     "webgl",
@@ -19,23 +21,41 @@
   "dependencies": {
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.9",
+    "babel-plugin-glslify": "^2.0.0",
     "babel-polyfill": "^6.16.0",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-stage-0": "^6.16.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.1.1",
+    "budo": "^9.3.0",
     "css-loader": "^0.26.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "glsl-checker": "^1.0.1",
+    "glsl-noise": "0.0.0",
     "glslify": "^6.0.1",
+    "glslify-fancy-imports": "^1.0.1",
+    "glslify-hex": "^2.1.1",
     "glslify-loader": "^1.0.2",
     "node-sass": "^3.13.0",
     "raw-loader": "^0.5.1",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
     "three": "^0.82.1",
+    "transform-loader": "^0.2.3",
+    "uglify-js": "^2.7.5",
     "webpack": "^1.14.0"
   },
   "devDependencies": {
     "webpack-dev-middleware": "^1.8.4",
     "webpack-dev-server": "^1.16.2",
     "webpack-hot-middleware": "^2.13.2"
+  },
+  "browserify": {
+    "transform": [[
+      "babelify", {
+        "presets": ["es2015"],
+        "plugins": ["glslify"]
+      }
+    ]]
   }
 }

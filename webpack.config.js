@@ -1,5 +1,4 @@
 const webpack = require('webpack');
-//const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
 	devtool: 'source-map',
@@ -32,16 +31,6 @@ module.exports = {
 				test: /(\.scss|\.css)$/,
 				loader: 'style-loader!css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]-[local]___[hash:base64:5]!sass-loader?sourceMap'
 			},
-			{
-				test: /\.(glsl|frag|vert)$/,
-				loader: 'raw',
-				exclude: /node_modules/
-			},
-			{
-				test: /\.(glsl|frag|vert)$/,
-				loader: 'glslify',
-				exclude: /node_modules/
-			}
 		]
   }
 };

@@ -1,15 +1,15 @@
-## What
+#### What
 Interactive WebGL + Three.js application with procedurally generated objects  
 
 Coursework for course TNM084 Procedural Methods for Images at Linköping University
 
-## Install
+#### Install
 Have Node and npm installed globally, then
 ```bash
 npm i
 ```
 
-## Develop
+#### Develop
 dev server:
 ```bash
 npm run serve:budo 

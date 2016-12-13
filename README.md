@@ -10,13 +10,13 @@ npm i
 ```
 
 ## Develop
-#### dev server
+dev server:
 ```bash
 npm run serve:budo 
 # visit localhost/8080
 ```
 
-#### build production
+build production:
 ```bash
 npm run build:browserify
 # load in browser how you want

@@ -1,4 +1,5 @@
-varying vec3 Normal;
+varying vec3 transformedNormal;
+varying vec3 transformedPos;
 
 //
 // Description : Array and textureless GLSL 2D/3D/4D simplex
@@ -107,9 +108,8 @@ float snoise(vec3 v)
 void main() {
   float elevation = snoise(vec3(1.6 * position));
 
-  //float freq;
-  //for (freq=1.0; freq<1024.0; freq*=2.0) {
-  //    elevation += 0.5/freq*(snoise((position*4.0*freq))-0.5);
+  //for (float i = 1.0; i < 1024.0; i = i * 2.0) {
+  //    elevation += 0.5/i*(snoise((position*4.0*i))-0.5);
   //}
 
   elevation += 0.5/1.0*(snoise((position*4.0*1.0))-0.5);
@@ -122,10 +122,16 @@ void main() {
   elevation += 0.5/128.0*(snoise((position*4.0*128.0))-0.5);
   elevation += 0.5/256.0*(snoise((position*4.0*256.0))-0.5);
   elevation += 0.5/512.0*(snoise((position*4.0*512.0))-0.5);
-  elevation += 0.5/1024.0*(snoise((position*4.0*1024.0))-0.5);
 
   vec3 variedpos = position + 0.01 * normal * 10.0 * elevation;
 
-  Normal = normal;
+  // Transform normal
+  // normalMatrix: inverse transpose of modelViewMatrix
+  transformedNormal = normalize(normalMatrix * normal);
+
+  // Transform position
+  //transformedPos = vec3(projectionMatrix * modelViewMatrix * vec4(variedpos, 1.0));
+  transformedPos = (modelMatrix * vec4(variedpos, 1.0)).xyz;
+
   gl_Position = projectionMatrix * modelViewMatrix * vec4( variedpos, 1.0 );
 }

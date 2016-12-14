@@ -1,5 +1,6 @@
 import App from './App';
 import ShadedSphere from './Objects/ShadedSphere/';
+import * as THREE from 'three';
 
 let app = new App();
 
@@ -20,3 +21,10 @@ app.addObject(new ShadedSphere({
   },
   app.uniforms
 ));
+
+// Regular reference sphere
+const regularGeometry = new THREE.SphereGeometry(5, 32, 32);
+const regularMaterial = new THREE.MeshLambertMaterial({ color: 0xCC0000 });
+const sphere = new THREE.Mesh(regularGeometry, regularMaterial);
+sphere.position.set(0.0, 5.0, -7.0);
+app.scene.add(sphere);

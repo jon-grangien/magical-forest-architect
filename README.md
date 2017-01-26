@@ -4,21 +4,21 @@ Interactive WebGL + Three.js application with procedurally generated objects
 Coursework for course TNM084 Procedural Methods for Images at Linköping University
 
 #### Install
-Have Node and npm installed globally, then
+Install [yarn](https://yarnpkg.com/) and use a modern browser.
 ```bash
-npm i
+yarn
 ```
 
 #### Develop
 dev server:
 ```bash
-npm run serve:budo 
+yarn serve:budo
 # visit localhost/8080
 ```
 
 build production:
 ```bash
-npm run build:browserify
+yarn build:browserify
 # load in browser how you want
 ```
 

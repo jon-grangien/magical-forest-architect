@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+const TrackballControls = require('three-trackballcontrols');
 
 /**
  * Main class
@@ -38,6 +39,8 @@ class App {
     this.uniforms.u_resolution.value.y = this.renderer.domElement.height;
     this.uniforms.u_purpleLightPos.value = this.light.position;
 
+    this.controls = new TrackballControls(this.camera, this.renderer.domElement);
+
     this.render();
   }
 
@@ -59,6 +62,7 @@ class App {
     this.uniforms.u_purpleLightPos.value = this.light.position;
 
     this.renderer.render(this.scene, this.camera);
+    this.controls.update();
   }
 
   addObject(mesh) {

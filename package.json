@@ -41,6 +41,7 @@
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
     "three": "^0.82.1",
+    "three-trackballcontrols": "^0.0.5",
     "transform-loader": "^0.2.3",
     "uglify-js": "^2.7.5",
     "webpack": "^1.14.0"
@@ -51,11 +52,19 @@
     "webpack-hot-middleware": "^2.13.2"
   },
   "browserify": {
-    "transform": [[
-      "babelify", {
-        "presets": ["es2015", "stage-0"],
-        "plugins": ["glslify"]
-      }
-    ]]
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015",
+            "stage-0"
+          ],
+          "plugins": [
+            "glslify"
+          ]
+        }
+      ]
+    ]
   }
 }

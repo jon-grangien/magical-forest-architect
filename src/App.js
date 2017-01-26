@@ -20,7 +20,8 @@ class App {
   createScene() {
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
-    this.camera.position.set(0.0, 0.0, 20.0);
+    this.camera.position.set(2.0, 5.0, 30.0);
+    this.camera.lookAt(0.0, 0.0, 0.0);
 
     let light = new THREE.PointLight( 0xFF00FF, 1.0, 100.0 );
     light.position.set(0, 0, 50.0);

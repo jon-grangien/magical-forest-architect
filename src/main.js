@@ -1,5 +1,6 @@
 import App from './App';
 import ShadedSphere from './Objects/ShadedSphere/';
+import MainPlane from './Objects/MainPlane/';
 import * as THREE from 'three';
 
 let app = new App();
@@ -18,6 +19,13 @@ app.addObject(new ShadedSphere({
     radius: 5,
     widthSegments: 32,
     heightSegments: 32,
+  },
+  app.uniforms
+));
+
+app.addObject(new MainPlane({
+    width: 50,
+    height: 25
   },
   app.uniforms
 ));

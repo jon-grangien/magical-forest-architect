@@ -23,12 +23,15 @@ app.addObject(new ShadedSphere({
   app.uniforms
 ));
 
-app.addObject(new MainPlane({
-    width: 50,
-    height: 25
+const plane = app.addObject(new MainPlane({
+    width: 500,
+    height: 500
   },
   app.uniforms
 ));
+
+// Rotate plane
+plane.mesh.rotation.x = 30;
 
 // Regular reference sphere
 const regularGeometry = new THREE.SphereGeometry(5, 32, 32);

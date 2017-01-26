@@ -7,18 +7,16 @@ var glsl = require('glslify');
 class ShadedSphere {
 
   /**
-   * @param size
-   * Object of number radius, number widthSegments, number heightSegments
-   *
-   * @param uniforms
-   * Object of app main uniforms
+   * Constructor
+   * @param {object} size - Object of number radius, number widthSegments, number heightSegments
+   * @param {object} uniforms - Object of app main uniforms
    */
   constructor(size, uniforms) {
     const geometry = new THREE.SphereGeometry(size.radius, size.widthSegments, size.heightSegments);
     const material = new THREE.ShaderMaterial({
       uniforms,
-      vertexShader: glsl('./vertexshader.glsl'),
-      fragmentShader: glsl('./fragmentshader.glsl')
+      vertexShader: glsl('./shaders/vert.glsl'),
+      fragmentShader: glsl('./shaders/frag.glsl')
     });
 
     this.mesh = new THREE.Mesh(geometry, material);

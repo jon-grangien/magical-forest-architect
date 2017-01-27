@@ -1,5 +1,6 @@
 varying vec3 transformedNormal;
-varying vec3 transformedPos;
+varying vec4 transformedPos;
+varying vec2 vUv;
 
 uniform vec2 u_resolution;
 uniform float u_time;
@@ -9,11 +10,11 @@ uniform vec3 u_purpleLightPos;
 void main() {
   vec4 addedLights = vec4(0.0, 0.0, 0.0, 1.0);
   vec3 lightColor = u_purpleLightColor;
-  vec3 lightDirection = normalize(transformedPos - u_purpleLightPos);
+  vec3 lightDirection = normalize(transformedPos.xyz - u_purpleLightPos);
   addedLights.rgb += clamp(dot(-lightDirection, transformedNormal), 0.0, 1.0) * lightColor;
 
   vec2 st = gl_FragCoord.xy/u_resolution.xy;
-  vec3 diffusecolor = vec3(sin(u_time * 0.5) * st.x, st.y, 0.5 + 0.05 * sin(u_time));
+  vec3 diffusecolor = vec3(sin(u_time * 0.3) * st.x, st.y, 0.5 + 0.01 * sin(u_time));
 
   vec4 finalColor = mix(vec4(diffusecolor, 1.0), addedLights, addedLights);
 

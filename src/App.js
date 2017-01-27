@@ -10,11 +10,16 @@ class App {
   constructor() {
     this.objects = [];
 
+    const sunTexture = THREE.ImageUtils.loadTexture('public/explosion.png');
+    sunTexture.minFilter = THREE.LinearFilter;
+
     this.uniforms = {
       u_time: { type: "f", value: 1.0 },
       u_resolution: { type: "v2", value: new THREE.Vector2() },
+
       u_sunLightColor: new THREE.Uniform(new THREE.Vector3(1, 0.8, 0.1)),
-      u_sunLightPos: new THREE.Uniform(new THREE.Vector3(200.0, 1450.0, -3300.0))
+      u_sunLightPos: new THREE.Uniform(new THREE.Vector3(200.0, 1450.0, -3300.0)),
+      u_sunTexture: { type: "t", value: sunTexture }
     };
 
     this.createScene();
@@ -26,9 +31,10 @@ class App {
     this.camera.position.set(0.0, 0.0, 150.0);
     this.camera.lookAt(0.0, 0.0, 0.0);
 
-    const sunPosition = { x: 200.0, y: 1450.0, z: -3300.0 };
+    const sunPosition = { x: 350.0, y: 500.0, z: -800.0 };
+
     const sunLightColor = 0xF4F142;
-    this.sun = new Sun(128, 32, 32, sunPosition, sunLightColor, this.uniforms);
+    this.sun = new Sun(64, 16, 16, sunPosition, sunLightColor, this.uniforms);
     this.scene.add( this.sun.getMesh() );
 
     this.renderer = new THREE.WebGLRenderer();

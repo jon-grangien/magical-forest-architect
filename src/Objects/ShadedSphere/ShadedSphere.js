@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+const glslify = require('glslify');
 
 /**
  * Simple Sphere class with custom shaders
@@ -14,8 +15,8 @@ class ShadedSphere {
     const geometry = new THREE.SphereGeometry(size.radius, size.widthSegments, size.heightSegments);
     const material = new THREE.ShaderMaterial({
       uniforms,
-      vertexShader: require('./shaders/vert.glsl'),
-      fragmentShader: require('./shaders/frag.glsl')
+      vertexShader: glslify('./shaders/vert.glsl'),
+      fragmentShader: glslify('./shaders/frag.glsl')
     });
 
     this.mesh = new THREE.Mesh(geometry, material);

@@ -12,6 +12,6 @@ yarn
 yarn start
 
 # minified build, load in browser however you want
-#yarn build:browserify (wip)
+yarn build:browserify
 ```
 

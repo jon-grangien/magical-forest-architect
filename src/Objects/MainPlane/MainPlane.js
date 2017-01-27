@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+const glslify = require('glslify');
 
 /**
  * App main ground plane
@@ -13,8 +14,8 @@ class MainPlane {
   constructor(size, uniforms) {
     const geometry = new THREE.PlaneGeometry(size.width, size.height, size.widthSegments, size.heightSegments);
     const material = new THREE.ShaderMaterial({
-      vertexShader: require('./shaders/vert.glsl'),
-      fragmentShader: require('./shaders/frag.glsl'),
+      vertexShader: glslify('./shaders/vert.glsl'),
+      fragmentShader: glslify('./shaders/frag.glsl'),
       uniforms,
       defines: {
         USE_MAP: ''

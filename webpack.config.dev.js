@@ -1,12 +1,10 @@
 const webpack = require('webpack');
 const path = require('path');
-const ROOT_PATH = path.resolve(__dirname);
 
 module.exports = {
 	devtool: 'source-map',
 	entry: [
 		'webpack-hot-middleware/client',
-		'babel-polyfill',
     './src/main.js'
   ],
   output: {
@@ -25,7 +23,7 @@ module.exports = {
 				exclude: /node_modules/,
 				loader: 'babel-loader',
 				query: {
-					presets: [ 'es2015', 'stage-0' ]
+					presets: [ 'es2015' ]
 				}
 			},
       {

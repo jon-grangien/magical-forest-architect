@@ -1,6 +1,6 @@
 import App from './App';
-import ShadedSphere from './Objects/ShadedSphere/';
-import MainPlane from './Objects/MainPlane/';
+import ShadedSphere from './components/ShadedSphere/';
+import MainPlane from './components/MainPlane/';
 import * as THREE from 'three';
 
 let app = new App();

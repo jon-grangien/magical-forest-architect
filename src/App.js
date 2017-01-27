@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 const TrackballControls = require('three-trackballcontrols');
 
+import Sun from './components/Sun';
+
 /**
  * Main class
  */
@@ -24,12 +26,10 @@ class App {
     this.camera.position.set(0.0, 0.0, 150.0);
     this.camera.lookAt(0.0, 0.0, 0.0);
 
-    const sunLight = new THREE.PointLight( 0xf4f142, 10.0, 4000.0 );
-    sunLight.position.set(200.0, 1450.0, -3300.0);
-    let sunBall = new THREE.Mesh( new THREE.SphereGeometry( 128, 32, 32 ), new THREE.MeshBasicMaterial( { color: 0xF4F142 } ) )
-    sunLight.add(sunBall);
-    this.sun = sunLight;
-    this.scene.add( this.sun );
+    const sunPosition = { x: 200.0, y: 1450.0, z: -3300.0 };
+    const sunLightColor = 0xF4F142;
+    this.sun = new Sun(128, 32, 32, sunPosition, sunLightColor, this.uniforms);
+    this.scene.add( this.sun.getMesh() );
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(window.innerWidth, window.innerHeight);

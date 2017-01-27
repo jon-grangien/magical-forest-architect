@@ -16,9 +16,12 @@ void main() {
   addedLights.rgb += clamp(dot(-lightDirection, transformedNormal), 0.0, 1.0) * lightColor;
 
   vec2 st = gl_FragCoord.xy/u_resolution.xy;
-  vec3 diffusecolor = vec3(sin(u_time * 0.3) * st.x, st.y, 0.5 + 0.01 * sin(u_time));
 
-  vec4 finalColor = mix(vec4(diffusecolor, 1.0), addedLights, addedLights);
+  vec3 ambientColor = 0.4 * vec3(st.x, st.y, 0.5);
+  vec3 diffuse = mix(ambientColor.rgb + addedLights.rgb, ambientColor.rgb, 0.3);
+
+  //vec4 finalColor = mix(vec4(diffusecolor, 1.0), addedLights, addedLights);
+  vec4 finalColor = vec4(diffuse, 1.0);
 
   gl_FragColor = finalColor;
 }

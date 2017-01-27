@@ -390,27 +390,38 @@ float pnoise(vec4 P, vec4 rep)
 }
 
 void main() {
-  vec3 grad, temp, temp2;
-  float elevation = snoise(vec3(1.6 * position) - 0.5, temp);
+  vec3 grad, temp;
 
-  elevation = max(elevation, 0.0);
-  elevation = min(elevation, 10.0);
-  //elevation -= smoothstep(7.0, 10.0, elevation);
-  vec3 finalElevation = elevation * normal;
+  // Main noise
+  float elevation = snoise(vec3(0.0001 * position) - 0.5, temp);
 
+  // Generate noise frequency
+  const float freqFactor = 4.0;
+  float hillFactor = 0.0005;
+  for (float i = 0.0; i <= freqFactor; i += 1.0) {
+    float factor = exp2(i);
+    elevation += 5.0/(factor) * snoise(vec3(factor*hillFactor*position) - 0.5, temp);
+    grad += temp;
+  }
+
+  // Truncate low enough values
+  elevation = max(elevation, -2.0);
+
+  float bumpHeight = 50.0;
+  vec3 finalElevation = bumpHeight * elevation * normal;
+
+  // Apply noise
   vec3 variedpos = position;
-  variedpos += 2.0 * finalElevation;
-
-  grad = temp;
+  variedpos += finalElevation;
 
   // Transform normal
-  //transformedNormal = normalize(normalMatrix * normal);
-  transformedNormal = normalize(normal - grad);
+  vec3 g1 = dot(grad, normal.xyz) * normal.xyz;
+  vec3 g2 = grad - g1;
+  vec3 n = normal.xyz - g2;
+  transformedNormal = normalize(n);
 
   // Transform position
   transformedPos = projectionMatrix * modelViewMatrix * vec4(variedpos, 1.0);
-  //transformedPos = (modelMatrix * vec4(variedpos, 1.0)).xyz;
-  //ransformedPos = projectionMatrix * vec4(variedpos, 1.0);
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4( variedpos, 1.0 );
 }

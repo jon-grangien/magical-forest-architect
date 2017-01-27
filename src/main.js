@@ -24,8 +24,8 @@ app.addObject(new ShadedSphere({
 ));
 
 const plane = app.addObject(new MainPlane({
-    width: 256,
-    height: 256,
+    width: 2048,
+    height: 2048,
     widthSegments: 256,
     heightSegments: 256,
   },

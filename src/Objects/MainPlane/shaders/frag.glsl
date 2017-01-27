@@ -4,13 +4,15 @@ varying vec2 vUv;
 
 uniform vec2 u_resolution;
 uniform float u_time;
-uniform vec3 u_purpleLightColor;
-uniform vec3 u_purpleLightPos;
+uniform vec3 u_sunLightColor;
+uniform vec3 u_sunLightPos;
 
 void main() {
   vec4 addedLights = vec4(0.0, 0.0, 0.0, 1.0);
-  vec3 lightColor = u_purpleLightColor;
-  vec3 lightDirection = normalize(transformedPos.xyz - u_purpleLightPos);
+
+  // sun light lambert
+  vec3 lightColor = u_sunLightColor;
+  vec3 lightDirection = normalize(transformedPos.xyz - u_sunLightPos);
   addedLights.rgb += clamp(dot(-lightDirection, transformedNormal), 0.0, 1.0) * lightColor;
 
   vec2 st = gl_FragCoord.xy/u_resolution.xy;

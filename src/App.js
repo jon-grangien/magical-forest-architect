@@ -42,7 +42,7 @@ class App {
     this.sun = new Sun(64, 16, 16, sunPosition, sunLightColor, this.uniforms);
     this.scene.add( this.sun.getMesh() );
 
-    this.renderer = new THREE.WebGLRenderer();
+    this.renderer = new THREE.WebGLRenderer({ alpha: true });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(this.renderer.domElement);
 

@@ -24,8 +24,10 @@ app.addObject(new ShadedSphere({
 ));
 
 const plane = app.addObject(new MainPlane({
-    width: 500,
-    height: 500
+    width: 250,
+    height: 250,
+    widthSegments: 150,
+    heightSegments: 150,
   },
   app.uniforms
 ));

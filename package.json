@@ -4,10 +4,11 @@
   "description": "Procedural landscape generator",
   "main": "src/main.js",
   "scripts": {
+    "start": "npm run serve",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack -p",
-    "serve": "node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --colors",
-    "serve:budo": "budo src/main.js:public/bundle.js --live -p 8080",
+    "serve": "node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --colors --config ./webpack.config.dev.js",
+    "serve:budo": "node_modules/.bin/budo src/main.js:public/bundle.js --live -v -p 8080 -t glslify | garnish",
     "build:browserify": "browserify src/main.js | uglifyjs -m -c warnings=false > public/bundle.js"
   },
   "keywords": [
@@ -26,15 +27,16 @@
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-stage-0": "^6.16.0",
     "babelify": "^7.3.0",
-    "browserify": "^13.1.1",
-    "budo": "^9.3.0",
+    "browserify": "^14.0.0",
+    "budo": "^9.4.5",
     "css-loader": "^0.26.1",
     "extract-text-webpack-plugin": "^1.0.1",
-    "glsl-checker": "^1.0.1",
+    "garnish": "^5.2.0",
     "glsl-noise": "0.0.0",
     "glslify": "^6.0.1",
     "glslify-fancy-imports": "^1.0.1",
     "glslify-hex": "^2.1.1",
+    "glslify-live": "^2.1.1",
     "glslify-loader": "^1.0.2",
     "node-sass": "^3.13.0",
     "raw-loader": "^0.5.1",
@@ -44,7 +46,8 @@
     "three-trackballcontrols": "^0.0.5",
     "transform-loader": "^0.2.3",
     "uglify-js": "^2.7.5",
-    "webpack": "^1.14.0"
+    "webpack": "^1.14.0",
+    "webpack-glsl-loader": "^1.0.1"
   },
   "devDependencies": {
     "webpack-dev-middleware": "^1.8.4",
@@ -53,18 +56,8 @@
   },
   "browserify": {
     "transform": [
-      [
-        "babelify",
-        {
-          "presets": [
-            "es2015",
-            "stage-0"
-          ],
-          "plugins": [
-            "glslify"
-          ]
-        }
-      ]
+      "babelify",
+      "glslify"
     ]
   }
 }

@@ -24,7 +24,7 @@ class App {
     this.camera.position.set(0.0, 0.0, 150.0);
     this.camera.lookAt(0.0, 0.0, 0.0);
 
-    let light = new THREE.PointLight( 0xFF00FF, 1.0, 100.0 );
+    let light = new THREE.PointLight( 0xFF00FF, 10.0, 100.0 );
     light.position.set(0, 0, 50.0);
     let lightBall = new THREE.Mesh( new THREE.SphereGeometry( 0.5, 16, 16 ), new THREE.MeshBasicMaterial( { color: 0xFF00FF } ) )
     light.add(lightBall);

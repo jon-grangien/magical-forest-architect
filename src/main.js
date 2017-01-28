@@ -1,7 +1,7 @@
 import App from './App';
 import ShadedSphere from './components/ShadedSphere/';
 import MainPlane from './components/MainPlane/';
-import * as THREE from 'three';
+//import * as THREE from 'three';
 
 let app = new App();
 
@@ -23,7 +23,7 @@ app.addObject(new ShadedSphere({
   app.uniforms
 ));
 
-const plane = app.addObject(new MainPlane({
+app.addObject(new MainPlane({
     width: 2048,
     height: 2048,
     widthSegments: 256,
@@ -32,12 +32,5 @@ const plane = app.addObject(new MainPlane({
   app.uniforms
 ));
 
-// Rotate plane
-plane.mesh.rotation.x = 30;
-
-// Regular reference sphere
-const regularGeometry = new THREE.SphereGeometry(5, 32, 32);
-const regularMaterial = new THREE.MeshLambertMaterial({ color: 0xCC0000 });
-const sphere = new THREE.Mesh(regularGeometry, regularMaterial);
-sphere.position.set(0.0, 5.0, -7.0);
-app.scene.add(sphere);
+// Rotate scene for better view
+app.scene.rotation.y = -30 * Math.PI / 90;

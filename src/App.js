@@ -9,13 +9,14 @@ import Sun from './components/Sun';
 class App {
   constructor() {
     this.objects = [];
+    this.sunPosition = { x: 450.0, y: 1300.0, z: 400.0 };
 
     this.uniforms = {
       u_time: { type: "f", value: 1.0 },
       u_resolution: { type: "v2", value: new THREE.Vector2() },
 
-      u_sunLightColor: new THREE.Uniform(new THREE.Vector3(1, 0.8, 0.1)),
-      u_sunLightPos: new THREE.Uniform(new THREE.Vector3(200.0, 1450.0, -3300.0)),
+      u_sunLightColor: new THREE.Uniform(new THREE.Vector3(1.0, 0.7, 0.6)),
+      u_sunLightPos: new THREE.Uniform(new THREE.Vector3(this.sunPosition.x, this.sunPosition.y, this.sunPosition.z)),
       u_sunTexture: { type: "t", value: null }
     };
 
@@ -23,9 +24,11 @@ class App {
   }
 
   createScene() {
+
+    // Scene, camera
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 5000);
-    this.camera.position.set(0.0, 0.0, 150.0);
+    this.camera.position.set(-512, -794.0, 208.0);
     this.camera.lookAt(0.0, 0.0, 0.0);
 
     // Load sun texture
@@ -36,19 +39,18 @@ class App {
       this.uniforms.u_sunTexture.value = sunTexture;
     });
 
-    const sunPosition = { x: 350.0, y: 500.0, z: -800.0 };
-
+    // Add sun
     const sunLightColor = 0xF4F142;
-    this.sun = new Sun(64, 16, 16, sunPosition, sunLightColor, this.uniforms);
+    this.sun = new Sun(64, 16, 16, this.sunPosition, sunLightColor, this.uniforms);
     this.scene.add( this.sun.getMesh() );
 
+    // Renderer
     this.renderer = new THREE.WebGLRenderer({ alpha: true });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(this.renderer.domElement);
 
     this.uniforms.u_resolution.value.x = this.renderer.domElement.width;
     this.uniforms.u_resolution.value.y = this.renderer.domElement.height;
-
     this.controls = new TrackballControls(this.camera, this.renderer.domElement);
 
     this.render();
@@ -59,11 +61,14 @@ class App {
       this.render();
     });
 
+    this.uniforms.u_time.value += 0.05;
+
     this.objects.forEach((object) => {
         object.update();
     });
 
-    this.uniforms.u_time.value += 0.05;
+    this.sun.getMesh().position.x += 0.09 * Math.sin(0.08 * this.uniforms.u_time.value);
+    this.uniforms.u_sunLightPos.value = this.sun.getMesh().position;
 
     this.renderer.render(this.scene, this.camera);
     this.controls.update();

@@ -1,6 +1,7 @@
 import App from './App';
 import ShadedSphere from './components/ShadedSphere/';
 import MainPlane from './components/MainPlane/';
+import Gui from './controllers/GUI';
 //import * as THREE from 'three';
 
 let app = new App();
@@ -34,3 +35,6 @@ app.addObject(new MainPlane({
 
 // Rotate scene for better view
 app.scene.rotation.y = -30 * Math.PI / 90;
+
+// Init GUI
+new Gui();

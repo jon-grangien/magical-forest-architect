@@ -16,7 +16,10 @@ class UniformSingleton {
       u_sunLightPos: new THREE.Uniform(new THREE.Vector3(this.sunPosition.x, this.sunPosition.y, this.sunPosition.z)),
       u_sunTexture: { type: "t", value: null },
 
-      u_bumpHeight: { type: "f", value: 50.0 }
+      u_bumpHeight: { type: "f", value: 50.0 },
+      u_height: { type: "f", value: 5.0 },
+      u_hillFactor: { type: "f", value: 0.0005 },
+      u_spikyness: { type: "f", value: 0.0001 },
     }
 
     return instance;

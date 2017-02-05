@@ -4,6 +4,9 @@ varying vec2 vUv;
 
 uniform float u_time;
 uniform float u_bumpHeight;
+uniform float u_height;
+uniform float u_hillFactor;
+uniform float u_spikyness;
 
 // Description : Array and textureless GLSL 2D/3D/4D simplex
 //               noise functions.
@@ -394,14 +397,14 @@ void main() {
   vec3 grad, temp;
 
   // Main noise
-  float elevation = snoise(vec3(0.0001 * position) - 0.5, temp);
+  float elevation = snoise(vec3(u_spikyness * position) - 0.5, temp);
 
   // Generate noise frequency
   const float freqFactor = 4.0;
-  float hillFactor = 0.0005;
+  float hillFactor = u_hillFactor;
   for (float i = 0.0; i <= freqFactor; i += 1.0) {
     float factor = exp2(i);
-    elevation += 5.0/(factor) * snoise(vec3(factor*hillFactor*position) - 0.5, temp);
+    elevation += u_height/(factor) * snoise(vec3(factor*hillFactor*position) - 0.5, temp);
     grad += temp;
   }
 

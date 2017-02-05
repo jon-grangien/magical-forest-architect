@@ -3,6 +3,7 @@ varying vec4 transformedPos;
 varying vec2 vUv;
 
 uniform float u_time;
+uniform float u_bumpHeight;
 
 // Description : Array and textureless GLSL 2D/3D/4D simplex
 //               noise functions.
@@ -407,7 +408,7 @@ void main() {
   // Truncate low enough values
   elevation = max(elevation, -2.0);
 
-  float bumpHeight = 50.0;
+  float bumpHeight = u_bumpHeight;
   vec3 finalElevation = bumpHeight * elevation * normal;
 
   // Apply noise

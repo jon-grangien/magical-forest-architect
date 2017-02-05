@@ -2,6 +2,7 @@ import * as THREE from 'three';
 const TrackballControls = require('three-trackballcontrols');
 
 import Sun from './components/Sun';
+import UniformSingleton from './UniformsSingleton';
 
 /**
  * Main class
@@ -9,16 +10,8 @@ import Sun from './components/Sun';
 class App {
   constructor() {
     this.objects = [];
-    this.sunPosition = { x: 450.0, y: 1300.0, z: 400.0 };
 
-    this.uniforms = {
-      u_time: { type: "f", value: 1.0 },
-      u_resolution: { type: "v2", value: new THREE.Vector2() },
-
-      u_sunLightColor: new THREE.Uniform(new THREE.Vector3(1.0, 0.7, 0.6)),
-      u_sunLightPos: new THREE.Uniform(new THREE.Vector3(this.sunPosition.x, this.sunPosition.y, this.sunPosition.z)),
-      u_sunTexture: { type: "t", value: null }
-    };
+    this.uniforms = new UniformSingleton().uniforms;
 
     this.createScene();
   }
@@ -41,7 +34,8 @@ class App {
 
     // Add sun
     const sunLightColor = 0xF4F142;
-    this.sun = new Sun(64, 16, 16, this.sunPosition, sunLightColor, this.uniforms);
+    const sunPos = this.uniforms.u_sunLightPos.value;
+    this.sun = new Sun(64, 16, 16, sunPos, sunLightColor);
     this.scene.add( this.sun.getMesh() );
 
     // Renderer

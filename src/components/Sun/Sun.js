@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 const glslify = require('glslify');
+import UniformSingleton from '../../UniformsSingleton';
 
 /**
  * Sun with procedurally animated texture, main light source
@@ -13,9 +14,10 @@ class Sun {
    * @param {number} heightSegments - Height segments of the sphere geometries
    * @param {object} position - Object of x, y, z components for sphere position in world space
    * @param {number} lightColor - Color of light source
-   * @param {object} uniforms - App uniforms
    */
-  constructor(size, widthSegments, heightSegments, position, lightColor, uniforms) {
+  constructor(size, widthSegments, heightSegments, position, lightColor) {
+    const uniforms = new UniformSingleton().uniforms;
+
     const geometry = new THREE.SphereGeometry(size,  widthSegments, heightSegments);
     const material = new THREE.ShaderMaterial({
       vertexShader: glslify('./shaders/texture_vert.glsl'),

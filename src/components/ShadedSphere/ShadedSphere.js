@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 const glslify = require('glslify');
+import UniformSingleton from '../../UniformsSingleton';
 
 /**
  * Simple Sphere class with custom shaders
@@ -9,9 +10,10 @@ class ShadedSphere {
   /**
    * Constructor
    * @param {object} size - Object of number radius, number widthSegments, number heightSegments
-   * @param {object} uniforms - Object of app main uniforms
    */
-  constructor(size, uniforms) {
+  constructor(size) {
+    const uniforms = new UniformSingleton().uniforms;
+
     const geometry = new THREE.SphereGeometry(size.radius, size.widthSegments, size.heightSegments);
     const material = new THREE.ShaderMaterial({
       uniforms,

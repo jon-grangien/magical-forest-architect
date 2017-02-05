@@ -11,20 +11,20 @@ class Gui {
     const gui = new dat.GUI();
 
     const params = this.initParameters(uniforms);
-    this.depthSlider = gui.add(params, 'Depth').min(20.0).max(80.0);
-    this.heightSlider = gui.add(params, 'Height').min(0.5).max(20.0);
-    this.hillSlider = gui.add(params, 'Hills value').min(0.0001).max(0.001);
-    this.spikeSlider = gui.add(params, 'Spikes').min(0).max(100.0);
+    this.depthSlider = gui.add(params, 'bumpHeight').min(20.0).max(80.0).step(1.0).name('Depth');
+    this.heightSlider = gui.add(params, 'height').min(0.5).max(20.0).step(0.5).name('Height');
+    this.hillSlider = gui.add(params, 'hillFactor').min(0.0001).max(0.001).name('Hills value');
+    this.spikeSlider = gui.add(params, 'spikyness').min(0).max(100.0).name('Spikes value');
 
     this.initListeners();
   }
 
   initParameters(uniforms) {
     return {
-      'Depth': uniforms.u_bumpHeight.value,
-      'Height': uniforms.u_height.value,
-      'Hills value': uniforms.u_hillFactor.value,
-      'Spikes': uniforms.u_spikyness.value * 10000,
+      'bumpHeight': uniforms.u_bumpHeight.value,
+      'height': uniforms.u_height.value,
+      'hillFactor': uniforms.u_hillFactor.value,
+      'spikyness': uniforms.u_spikyness.value * 10000,
     }
   }
 

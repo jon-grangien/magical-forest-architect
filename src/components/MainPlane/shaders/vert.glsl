@@ -425,7 +425,7 @@ void main() {
   transformedNormal = normalize(n);
 
   // Transform position
-  transformedPos = projectionMatrix * modelViewMatrix * vec4(variedpos, 1.0);
+  transformedPos = projectionMatrix * modelViewMatrix * vec4( variedpos, 1.0 );
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4( variedpos, 1.0 );
 }

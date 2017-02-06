@@ -409,7 +409,7 @@ void main() {
   }
 
   // Truncate low enough values
-  elevation = max(elevation, -2.0);
+  elevation = max(elevation, -4.0);
 
   float bumpHeight = u_bumpHeight;
   vec3 finalElevation = bumpHeight * elevation * normal;

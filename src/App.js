@@ -35,7 +35,7 @@ class App {
     // Add sun
     const sunLightColor = 0xF4F142;
     const sunPos = this.uniforms.u_sunLightPos.value;
-    this.sun = new Sun(512, 32, 32, sunPos, sunLightColor);
+    this.sun = new Sun(1024, 32, 32, sunPos, sunLightColor);
     this.scene.add( this.sun.getMesh() );
 
     // Renderer

@@ -7,7 +7,7 @@ class UniformSingleton {
     if (!instance)
       instance = this;
 
-    this.sunPosition = { x: 450.0, y: 3500.0, z: 400.0 };
+    this.sunPosition = { x: 450.0, y: 5000.0, z: 400.0 };
     this.uniforms = {
       u_time: { type: "f", value: 1.0 },
       u_resolution: { type: "v2", value: new THREE.Vector2() },

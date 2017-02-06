@@ -3,8 +3,8 @@ body {
     overflow: hidden;
     /*background-color: rgb(48, 6, 60);*/
     background: rgb(27,30,51);
-    background: -moz-linear-gradient(top, rgba(27,30,51,1) 10%, rgba(33,0,33,1) 91%);
-    background: -webkit-linear-gradient(top, rgba(27,30,51,1) 10%,rgba(33,0,33,1) 91%);
-    background: linear-gradient(to bottom, rgba(27,30,51,1) 10%,rgba(33,0,33,1) 91%);
+    background: -moz-linear-gradient(top, rgba(15,30,51,1) 10%, rgba(00,33,33,1) 91%);
+    background: -webkit-linear-gradient(top, rgba(15,30,51,1) 10%,rgba(0,33,33,1) 91%);
+    background: linear-gradient(to bottom, rgba(15,30,51,1) 10%,rgba(0,33,33,1) 91%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1b1e33', endColorstr='#210021',GradientType=0 );
 }

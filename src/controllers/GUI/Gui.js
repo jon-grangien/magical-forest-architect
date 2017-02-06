@@ -12,11 +12,11 @@ class Gui {
 
     const params = this.initParameters(uniforms);
     this.depthSlider = gui.add(params, 'bumpHeight').min(20.0).max(80.0).step(1.0).name('Depth');
-    this.heightSlider = gui.add(params, 'height').min(0.5).max(20.0).step(0.5).name('Height');
+    this.heightSlider = gui.add(params, 'height').min(0.5).max(15.0).step(0.5).name('Height');
     this.hillSlider = gui.add(params, 'hillFactor').min(0.0001).max(0.001).name('Hills value');
     this.spikeSlider = gui.add(params, 'spikyness').min(0).max(100.0).name('Spikes value');
 
-    this.initListeners();
+    this.initListeners(uniforms);
   }
 
   initParameters(uniforms) {
@@ -28,9 +28,7 @@ class Gui {
     }
   }
 
-  initListeners() {
-    const uniforms = new UniformSingleton().uniforms;
-
+  initListeners(uniforms) {
     this.depthSlider.onChange(val => {
       uniforms.u_bumpHeight.value = val
     })

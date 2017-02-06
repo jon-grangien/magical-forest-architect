@@ -1,6 +1,7 @@
 import App from './App';
 import ShadedSphere from './components/ShadedSphere/';
 import MainPlane from './components/MainPlane/';
+import WaterPlane from './components/WaterPlane/';
 import Gui from './controllers/GUI';
 import UniformSingleton from './UniformsSingleton';
 //import * as THREE from 'three';
@@ -26,6 +27,13 @@ app.addObject(new ShadedSphere({
 }));
 
 app.addObject(new MainPlane({
+  width: 2048,
+  height: 2048,
+  widthSegments: 256,
+  heightSegments: 256,
+}));
+
+app.addObject(new WaterPlane({
   width: 2048,
   height: 2048,
   widthSegments: 256,

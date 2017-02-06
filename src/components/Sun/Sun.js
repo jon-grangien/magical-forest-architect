@@ -34,7 +34,7 @@ class Sun {
     this.mesh.position.set(position.x, position.y, position.z);
 
     // Light source
-    this.mesh.add( new THREE.PointLight(lightColor, 1, 1000.0) );
+    this.mesh.add( new THREE.PointLight(lightColor, 1, 3700.0) );
 
     // Glow object
     this.mesh.add( this.addGlow(size, widthSegments, heightSegments) );

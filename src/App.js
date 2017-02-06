@@ -20,7 +20,7 @@ class App {
 
     // Scene, camera
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 5000);
+    this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 15000);
     this.camera.position.set(-512, -794.0, 208.0);
     this.camera.lookAt(0.0, 0.0, 0.0);
 
@@ -35,7 +35,7 @@ class App {
     // Add sun
     const sunLightColor = 0xF4F142;
     const sunPos = this.uniforms.u_sunLightPos.value;
-    this.sun = new Sun(64, 16, 16, sunPos, sunLightColor);
+    this.sun = new Sun(512, 32, 32, sunPos, sunLightColor);
     this.scene.add( this.sun.getMesh() );
 
     // Renderer

@@ -18,6 +18,7 @@ class MainPlane {
     const material = new THREE.ShaderMaterial({
       vertexShader: glslify('./shaders/vert.glsl'),
       fragmentShader: glslify('./shaders/frag.glsl'),
+      side: THREE.DoubleSide,
       uniforms,
       defines: {
         USE_MAP: ''

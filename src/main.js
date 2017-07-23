@@ -45,3 +45,5 @@ app.scene.rotation.y = -30 * Math.PI / 90;
 
 // Init GUI
 new Gui();
+
+export default app

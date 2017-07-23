@@ -12,7 +12,13 @@ class WaterPlane {
    * @param {object} size - Sizes of geometry. Width, height, widthSegments, heightSegments.
    */
   constructor(size) {
-    const uniforms = new UniformSingleton().uniforms;
+    this.size = size
+    this.initialize()
+  }
+
+  initialize() {
+    const { size } = this
+    const uniforms = new UniformSingleton().uniforms
 
     const geometry = new THREE.PlaneGeometry(size.width, size.height, size.widthSegments, size.heightSegments);
     const material = new THREE.ShaderMaterial({
@@ -34,7 +40,6 @@ class WaterPlane {
   getMesh() {
     return this.mesh;
   }
-
 }
 
 export default WaterPlane

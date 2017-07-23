@@ -3,6 +3,7 @@ const TrackballControls = require('three-trackballcontrols');
 
 import Sun from './components/Sun';
 import UniformSingleton from './UniformsSingleton';
+import GLobalsSingleton from './GlobalsSingleton';
 
 /**
  * Main class
@@ -12,6 +13,7 @@ class App {
     this.objects = [];
 
     this.uniforms = new UniformSingleton().uniforms;
+    this.globals = new GLobalsSingleton().globals;
 
     this.createScene();
   }
@@ -72,6 +74,12 @@ class App {
     this.objects.push(object);
     this.scene.add(object.getMesh());
     return object;
+  }
+
+  removeObject(objectRef) {
+    const index = this.objects.indexOf(objectRef)
+    this.objects.splice(index, 1);
+    this.scene.remove(objectRef.getMesh())
   }
 
 }

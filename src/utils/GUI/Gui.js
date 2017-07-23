@@ -1,9 +1,9 @@
 import dat from 'dat-gui';
-import app from '../../main';
+import AppAdapter from '../AppAdapter';
 import UniformSingleton from '../../UniformsSingleton';
 import GlobalsSingleton from '../../GlobalsSingleton';
 import WaterPlane from '../../components/WaterPlane'
-import { WATER_OBJECT } from '../../constants'
+import { WATER_COMPONENT } from '../../constants'
 
 /**
  * Dat GUI prototype interface
@@ -43,14 +43,9 @@ class Gui {
     this.renderWaterSwitch.onChange(val => {
       globals.RENDER_WATER = val
       if (val) {
-        app.addComponent(WATER_OBJECT, new WaterPlane({
-          width: 2048,
-          height: 2048,
-          widthSegments: 256,
-          heightSegments: 256,
-        }));
+        AppAdapter.addWater();
       } else {
-        app.removeComponent(WATER_OBJECT)
+        AppAdapter.removeWater();
       }
     })
   }

@@ -21,24 +21,24 @@ function onWindowResize() {
 
 window.addEventListener( 'resize', onWindowResize, false );
 
-app.addComponent(constants.SHADED_SPHERE_OBJECT, new ShadedSphere({
+app.addComponent(constants.SHADED_SPHERE_COMPONENT, new ShadedSphere({
   radius: 5,
   widthSegments: 32,
   heightSegments: 32,
 }));
 
-app.addComponent(constants.MAIN_PLANE_OBJECT, new MainPlane({
-  width: 2048,
-  height: 2048,
-  widthSegments: 256,
-  heightSegments: 256,
+app.addComponent(constants.MAIN_PLANE_COMPONENT, new MainPlane({
+  width: constants.PLANE_WIDTH_HEIGHT,
+  height: constants.PLANE_WIDTH_HEIGHT,
+  widthSegments: constants.PLANE_WIDTH_HEIGHT_SEGMENTS,
+  heightSegments: constants.PLANE_WIDTH_HEIGHT_SEGMENTS,
 }));
 
-app.addComponent(constants.WATER_OBJECT, new WaterPlane({
-  width: 2048,
-  height: 2048,
-  widthSegments: 256,
-  heightSegments: 256,
+app.addComponent(constants.WATER_COMPONENT, new WaterPlane({
+  width: constants.PLANE_WIDTH_HEIGHT,
+  height: constants.PLANE_WIDTH_HEIGHT,
+  widthSegments: constants.PLANE_WIDTH_HEIGHT_SEGMENTS,
+  heightSegments: constants.PLANE_WIDTH_HEIGHT_SEGMENTS,
 }));
 
 // Rotate scene for better view

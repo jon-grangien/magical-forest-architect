@@ -10,7 +10,7 @@ import GLobalsSingleton from './GlobalsSingleton';
  */
 class App {
   constructor() {
-    this.objects = [];
+    this.objects = {};
 
     this.uniforms = new UniformSingleton().uniforms;
     this.globals = new GLobalsSingleton().globals;
@@ -52,6 +52,30 @@ class App {
     this.render();
   }
 
+  /**
+   * Add an object to the objects list and render it in scene
+   * @param {string} key - The key to set the object as a corresponding value to
+   * @param object - The instantiated object
+   * @returns The object that was added
+   */
+  addObject(key, object) {
+    this.objects[key] = object;
+    this.scene.add(object.getMesh());
+    return object;
+  }
+
+  /**
+   * Remove an object from the objects list and the scene
+   * @param {string} key - The key whose value is the object to remove
+   * @returns The object that was removed
+   */
+  removeObject(key) {
+    const object = this.objects[key];
+    this.scene.remove(object.getMesh());
+    delete this.objects[key];
+    return object;
+  }
+
   render() {
     requestAnimationFrame(() => {
       this.render();
@@ -59,7 +83,7 @@ class App {
 
     this.uniforms.u_time.value += 0.05;
 
-    this.objects.forEach((object) => {
+    Object.values(this.objects).forEach((object) => {
         object.update();
     });
 
@@ -69,19 +93,6 @@ class App {
     this.renderer.render(this.scene, this.camera);
     this.controls.update();
   }
-
-  addObject(object) {
-    this.objects.push(object);
-    this.scene.add(object.getMesh());
-    return object;
-  }
-
-  removeObject(objectRef) {
-    const index = this.objects.indexOf(objectRef)
-    this.objects.splice(index, 1);
-    this.scene.remove(objectRef.getMesh())
-  }
-
 }
 
 export default App

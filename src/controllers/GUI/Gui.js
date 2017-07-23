@@ -3,6 +3,7 @@ import app from '../../main';
 import UniformSingleton from '../../UniformsSingleton';
 import GlobalsSingleton from '../../GlobalsSingleton';
 import WaterPlane from '../../components/WaterPlane'
+import { WATER_OBJECT } from '../../constants'
 
 /**
  * Dat GUI prototype interface
@@ -42,7 +43,7 @@ class Gui {
     this.renderWaterSwitch.onChange(val => {
       globals.RENDER_WATER = val
       if (val) {
-        app.addObject(new WaterPlane({
+        app.addObject(WATER_OBJECT, new WaterPlane({
           width: 2048,
           height: 2048,
           widthSegments: 256,
@@ -51,7 +52,7 @@ class Gui {
       } else {
         for (const obj of Object.values(app.objects)) {
           if (obj instanceof WaterPlane) {
-            app.removeObject(obj)
+            app.removeObject(WATER_OBJECT)
           }
         }
       }

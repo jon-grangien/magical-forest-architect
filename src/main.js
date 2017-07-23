@@ -5,6 +5,7 @@ import WaterPlane from './components/WaterPlane/';
 import Gui from './controllers/GUI';
 import UniformSingleton from './UniformsSingleton';
 //import * as THREE from 'three';
+import * as constants from './constants'
 
 const uniforms = new UniformSingleton().uniforms;
 
@@ -20,20 +21,20 @@ function onWindowResize() {
 
 window.addEventListener( 'resize', onWindowResize, false );
 
-app.addObject(new ShadedSphere({
+app.addObject(constants.SHADED_SPHERE_OBJECT, new ShadedSphere({
   radius: 5,
   widthSegments: 32,
   heightSegments: 32,
 }));
 
-app.addObject(new MainPlane({
+app.addObject(constants.MAIN_PLANE_OBJECT, new MainPlane({
   width: 2048,
   height: 2048,
   widthSegments: 256,
   heightSegments: 256,
 }));
 
-app.addObject(new WaterPlane({
+app.addObject(constants.WATER_OBJECT, new WaterPlane({
   width: 2048,
   height: 2048,
   widthSegments: 256,

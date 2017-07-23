@@ -21,20 +21,20 @@ function onWindowResize() {
 
 window.addEventListener( 'resize', onWindowResize, false );
 
-app.addObject(constants.SHADED_SPHERE_OBJECT, new ShadedSphere({
+app.addComponent(constants.SHADED_SPHERE_OBJECT, new ShadedSphere({
   radius: 5,
   widthSegments: 32,
   heightSegments: 32,
 }));
 
-app.addObject(constants.MAIN_PLANE_OBJECT, new MainPlane({
+app.addComponent(constants.MAIN_PLANE_OBJECT, new MainPlane({
   width: 2048,
   height: 2048,
   widthSegments: 256,
   heightSegments: 256,
 }));
 
-app.addObject(constants.WATER_OBJECT, new WaterPlane({
+app.addComponent(constants.WATER_OBJECT, new WaterPlane({
   width: 2048,
   height: 2048,
   widthSegments: 256,

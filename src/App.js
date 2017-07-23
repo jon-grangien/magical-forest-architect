@@ -10,7 +10,7 @@ import GLobalsSingleton from './GlobalsSingleton';
  */
 class App {
   constructor() {
-    this.objects = {};
+    this.components = {};
 
     this.uniforms = new UniformSingleton().uniforms;
     this.globals = new GLobalsSingleton().globals;
@@ -53,27 +53,27 @@ class App {
   }
 
   /**
-   * Add an object to the objects list and render it in scene
-   * @param {string} key - The key to set the object as a corresponding value to
-   * @param object - The instantiated object
-   * @returns The object that was added
+   * Add a component to the components list and render it in scene
+   * @param {string} key - The key to set the component as a corresponding value
+   * @param component - The instantiated component of the given component class
+   * @returns The component that was added
    */
-  addObject(key, object) {
-    this.objects[key] = object;
-    this.scene.add(object.getMesh());
-    return object;
+  addComponent(key, component) {
+    this.components[key] = component;
+    this.scene.add(component.getMesh());
+    return component;
   }
 
   /**
-   * Remove an object from the objects list and the scene
-   * @param {string} key - The key whose value is the object to remove
-   * @returns The object that was removed
+   * Remove an component from the components list and the scene
+   * @param {string} key - The key whose value is the component to remove
+   * @returns The component that was removed
    */
-  removeObject(key) {
-    const object = this.objects[key];
-    this.scene.remove(object.getMesh());
-    delete this.objects[key];
-    return object;
+  removeComponent(key) {
+    const component = this.components[key];
+    this.scene.remove(component.getMesh());
+    delete this.components[key];
+    return component;
   }
 
   render() {
@@ -83,8 +83,8 @@ class App {
 
     this.uniforms.u_time.value += 0.05;
 
-    Object.values(this.objects).forEach((object) => {
-        object.update();
+    Object.values(this.components).forEach((comp) => {
+        comp.update();
     });
 
     this.sun.getMesh().position.x += 0.09 * Math.sin(0.08 * this.uniforms.u_time.value);

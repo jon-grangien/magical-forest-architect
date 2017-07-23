@@ -43,18 +43,14 @@ class Gui {
     this.renderWaterSwitch.onChange(val => {
       globals.RENDER_WATER = val
       if (val) {
-        app.addObject(WATER_OBJECT, new WaterPlane({
+        app.addComponent(WATER_OBJECT, new WaterPlane({
           width: 2048,
           height: 2048,
           widthSegments: 256,
           heightSegments: 256,
         }));
       } else {
-        for (const obj of Object.values(app.objects)) {
-          if (obj instanceof WaterPlane) {
-            app.removeObject(WATER_OBJECT)
-          }
-        }
+        app.removeComponent(WATER_OBJECT)
       }
     })
   }

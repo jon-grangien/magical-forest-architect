@@ -2,7 +2,7 @@ import App from './App';
 import ShadedSphere from './components/ShadedSphere/';
 import MainPlane from './components/MainPlane/';
 import WaterPlane from './components/WaterPlane/';
-import Gui from './controllers/GUI';
+import Gui from './utils/GUI';
 import UniformSingleton from './UniformsSingleton';
 //import * as THREE from 'three';
 import * as constants from './constants'

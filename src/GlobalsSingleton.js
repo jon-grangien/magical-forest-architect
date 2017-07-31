@@ -1,5 +1,10 @@
 let instance = null;
 
+/**
+ * Global variables
+ * Can be changed and app will behave accordingly.
+ * Use sparingly.
+ */
 class GlobalsSingleton {
   constructor() {
     if (!instance)

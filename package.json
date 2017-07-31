@@ -7,7 +7,8 @@
     "start": "npm run serve",
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "node_modules/.bin/budo src/main.js:public/bundle.js --live -v -p 8080",
-    "build": "browserify src/main.js | uglifyjs -m -c warnings=false > public/bundle.js",
+    "serve:prod": "node ./src/prod-server.js",
+    "build": "browserify src/main.js | uglifyjs -m -c warnings=false > ./public/bundle.js",
     "build:webpack": "webpack -p",
     "serve:webpack": "node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --colors --config ./webpack.config.dev.js"
   },

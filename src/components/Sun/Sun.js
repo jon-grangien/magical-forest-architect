@@ -32,6 +32,8 @@ class Sun {
 
     this.mesh = new THREE.Mesh(geometry, material);
     this.mesh.position.set(position.x, position.y, position.z);
+    this.mesh.rotation.y += Math.PI/2
+    this.mesh.rotation.z -= Math.PI/2
 
     // Light source
     this.mesh.add( new THREE.PointLight(lightColor, 1, 3700.0) );

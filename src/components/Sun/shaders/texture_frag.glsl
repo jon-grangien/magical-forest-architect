@@ -268,11 +268,13 @@ float freq = 10.0;
 void main() {
     float sd = vUv.x + 0.05 * snoise(vec2(freq*vUv.x, freq*vUv.y));
     float td = vUv.y + 0.05 * snoise(vec2(freq*vUv.x, freq*vUv.y));
+    float small_noise = 0.1 * snoise(vUv);
+    float sin_variation = sin(0.05 * u_time) + small_noise;
+    float cos_variation = cos(0.02 * u_time) - small_noise;
 
-    vec2 f1f2 = cellular(vec3(sd * sin(0.05 * u_time), td * cos(0.02 * u_time), sd));
+    vec2 f1f2 = cellular(vec3(sd * sin_variation, td * cos_variation, sd));
     f1f2 = cellular(vec3(snoise(f1f2)));
-    vec2 switcharoo = vec2(f1f2.y, f1f2.x);
-    f1f2 = cellular(vec3(snoise(sin(0.05 * u_time) < 0.0 ? switcharoo : f1f2)));
+    //f1f2 = cellular(vec3(0.5 * snoise(f1f2)));
 
     float noise = clamp(2.0 * (f1f2.y - f1f2.x), 0.0, 1.0);
     vec3 out_color = mix(c_white, c_cyan, smoothstep(0.0, 0.9, noise));

@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-const glslify = require('glslify')
 import UniformSingleton from '../../UniformsSingleton'
 
 /**

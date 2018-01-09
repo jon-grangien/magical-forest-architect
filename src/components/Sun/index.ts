@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-const glslify = require('glslify')
 import UniformSingleton from '../../UniformsSingleton'
 
 /**
@@ -17,7 +16,7 @@ class Sun {
    * @param {number} lightColor - Color of light source
    */
   constructor(size: number, widthSegments: number, heightSegments: number, position: any, lightColor: number) {
-    const uniforms = new UniformSingleton().uniforms
+    const uniforms: any = UniformSingleton.Instance.uniforms
 
     const geometry = new THREE.SphereGeometry(size,  widthSegments, heightSegments)
     const material = new THREE.ShaderMaterial({

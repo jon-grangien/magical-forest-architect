@@ -2,8 +2,8 @@ const dat = require('dat-gui')
 import AppAdapter from '../AppAdapter'
 import UniformSingleton from '../../UniformsSingleton'
 import GlobalsSingleton from '../../GlobalsSingleton'
-import WaterPlane from '../../components/WaterPlane'
-import { WATER_COMPONENT } from '../../constants'
+// import WaterPlane from '../../components/WaterPlane'
+// import { WATER_COMPONENT } from '../../constants'
 
 /**
  * Dat GUI prototype interface
@@ -16,8 +16,6 @@ class Gui {
   private renderWaterSwitch: any
 
   constructor() {
-    const uniforms: any = UniformSingleton.Instance.uniforms
-    const globals: any = GlobalsSingleton.Instance
     const gui: any = new dat.GUI()
 
     const params = this.initParameters()

@@ -1,16 +1,14 @@
 {
   "name": "magical-forest-architect",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Procedural landscape generator",
-  "main": "src/main.js",
+  "main": "src/main.ts",
   "scripts": {
     "start": "npm run serve",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "node_modules/.bin/budo src/main.js:public/bundle.js --live -v -p 8080",
-    "serve:prod": "node ./src/prod-server.js",
-    "build": "browserify src/main.js | uglifyjs -m -c warnings=false > ./public/bundle.js",
-    "build:webpack": "webpack -p",
-    "serve:webpack": "node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --colors --config ./webpack.config.js"
+    "serve": "node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --colors --config ./webpack.config.js",
+    "build": "webpack -p",
+    "serve:prod": "node ./src/prod-server.js"
   },
   "keywords": [
     "webgl",
@@ -28,9 +26,6 @@
     "babel-polyfill": "^6.16.0",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-stage-0": "^6.22.0",
-    "babelify": "^7.3.0",
-    "browserify": "^14.0.0",
-    "budo": "^9.4.5",
     "css-loader": "^0.26.1",
     "dat-gui": "^0.5.0",
     "express": "^4.15.3",
@@ -58,11 +53,5 @@
     "webpack-dev-middleware": "^2.0.4",
     "webpack-dev-server": "^2.10.1",
     "webpack-hot-middleware": "^2.21.0"
-  },
-  "browserify": {
-    "transform": [
-      "babelify",
-      "glslify"
-    ]
   }
 }

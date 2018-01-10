@@ -1,5 +1,6 @@
 import * as THREE from 'three'
-import UniformSingleton from '../../UniformsSingleton'
+import UniformSingleton, { IUniforms } from '../../UniformsSingleton'
+import { BufferAttribute, InterleavedBufferAttribute, IUniform } from 'three';
 
 /**
  * App water plane
@@ -19,12 +20,19 @@ class WaterPlane {
 
   initialize() {
     const { size } = this
-    const uniforms: any = UniformSingleton.Instance.uniforms
+    const unis: any = UniformSingleton.Instance.uniforms
 
-    const geometry = new THREE.PlaneGeometry(size.width, size.height, size.widthSegments, size.heightSegments)
-    const material = new THREE.ShaderMaterial({
-      vertexShader: require('./shaders/vert.glsl'),
-      fragmentShader: require('./shaders/frag.glsl'),
+    const geometry: THREE.PlaneBufferGeometry = new THREE.PlaneBufferGeometry(size.width, size.height, size.widthSegments, size.heightSegments)
+    const vertices: BufferAttribute | InterleavedBufferAttribute = geometry.getAttribute('position')
+    const uniforms: IUniforms = {
+      u_time: unis.u_time,
+      u_resolution: unis.u_resolution,
+      vertices: { type: 'v3', value: vertices }     
+    }
+
+    const material: THREE.ShaderMaterial = new THREE.ShaderMaterial({
+      vertexShader: require('./shaders/surface.vert'),
+      fragmentShader: require('./shaders/surface.frag'),
       uniforms,
       defines: {
         USE_MAP: ''

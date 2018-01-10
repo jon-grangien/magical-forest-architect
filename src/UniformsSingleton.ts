@@ -6,16 +6,19 @@ export interface IAUni {
   value: any
 }
 
+// export interface IUniforms {
+//   u_time: IAUni,
+//   u_resolution: IAUni,
+//   u_sunLightColor: IAUni,
+//   u_sunLightPos: IAUni,
+//   u_sunTexture: IAUni,
+//   u_bumpHeight: IAUni,
+//   u_height: IAUni,
+//   u_hillFactor: IAUni,
+//   u_spikyness: IAUni
+// }
 export interface IUniforms {
-  u_time: IAUni,
-  u_resolution: IAUni,
-  u_sunLightColor: IAUni,
-  u_sunLightPos: IAUni,
-  u_sunTexture: IAUni,
-  u_bumpHeight: IAUni,
-  u_height: IAUni,
-  u_hillFactor: IAUni,
-  u_spikyness: IAUni
+  [index: string]: IAUni
 }
 
 class UniformSingleton {

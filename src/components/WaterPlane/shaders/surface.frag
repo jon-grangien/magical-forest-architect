@@ -1,7 +1,9 @@
+uniform float u_time;
+uniform vec3 u_sunLightPos;
+
 varying vec3 vecNormal;
 varying vec3 pos;
-
-uniform float u_time;
+varying vec2 vUv;
 
 //
 // Description : Array and textureless GLSL 2D/3D/4D simplex 
@@ -116,7 +118,7 @@ float snoise(vec3 v, out vec3 gradient)
 }
 
 void main() {
-  float intensity = pow( 0.5 - dot( vecNormal, vec3( 0.0, 0.0, 0.3 ) ), 2.0 );
+  float intensity = pow(0.5 - dot(vec3(0.0, 0.0, 1.0), vec3(0.0, 0.0, 0.8)), 2.0);
   intensity = max(intensity, 0.2);
 
   // float xVariation = 10.1 * sin(0.0001 * u_time);
@@ -129,8 +131,19 @@ void main() {
   // yVariation = max(yVariation, 0.002) + 0.008 * sin(0.01 * u_time);
   // vec3 variation = vec3(xVariation * pos.x, yVariation * pos.y, pos.z);
 
+  float centerDistance = distance(vUv, vec2(0.5, 0.5));
+  if (centerDistance > 0.5) {
+    return;
+  }
+
   vec3 n;
   float noise = snoise(pos, n);
 
-  gl_FragColor = vec4(2.0, 2.0, 7.0, 1.0) * intensity + 0.3 * noise;
+  float a = dot(vecNormal, normalize(u_sunLightPos - pos));
+  a = min(a, 0.2);
+  a = max(a, 0.0);
+
+  vec3 color = mix(vec3(0.5, 0.5, 0.8), vec3(0.7), smoothstep(0.0, 1.0, a));
+
+  gl_FragColor = vec4(color, 0.6);
 }

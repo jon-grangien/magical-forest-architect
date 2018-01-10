@@ -35,10 +35,10 @@ app.addComponent(constants.MAIN_PLANE_COMPONENT, new MainPlane({
 }))
 
 app.addComponent(constants.WATER_COMPONENT, new WaterPlane({
-  width: constants.PLANE_WIDTH_HEIGHT,
-  height: constants.PLANE_WIDTH_HEIGHT,
-  widthSegments: constants.PLANE_WIDTH_HEIGHT_SEGMENTS,
-  heightSegments: constants.PLANE_WIDTH_HEIGHT_SEGMENTS,
+  width: constants.WATER_WIDTH_HEIGHT,
+  height: constants.WATER_WIDTH_HEIGHT,
+  widthSegments: constants.WATER_WIDTH_HEIGHT_SEGMENTS,
+  heightSegments: constants.WATER_WIDTH_HEIGHT_SEGMENTS,
 }))
 
 // Rotate scene for better view

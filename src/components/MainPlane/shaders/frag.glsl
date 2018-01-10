@@ -17,7 +17,7 @@ void main() {
 
   vec2 st = gl_FragCoord.xy/u_resolution.xy;
 
-  vec3 ambientColor = 0.35 * vec3(1.0, 0.8, 1.0);
+  vec3 ambientColor = 0.35 * vec3(0.6, 0.9, 0.8);
   vec3 diffuse = mix(ambientColor.rgb + addedLights.rgb, ambientColor.rgb, 0.6);
 
   //vec4 finalColor = mix(vec4(diffusecolor, 1.0), addedLights, addedLights);

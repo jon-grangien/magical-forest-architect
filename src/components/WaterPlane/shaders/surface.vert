@@ -1,9 +1,8 @@
-varying vec3 vecNormal;
-varying vec3 pos;
-
 uniform float u_time;
 
-attribute vec3 position;
+varying vec3 vecNormal;
+varying vec3 pos;
+varying vec2 vUv;
 
 //
 // Description : Array and textureless GLSL 2D/3D/4D simplex 
@@ -119,7 +118,24 @@ float snoise(vec3 v, out vec3 gradient)
 
 void main() {
   pos = position;
-  pos -= vec3(0.0, 0.0, 98.0);
-  vecNormal = normalize( normalMatrix * normal );
+  vUv = uv;
+  //pos -= vec3(0.0, 0.0, 98.0);
+
+  vec3 n;
+  float noise;
+  float variation = 0.2 * (0.2 + sin(0.000001 * u_time));
+  noise = snoise(40.0 * pos * variation, n);
+  noise += 0.5 * snoise(80.0 * pos * variation, n);
+  noise += 0.25 * snoise(160.0 * pos * variation, n);
+  noise += 0.125 * snoise(320.0 * pos * variation, n);
+  noise += 0.625 * snoise(640.0 * pos * variation, n);
+  // noise += 0.3125 * snoise(64.0 * pos * variation, n);
+  // noise += 0.5625 * snoise(128.0 * pos * variation, n);
+
+  pos += noise;
+  pos.z *= 2.0;
+
+  // vecNormal = normalize( normalMatrix * normal );
+  vecNormal = n;
   gl_Position = projectionMatrix * modelViewMatrix * vec4( pos, 1.0 );
 }

@@ -20,7 +20,7 @@ class Gui {
     const params = this.initParameters()
     this.depthSlider = gui.add(params, 'bumpHeight').min(20.0).max(80.0).step(1.0).name('Depth')
     this.heightSlider = gui.add(params, 'height').min(0.5).max(15.0).step(0.5).name('Height')
-    this.hillSlider = gui.add(params, 'hillFactor').min(0.0001).max(0.001).name('Hills value')
+    this.hillSlider = gui.add(params, 'hillFactor').min(0.0001).max(0.001).name('Scale')
     this.renderWaterSwitch = gui.add(params, 'water').name('Render water')
 
     this.initListeners()

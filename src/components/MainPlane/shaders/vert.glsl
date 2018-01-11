@@ -396,6 +396,11 @@ float pnoise(vec4 P, vec4 rep)
 void main() {
   vec3 grad, temp;
 
+  float centerDistance = distance(uv, vec2(0.5, 0.5));
+  if (centerDistance > 0.5) {
+    return;
+  }
+
   // Main noise
   float elevation = snoise(vec3(u_spikyness * position) - 0.5, temp);
 

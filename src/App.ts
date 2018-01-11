@@ -26,19 +26,12 @@ class App {
 
     // Scene, camera
     this.scene = new THREE.Scene()
+
     this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 20000)
     this.camera.position.set(-512, -794.0, 208.0)
     this.camera.lookAt(new THREE.Vector3(0.0, 0.0, 0.0))
 
     const uniforms = Uniforms.Instance.uniforms
-
-    // Load sun texture
-    const texLoader = new THREE.TextureLoader()
-    texLoader.load('public/sunstrip.png', texture => {
-      const sunTexture = texture
-      sunTexture.minFilter = THREE.LinearFilter
-      uniforms.u_sunTexture.value = sunTexture
-    })
 
     // Add sun
     const sunLightColor = 0xF4F142

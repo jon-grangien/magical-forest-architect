@@ -1,5 +1,5 @@
 varying vec3 transformedNormal;
-varying vec4 transformedPos;
+varying vec3 transformedPos;
 varying vec2 vUv;
 
 uniform float u_time;
@@ -399,6 +399,7 @@ void main() {
 
   // Main noise
   float elevation = snoise(vec3(u_spikyness * position) - 0.5, temp);
+  grad = temp;
 
   // Generate noise frequency
   const float freqFactor = 4.0;
@@ -425,8 +426,13 @@ void main() {
   vec3 n = normal.xyz - g2;
   transformedNormal = normalize(n);
 
-  // Transform position
-  transformedPos = projectionMatrix * modelViewMatrix * vec4( variedpos, 1.0 );
+  transformedPos = variedpos;
+
+  float centerDistance = distance(uv, vec2(0.5, 0.5));
+  if (centerDistance > 0.5 && variedpos.z > 0.0) {
+    variedpos.z = -10.0;
+    variedpos.x += 50.0;
+  }
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4( variedpos, 1.0 );
 }

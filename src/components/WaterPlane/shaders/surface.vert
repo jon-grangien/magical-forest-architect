@@ -121,21 +121,26 @@ void main() {
   vUv = uv;
   //pos -= vec3(0.0, 0.0, 98.0);
 
-  vec3 n;
+  vec3 grad;
   float noise;
   float variation = 0.2 * (0.2 + sin(0.000001 * u_time));
-  noise = snoise(40.0 * pos * variation, n);
-  noise += 0.5 * snoise(80.0 * pos * variation, n);
-  noise += 0.25 * snoise(160.0 * pos * variation, n);
-  noise += 0.125 * snoise(320.0 * pos * variation, n);
-  noise += 0.625 * snoise(640.0 * pos * variation, n);
-  // noise += 0.3125 * snoise(64.0 * pos * variation, n);
-  // noise += 0.5625 * snoise(128.0 * pos * variation, n);
+  noise = snoise(40.0 * pos * variation, grad);
+  noise += 0.5 * snoise(80.0 * pos * variation, grad);
+  noise += 0.25 * snoise(160.0 * pos * variation, grad);
+  noise += 0.125 * snoise(320.0 * pos * variation, grad);
+  noise += 0.625 * snoise(640.0 * pos * variation, grad);
+  // noise += 0.3125 * snoise(64.0 * pos * variation, grad);
+  // noise += 0.5625 * snoise(128.0 * pos * variation, grad);
 
   pos += noise;
   pos.z *= 2.0;
 
+  // Transform normal
+  vec3 g1 = dot(grad, normal.xyz) * normal.xyz;
+  vec3 g2 = grad - g1;
+  vec3 n = normal.xyz - g2;
+  vecNormal = normalize(n);
+
   // vecNormal = normalize( normalMatrix * normal );
-  vecNormal = n;
   gl_Position = projectionMatrix * modelViewMatrix * vec4( pos, 1.0 );
 }

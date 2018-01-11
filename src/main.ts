@@ -23,12 +23,6 @@ function onWindowResize() {
 
 window.addEventListener( 'resize', onWindowResize, false )
 
-app.addComponent(constants.SHADED_SPHERE_COMPONENT, new ShadedSphere({
-  radius: 5,
-  widthSegments: 32,
-  heightSegments: 32,
-}))
-
 app.addComponent(constants.MAIN_PLANE_COMPONENT, new MainPlane({
   width: constants.PLANE_WIDTH_HEIGHT,
   height: constants.PLANE_WIDTH_HEIGHT,

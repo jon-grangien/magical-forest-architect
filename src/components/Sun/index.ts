@@ -42,10 +42,6 @@ class Sun {
     this.mesh.add( this.addGlow(size, widthSegments, heightSegments) )
   }
 
-  public getMesh(): THREE.Mesh {
-    return this.mesh
-  }
-
   private addGlow(size: number, width: number, height: number): THREE.Mesh {
     const geometry = new THREE.SphereGeometry(2 * size, width, height)
     const material = new THREE.ShaderMaterial({
@@ -59,6 +55,10 @@ class Sun {
     })
 
     return new THREE.Mesh(geometry, material)
+  }
+
+  get getComponent(): THREE.Mesh {
+    return this.mesh
   }
 }
 

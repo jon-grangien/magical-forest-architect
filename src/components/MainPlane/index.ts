@@ -30,7 +30,7 @@ class MainPlane {
 
   public update() {}
 
-  public getMesh() {
+  get getComponent() {
     return this.mesh
   }
 }

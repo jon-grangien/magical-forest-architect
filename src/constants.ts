@@ -2,6 +2,7 @@
 export const MAIN_PLANE_COMPONENT: string = 'plane'
 export const WATER_COMPONENT: string = 'water'
 export const SHADED_SPHERE_COMPONENT: string = 'shadedsphere'
+export const STAR_SYSTEM_COMPONENT: string = 'starsystem'
 
 // Water properties
 export const PLANE_WIDTH_HEIGHT: number = 2048

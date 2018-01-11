@@ -28,7 +28,7 @@ class ShadedSphere {
     this.mesh.rotation.y += 0.007
   }
 
-  getMesh(): THREE.Mesh {
+  get getComopnent(): THREE.Mesh {
     return this.mesh
   }
 }

@@ -118,8 +118,8 @@ float snoise(vec3 v, out vec3 gradient)
 }
 
 void main() {
-  float intensity = pow(0.5 - dot(vec3(0.0, 0.0, 1.0), vec3(0.0, 0.0, 0.8)), 2.0);
-  intensity = max(intensity, 0.2);
+  // float intensity = pow(0.5 - dot(vec3(0.0, 0.0, 1.0), vec3(0.0, 0.0, 0.8)), 2.0);
+  // intensity = max(intensity, 0.2);
 
   // float xVariation = 10.1 * sin(0.0001 * u_time);
   // float yVariation = 10.2 * sin(0.0003 * u_time);

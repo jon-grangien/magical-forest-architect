@@ -2,6 +2,7 @@ import App from './App'
 import ShadedSphere from './components/ShadedSphere/'
 import MainPlane from './components/MainPlane/'
 import WaterPlane from './components/WaterPlane/'
+import StarSystem from './components/StarSystem/MeshStarSystem'
 import Gui from './utils/GUI'
 import UniformSingleton from './UniformsSingleton'
 // import * as THREE from 'three'
@@ -40,6 +41,8 @@ app.addComponent(constants.WATER_COMPONENT, new WaterPlane({
   widthSegments: constants.WATER_WIDTH_HEIGHT_SEGMENTS,
   heightSegments: constants.WATER_WIDTH_HEIGHT_SEGMENTS,
 }))
+
+app.addComponent(constants.STAR_SYSTEM_COMPONENT, new StarSystem(18, 8000))
 
 // Rotate scene for better view
 app.scene.rotation.y = -30 * Math.PI / 90

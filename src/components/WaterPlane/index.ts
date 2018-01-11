@@ -46,7 +46,7 @@ class WaterPlane {
 
   public update() {}
 
-  private getMesh(): THREE.Mesh {
+  get getComponent(): THREE.Mesh {
     return this.mesh
   }
 }

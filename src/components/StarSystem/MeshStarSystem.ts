@@ -1,7 +1,6 @@
 import * as THREE from 'three'
 import UniformSingleton, { IUniforms } from '../../UniformsSingleton'
 import StarSystem from './StarSystem'
-import { Helpers } from '../../utils/helpers'
 
 /**
  * App main ground plane

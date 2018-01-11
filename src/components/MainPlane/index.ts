@@ -14,7 +14,7 @@ class MainPlane {
   constructor(size: any) {
     const uniforms: any = UniformSingleton.Instance.uniforms
 
-    const geometry = new THREE.PlaneGeometry(size.width, size.height, size.widthSegments, size.heightSegments)
+    const geometry = new THREE.PlaneBufferGeometry(size.width, size.height, size.widthSegments, size.heightSegments)
     const material = new THREE.ShaderMaterial({
       vertexShader: require('./shaders/vert.glsl'),
       fragmentShader: require('./shaders/frag.glsl'),

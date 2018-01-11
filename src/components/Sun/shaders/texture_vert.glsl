@@ -117,6 +117,8 @@ void main() {
   vUv = uv;
 
   vec3 n;
-  float noise = 15.0 * snoise(position * sin(0.001 * u_time), n);
+  float noise = 20.0 * snoise(position * sin(0.0001 * u_time), n);
+  noise += 10.0 * snoise(2.0 * position * sin(0.0001) * u_time, n);
+
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position + noise, 1.0);
 }

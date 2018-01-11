@@ -43,7 +43,7 @@ class Sun {
   }
 
   private addGlow(size: number, width: number, height: number): THREE.Mesh {
-    const geometry = new THREE.SphereGeometry(2 * size, width, height)
+    const geometry = new THREE.SphereGeometry(1.3 * size, width, height)
     const material = new THREE.ShaderMaterial({
       vertexShader: require('./shaders/glow_vert.glsl'),
       fragmentShader: require('./shaders/glow_frag.glsl'),

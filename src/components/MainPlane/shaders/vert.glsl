@@ -394,12 +394,16 @@ float pnoise(vec4 P, vec4 rep)
 }
 
 void main() {
+  vUv = uv;
   vec3 grad, temp;
 
-  float centerDistance = distance(uv, vec2(0.5, 0.5));
-  if (centerDistance > 0.5) {
-    return;
-  }
+  // Don't render the fragment at the
+  // edges so that plane becomes circular. 
+  // TODO: This should be done once one the cpu
+  // float centerDistance = distance(vUv, vec2(0.5, 0.5));
+  // if (centerDistance > 0.5) {
+    // render vertex somewhere wack
+  // }
 
   // Main noise
   float elevation = snoise(vec3(u_spikyness * position) - 0.5, temp);

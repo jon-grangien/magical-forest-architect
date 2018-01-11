@@ -20,8 +20,8 @@ class Sun {
 
     const geometry = new THREE.SphereGeometry(size,  widthSegments, heightSegments)
     const material = new THREE.ShaderMaterial({
-      vertexShader: require('./shaders/texture_vert.glsl'),
-      fragmentShader: require('./shaders/texture_frag.glsl'),
+      vertexShader: require('./shaders/surface.vert'),
+      fragmentShader: require('./shaders/surface.frag'),
       uniforms,
       defines: {
         USE_MAP: ''
@@ -45,8 +45,8 @@ class Sun {
   private addGlow(size: number, width: number, height: number): THREE.Mesh {
     const geometry = new THREE.SphereGeometry(1.3 * size, width, height)
     const material = new THREE.ShaderMaterial({
-      vertexShader: require('./shaders/glow_vert.glsl'),
-      fragmentShader: require('./shaders/glow_frag.glsl'),
+      vertexShader: require('./shaders/glow.vert'),
+      fragmentShader: require('./shaders/glow.frag'),
       defines: {
         USE_MAP: ''
       },

@@ -16,8 +16,8 @@ class MainPlane {
 
     const geometry = new THREE.PlaneBufferGeometry(size.width, size.height, size.widthSegments, size.heightSegments)
     const material = new THREE.ShaderMaterial({
-      vertexShader: require('./shaders/vert.glsl'),
-      fragmentShader: require('./shaders/frag.glsl'),
+      vertexShader: require('./shaders/surface.vert'),
+      fragmentShader: require('./shaders/surface.frag'),
       side: THREE.DoubleSide,
       uniforms,
       defines: {

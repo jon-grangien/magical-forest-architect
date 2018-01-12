@@ -28,7 +28,9 @@ app.addComponent(constants.MAIN_PLANE_COMPONENT, new MainPlane({
   height: constants.PLANE_WIDTH_HEIGHT,
   widthSegments: constants.PLANE_WIDTH_HEIGHT_SEGMENTS,
   heightSegments: constants.PLANE_WIDTH_HEIGHT_SEGMENTS,
-}))
+},
+  app.renderer
+))
 
 app.addComponent(constants.WATER_COMPONENT, new WaterPlane({
   width: constants.WATER_WIDTH_HEIGHT,

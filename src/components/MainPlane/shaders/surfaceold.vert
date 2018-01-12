@@ -1,14 +1,14 @@
-uniform vec2 u_resolution;
-uniform float u_time;
-uniform vec3 u_sunLightColor;
-uniform vec3 u_sunLightPos;
-
-varying vec3 vNormal;
-varying vec3 vPos;
+varying vec3 transformedNormal;
+varying vec3 transformedPos;
 varying vec2 vUv;
 
-//
-// Description : Array and textureless GLSL 2D/3D/4D simplex 
+uniform float u_time;
+uniform float u_bumpHeight;
+uniform float u_height;
+uniform float u_hillFactor;
+uniform float u_spikyness;
+
+// Description : Array and textureless GLSL 2D/3D/4D simplex
 //               noise functions.
 //      Author : Ian McEwan, Ashima Arts.
 //  Maintainer : stegu
@@ -17,7 +17,7 @@ varying vec2 vUv;
 //               Distributed under the MIT License. See LICENSE file.
 //               https://github.com/ashima/webgl-noise
 //               https://github.com/stegu/webgl-noise
-// 
+//
 
 vec3 mod289(vec3 x) {
   return x - floor(x * (1.0 / 289.0)) * 289.0;
@@ -31,7 +31,8 @@ vec4 permute(vec4 x) {
      return mod289(((x*34.0)+1.0)*x);
 }
 
-vec4 taylorInvSqrt(vec4 r) {
+vec4 taylorInvSqrt(vec4 r)
+{
   return 1.79284291400159 - 0.85373472095314 * r;
 }
 
@@ -63,10 +64,10 @@ float snoise(vec3 v, out vec3 gradient)
   vec3 x3 = x0 - D.yyy;      // -1.0+3.0*C.x = -0.5 = -D.y
 
 // Permutations
-  i = mod289(i); 
-  vec4 p = permute( permute( permute( 
+  i = mod289(i);
+  vec4 p = permute( permute( permute(
              i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
-           + i.y + vec4(0.0, i1.y, i2.y, 1.0 )) 
+           + i.y + vec4(0.0, i1.y, i2.y, 1.0 ))
            + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
 
 // Gradients: 7x7 points over a square, mapped onto an octahedron.
@@ -393,41 +394,45 @@ float pnoise(vec4 P, vec4 rep)
 }
 
 void main() {
+  vUv = uv;
+  vec3 grad, temp;
 
-  // Don't render the fragment at the
-  // edges so that plane becomes circular. 
-  // TODO: This should be done once on the cpu.
-  // We don't even save performance here.
-  float centerDistance = distance(vUv, vec2(0.5, 0.5));
-  if (centerDistance > 0.5) {
-    discard;  
+  // Main noise
+  float elevation = snoise(vec3(u_spikyness * position) - 0.5, temp);
+  grad = temp;
+
+  // Generate noise frequency
+  const float freqFactor = 4.0;
+  float hillFactor = u_hillFactor;
+  for (float i = 0.0; i <= freqFactor; i += 1.0) {
+    float factor = exp2(i);
+    elevation += u_height/(factor) * snoise(vec3(factor*hillFactor*position) - 0.5, temp);
+    grad += temp;
   }
 
-  vec4 addedLights = vec4(0.0, 0.0, 0.0, 1.0);
+  // Truncate low enough values
+  elevation = max(elevation, -4.0);
 
-  // sun light lambert
-  vec3 lightColor = u_sunLightColor;
-  vec3 lightDirection = normalize(vPos.xyz - u_sunLightPos);
-  addedLights.rgb += clamp(dot(-lightDirection, vNormal), 0.0, 1.0) * lightColor;
+  float bumpHeight = u_bumpHeight;
+  vec3 finalElevation = bumpHeight * elevation * normal;
 
-  vec2 st = gl_FragCoord.xy/u_resolution.xy;
+  // Apply noise
+  vec3 variedpos = position;
+  variedpos += finalElevation;
 
-  vec3 tmp;
-  float smallGrass = snoise(0.4 * vPos, tmp)
-    + 0.5*snoise(0.8*vPos, tmp)
-    + 0.25*snoise(0.16*vPos, tmp)
-    + 0.125*snoise(0.32*vPos, tmp)
-    + 0.0625*snoise(0.64*vPos, tmp);
+  // Transform normal
+  vec3 g1 = dot(grad, normal.xyz) * normal.xyz;
+  vec3 g2 = grad - g1;
+  vec3 n = normal.xyz - g2;
+  transformedNormal = normalize(n);
 
-  float bigGrass = cnoise(vec4(0.001 * vPos.x, 0.003 * vPos.y, 0.002 * vPos.z, 8.0));
+  transformedPos = variedpos;
 
-  vec3 ambientColor = 0.35 * vec3(0.6, 0.9, 0.8);
-  ambientColor.rgb += 0.07 * smallGrass;
-  ambientColor.rgb -= 0.4 * abs(bigGrass);
-  vec3 diffuse = mix(ambientColor.rgb + addedLights.rgb, ambientColor.rgb, 0.6);
+  float centerDistance = distance(uv, vec2(0.5, 0.5));
+  if (centerDistance > 0.5 && variedpos.z > 0.0) {
+    variedpos.z = -10.0;
+    variedpos.x += 50.0;
+  }
 
-  //vec4 finalColor = mix(vec4(diffusecolor, 1.0), addedLights, addedLights);
-  vec4 finalColor = vec4(diffuse, 1.0);
-
-  gl_FragColor = finalColor;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4( variedpos, 1.0 );
 }

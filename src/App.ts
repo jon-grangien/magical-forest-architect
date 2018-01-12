@@ -42,6 +42,7 @@ class App {
     // Renderer
     this.renderer = new THREE.WebGLRenderer({ alpha: true })
     this.renderer.setSize(window.innerWidth, window.innerHeight)
+    this.renderer.autoClear = false
     document.body.appendChild(this.renderer.domElement)
 
     uniforms.u_resolution.value.x = this.renderer.domElement.width
@@ -80,10 +81,14 @@ class App {
       this.render()
     })
 
+    this.renderer.clear()
+
     Uniforms.Instance.uniforms.u_time.value += 0.05
 
-    for (const comp of this.components) {
-      comp.update()
+    for (const key in this.components) {
+      if (this.components.hasOwnProperty(key)) {
+        this.components[key].update()
+      }
     }
 
     this.sun.getComponent.position.x += 0.09 * Math.sin(0.08 * Uniforms.Instance.uniforms.u_time.value)

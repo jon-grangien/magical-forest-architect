@@ -32,6 +32,9 @@ app.addComponent(constants.MAIN_PLANE_COMPONENT, new MainPlane({
   app.renderer
 ))
 
+// Set hill values to be changed to make listeners react to initial values
+UniformSingleton.Instance.setHillValuesUpdated()
+
 app.addComponent(constants.WATER_COMPONENT, new WaterPlane({
   width: constants.WATER_WIDTH_HEIGHT,
   height: constants.WATER_WIDTH_HEIGHT,

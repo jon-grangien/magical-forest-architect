@@ -6,6 +6,8 @@ import FBOHelper from '../../utils/FBOHelper'
  * App main ground plane
  */
 class MainPlane {
+  readonly PLANE_FBO_LISTENER: string = 'PLANE_FBO_LISTENER'
+
   private mesh: THREE.Mesh
   private appRenderer: THREE.WebGLRenderer
   private _planeFBO: FBOHelper
@@ -30,9 +32,9 @@ class MainPlane {
       uniforms
     })
 
-    // this.mesh = new THREE.Mesh(geometry, material)
     this._planeFBO = new FBOHelper(this._size.width, this._size.height, renderer, textureHeightShader)
     this._planeFBO.render()
+    UniformSingleton.Instance.registerHillValueListener(this.PLANE_FBO_LISTENER)
 
     this._surfaceMaterialUniforms = {
       u_heightmap: { type: 't', value: this._planeFBO.texture }
@@ -52,8 +54,12 @@ class MainPlane {
   public update() {
     // this.mesh.material.needsUpdate = true
 
+    if (UniformSingleton.Instance.hillValuesHaveUpdated()) {
+      this._planeFBO.render()
+      UniformSingleton.Instance.hillValueListenerHandledChange(this.PLANE_FBO_LISTENER)
+    }
+
     // this._planeFBO.texture.needsUpdate = true
-    this._planeFBO.render()
     // this._surfaceMaterialUniforms.u_heightmap.value = this._planeFBO.texture
     // this.mesh.material.uniforms.u_heightmap.value = this._planeFBO.texture
     // console.log(this._planeFBO.texture)

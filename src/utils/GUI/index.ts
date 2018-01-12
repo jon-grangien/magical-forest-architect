@@ -43,9 +43,21 @@ class Gui {
     const uniforms = UniformSingleton.Instance.uniforms
     const globals = GlobalsSingleton.Instance
 
-    this.depthSlider.onChange(val => uniforms.u_bumpHeight.value = val)
-    this.heightSlider.onChange(val => uniforms.u_height.value = val)
-    this.hillSlider.onChange(val => uniforms.u_hillFactor.value = val)
+    this.depthSlider.onChange(val => {
+      uniforms.u_bumpHeight.value = val
+      UniformSingleton.Instance.setHillValuesUpdated()
+    })
+
+    this.heightSlider.onChange(val => {
+      uniforms.u_height.value = val
+      UniformSingleton.Instance.setHillValuesUpdated()
+    })
+
+    this.hillSlider.onChange(val => {
+      uniforms.u_hillFactor.value = val
+      UniformSingleton.Instance.setHillValuesUpdated()
+    })
+
     this.renderWaterSwitch.onChange(val => {
       globals.renderWater = val
       if (val) {

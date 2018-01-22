@@ -26,6 +26,7 @@ class App {
 
     // Scene, camera
     this.scene = new THREE.Scene()
+    this.scene.background = new THREE.Color('rgb(0,23,23)')
 
     this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 20000)
     this.camera.position.set(-512, -794.0, 208.0)
@@ -40,7 +41,7 @@ class App {
     this.scene.add( this.sun.getComponent )
 
     // Renderer
-    this.renderer = new THREE.WebGLRenderer({ alpha: true })
+    this.renderer = new THREE.WebGLRenderer()
     this.renderer.setSize(window.innerWidth, window.innerHeight)
     this.renderer.autoClear = false
     document.body.appendChild(this.renderer.domElement)

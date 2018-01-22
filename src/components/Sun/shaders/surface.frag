@@ -272,11 +272,15 @@ void main() {
     float sin_variation = sin(0.05 * u_time) + small_noise;
     float cos_variation = cos(0.02 * u_time) - small_noise;
 
-    vec2 f1f2 = cellular(vec3(sd * sin_variation, td * cos_variation, sd));
-    f1f2 = cellular(vec3(snoise(f1f2)));
+    vec2 cell1 = cellular(vec3(sd * sin_variation, td * cos_variation, sd));
+    cell1 = cellular(vec3(snoise(cell1)));
     //f1f2 = cellular(vec3(0.5 * snoise(f1f2)));
 
-    float noise = clamp(2.0 * (f1f2.y - f1f2.x), 0.0, 1.0);
+		vec2 uvTimeVariation = 1.5 * sin(0.04 * u_time) * vUv;
+		vec2 cell2 = cellular(vec3(uvTimeVariation.x, uvTimeVariation.y, snoise(vUv)));
+		float cell2Big = abs(cell2.y - cell2.x);
+
+    float noise = clamp(2.0 * (cell1.y - cell1.x), 0.0, 1.0) + cell2Big;
     vec3 out_color = mix(c_white, c_cyan, smoothstep(0.0, 0.9, noise));
     gl_FragColor = vec4(out_color, 1.0);
 }

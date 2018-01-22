@@ -4,9 +4,10 @@ import MainPlane from './components/MainPlane/'
 import WaterPlane from './components/WaterPlane/'
 import MeshStarSystem from './components/StarSystem/MeshStarSystem'
 import ParticleStarSystem from './components/StarSystem/ParticleStarSystem'
+import Cloud from './components/Cloud/'
 import Gui from './utils/GUI'
 import UniformSingleton from './UniformsSingleton'
-// import * as THREE from 'three'
+import * as THREE from 'three'
 import * as constants from './constants'
 
 const uniforms = UniformSingleton.Instance.uniforms
@@ -44,6 +45,11 @@ app.addComponent(constants.WATER_COMPONENT, new WaterPlane({
 
 app.addComponent(constants.MESH_STAR_SYSTEM_COMPONENT, new MeshStarSystem(18, 8000))
 app.addComponent(constants.PARTICLE_STAR_SYSTEM_COMPONENT, new ParticleStarSystem(500, 6000))
+
+for (let i = 0; i < constants.NUMBER_OF_CLOUDS; i++) {
+  const size = THREE.Math.randFloat(60, 160)
+  app.addComponent(constants.CLOUD_COMPONENT + i.toString(), new Cloud(size, 32, 32))
+}
 
 // Rotate scene for better view
 app.scene.rotation.y = -30 * Math.PI / 90

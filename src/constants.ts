@@ -4,6 +4,9 @@ export const WATER_COMPONENT: string = 'water'
 export const SHADED_SPHERE_COMPONENT: string = 'shadedsphere'
 export const MESH_STAR_SYSTEM_COMPONENT: string = 'meshstarsystem'
 export const PARTICLE_STAR_SYSTEM_COMPONENT: string = 'particlestarsystem'
+export const CLOUD_COMPONENT: string = 'cloud'
+
+export const NUMBER_OF_CLOUDS: number = 3
 
 // Water properties
 export const PLANE_WIDTH_HEIGHT: number = 2048

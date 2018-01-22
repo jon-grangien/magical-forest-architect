@@ -42,11 +42,15 @@ class ParticleStarSystem extends StarSystem {
       vertex.z = THREE.Math.randFloat(150, 2000)
 
       if (vertex.x < fracSpread && vertex.x > -fracSpread && vertex.z < 1300) {
-        vertex.x *= fracSpread
+        while (vertex.x < fracSpread && vertex.x > -fracSpread) {
+          vertex.x *= 3.0
+        }
       }
 
       if (vertex.y < fracSpread && vertex.y > -fracSpread && vertex.z < 1300) {
-        vertex.y *= fracSpread
+        while (vertex.y < fracSpread && vertex.y > -fracSpread) {
+          vertex.y *= 3.0
+        }
       }
 
       geo.vertices.push(vertex)

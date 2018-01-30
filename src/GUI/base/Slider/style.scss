@@ -1,0 +1,16 @@
+@import '../basestyle.scss';
+
+.main {
+  display: flex;
+  flex-direction: row;
+}
+
+.slider {
+  width: 100px;
+  margin-right: 10px;
+}
+
+.value {
+  color: $secondary-font-color;
+  align-items: center;
+}

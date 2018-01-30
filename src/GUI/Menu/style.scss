@@ -1,7 +1,28 @@
-.menu {
+@import '../base/basestyle.scss';
+
+.menu, 
+.menuHidden {
   position: fixed;
   top: 5px;
   left: 5px;
-  background-color: #333;
-  min-width: 20%;
+  background-color: $main-bg-color;
+  width: 20%;
+  font-size: $main-font-size;
+}
+
+.menu {
+  opacity: 0.75;
+}
+
+.menuHidden {
+  opacity: 0.25;
+}
+
+.header {
+  padding: 10px;
+  cursor: pointer;
+  font-family: $main-fontfam;
+  color: $secondary-font-color;
+  display: flex;
+  justify-content: space-between;
 }

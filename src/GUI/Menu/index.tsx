@@ -1,21 +1,38 @@
-import {h, Component} from 'preact'
+import { h, Component } from 'preact'
+import { connect } from 'unistore/preact'
+import { actions } from '../../store'
+import { bind } from 'decko'
 import MenuItem from '../MenuItem'
 const styles = require('./style.scss')
 
-// export interface IMenu {
-//   children: MenuItem[]
-// }
+export interface IMenuProps {
+  label: string
+  toggleMenuVisible: Function
+  menuVisible: boolean
+}
 
-class Menu extends Component<any, any> {
-  constructor(props: any) {
+class Menu extends Component<IMenuProps, any> {
+  constructor(props: IMenuProps) {
     super(props)
   }
 
-  render() {
-    return <div class={styles.menu}>
-      {this.props.children}
+  @bind
+  toggle() {
+    this.props.toggleMenuVisible()
+  }
+
+  render(props: IMenuProps) {
+    return <div class={props.menuVisible ? styles.menu : styles.menuHidden}>
+      <div class={styles.header}
+           onClick={this.toggle}>
+        <div>{props.label}</div>
+        <div>
+          {props.menuVisible ? 'hide' : 'show'}
+        </div>
+      </div>
+      {props.menuVisible ? this.props.children : null}
     </div>
   }
 }
 
-export default Menu
+export default connect(['menuVisible'], actions)(Menu)

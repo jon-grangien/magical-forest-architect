@@ -25,7 +25,13 @@ module.exports = {
   },
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.DefinePlugin({
+      'GOOGLE_WEB_FONTS': JSON.stringify([ // Add or remove entries in this array to change which fonts are loaded
+        'Anonymous Pro',
+        'Roboto'
+      ])
+    })
 	],
 	module: {
 		loaders: [

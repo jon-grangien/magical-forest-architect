@@ -9,8 +9,8 @@ import VisibilityCheckbox from './VisibilityCheckbox'
 
 class GUI extends Component<any, any> {
   render() {
-    return <Menu>
-      <MenuItem>
+    return <Menu label='Options'>
+      <MenuItem label='Visibility'>
         <VisibilityCheckbox /> 
       </MenuItem>
     </Menu>

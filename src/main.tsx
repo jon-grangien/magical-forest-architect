@@ -1,7 +1,7 @@
 import { h, render, Component } from 'preact'
 import { Provider } from 'unistore/preact'
 import { store } from './store'
-import TestComp from './components/TestComp'
+import * as WebFontLoader from 'webfontloader'
 import GUI from './GUI'
 
 import AppScene from './AppScene'
@@ -16,6 +16,8 @@ import UniformSingleton from './UniformsSingleton'
 import * as THREE from 'three'
 import * as constants from './constants'
 
+declare let GOOGLE_WEB_FONTS: string[]
+
 interface IMainAppProps {
   name: string
 }
@@ -23,6 +25,23 @@ interface IMainAppProps {
 class MainApp extends Component<IMainAppProps, any> {
   constructor(props: IMainAppProps) {
     super(props)
+  }
+
+  componentWillMount() {
+
+    // Load Google fonts
+    let webFontLoaderOptions: any = null
+    let webFontsToLoad: string[] = GOOGLE_WEB_FONTS // defined in webpack config
+    if (webFontsToLoad.length > 0) {
+      webFontLoaderOptions = (webFontLoaderOptions || {})
+      webFontLoaderOptions.google = {
+          families: webFontsToLoad
+      }
+    }
+
+    if (webFontLoaderOptions) {
+      WebFontLoader.load(webFontLoaderOptions)
+    }
   }
 
   componentDidMount() {

@@ -1,3 +1,12 @@
+@import '../base/basestyle.scss';
+
 .item {
-  padding: 5px 2px;
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  font-family: $main-fontfam;
+  font-size: $main-font-size;
+  color: $main-font-color;
 }

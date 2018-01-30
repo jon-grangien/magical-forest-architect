@@ -28,6 +28,7 @@
     "babel-preset-stage-0": "^6.22.0",
     "css-loader": "^0.26.1",
     "dat-gui": "^0.5.0",
+    "decko": "^1.2.0",
     "express": "^4.15.3",
     "glsl-noise": "0.0.0",
     "glslify": "^6.0.1",

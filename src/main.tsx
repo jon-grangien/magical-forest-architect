@@ -1,4 +1,8 @@
 import { h, render, Component } from 'preact'
+import { Provider } from 'unistore/preact'
+import { store } from './store'
+import TestComp from './components/TestComp'
+import GUI from './GUI'
 
 import AppScene from './AppScene'
 import ShadedSphere from './components/ShadedSphere/'
@@ -69,9 +73,17 @@ class MainApp extends Component<IMainAppProps, any> {
     const gui: any = new Gui()
   }
 
-  render() {return <div />}
+  render() {
+    return <div>
+      <TestComp />
+      <GUI />
+    </div>
+  }
 }
 
 // export default app
 
-render(<MainApp name='Mainapp' />, document.getElementById('#app'))
+render(<Provider store={store}>
+  <MainApp name='Mainapp' />
+  </Provider>, 
+  document.getElementById('app'))

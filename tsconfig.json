@@ -6,6 +6,7 @@
     "jsxFactory": "h",
     "lib": ["es5", "es6", "dom"],
     "noUnusedParameters": true,
+    "experimentalDecorators": true,
     "sourceMap": true,
     "types": [
       "node"

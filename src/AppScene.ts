@@ -8,7 +8,7 @@ import Uniforms from './UniformsSingleton'
 /**
  * Main class
  */
-class App {
+class AppScene {
   public scene: THREE.Scene
   public camera: THREE.PerspectiveCamera
   public renderer: THREE.WebGLRenderer
@@ -100,4 +100,4 @@ class App {
   }
 }
 
-export default App
+export default AppScene

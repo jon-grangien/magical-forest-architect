@@ -6,10 +6,10 @@ module.exports = {
 	devtool: 'source-map',
 	entry: [
 		'webpack-hot-middleware/client',
-    './src/main.ts'
+    './src/main.tsx'
   ],
 	resolve: {
-		extensions: ['.js', '.ts', 'css']
+		extensions: ['.js', '.ts', '.tsx', 'css']
 	},
   output: {
     path: path.join(ROOT_PATH, 'public'),
@@ -43,7 +43,7 @@ module.exports = {
 				}
 			},
       { 
-        test: /\.ts$/, 
+        test: /\.ts|\.tsx$/,
         loader: 'ts-loader', 
         exclude: '/node_modules/' 
       },

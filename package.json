@@ -2,7 +2,7 @@
   "name": "magical-forest-architect",
   "version": "1.0.1",
   "description": "Procedural landscape generator",
-  "main": "src/main.ts",
+  "main": "src/main.tsx",
   "scripts": {
     "start": "npm run serve",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -36,6 +36,7 @@
     "glslify-live": "^2.1.1",
     "glslify-loader": "^1.0.2",
     "node-sass": "^3.13.0",
+    "preact": "^8.2.7",
     "raw-loader": "^0.5.1",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
@@ -46,6 +47,7 @@
     "tslint-loader": "^3.5.3",
     "typescript": "^2.6.2",
     "uglify-js": "^3.3.5",
+    "unistore": "^3.0.4",
     "webpack": "^3.10.0",
     "webpack-glsl-loader": "^1.0.1"
   },

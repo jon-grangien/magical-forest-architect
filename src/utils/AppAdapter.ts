@@ -1,4 +1,4 @@
-import app from '../main'
+// import app from '../main'
 import WaterPlane from '../components/WaterPlane'
 import * as constants from '../constants'
 
@@ -7,16 +7,16 @@ import * as constants from '../constants'
  */
 class AppAdapter {
   static addWater() {
-    app.addComponent(constants.WATER_COMPONENT, new WaterPlane({
-      width: constants.PLANE_WIDTH_HEIGHT,
-      height: constants.PLANE_WIDTH_HEIGHT,
-      widthSegments: constants.PLANE_WIDTH_HEIGHT_SEGMENTS,
-      heightSegments: constants.PLANE_WIDTH_HEIGHT_SEGMENTS,
-    }))
+    // app.addComponent(constants.WATER_COMPONENT, new WaterPlane({
+    //   width: constants.PLANE_WIDTH_HEIGHT,
+    //   height: constants.PLANE_WIDTH_HEIGHT,
+    //   widthSegments: constants.PLANE_WIDTH_HEIGHT_SEGMENTS,
+    //   heightSegments: constants.PLANE_WIDTH_HEIGHT_SEGMENTS,
+    // }))
   }
 
   static removeWater() {
-    app.removeComponent(constants.WATER_COMPONENT)
+    // app.removeComponent(constants.WATER_COMPONENT)
   }
 }
 

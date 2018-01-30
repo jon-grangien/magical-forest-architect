@@ -52,27 +52,25 @@ class MainPlane {
   }
 
   public update() {
-    // this.mesh.material.needsUpdate = true
-
     if (UniformSingleton.Instance.hillValuesHaveUpdated()) {
       this._planeFBO.render()
       UniformSingleton.Instance.hillValueListenerHandledChange(this.PLANE_FBO_LISTENER)
     }
-
-    // this._planeFBO.texture.needsUpdate = true
-    // this._surfaceMaterialUniforms.u_heightmap.value = this._planeFBO.texture
-    // this.mesh.material.uniforms.u_heightmap.value = this._planeFBO.texture
-    // console.log(this._planeFBO.texture)
   }
 
-  // private addGround(): void {
-  //   const geometry = new THREE.CylinderGeometry(800, 1, 1024, 64, 64, true)
-  //   const material = new THREE.MeshLambertMaterial({color: 0x6b5d4e})
-  //   const ground = new THREE.Mesh(geometry, material)
-  //   ground.position.z = -720
-  //   ground.rotation.x = Math.PI / 2
-  //   this.mesh.add(ground)
-  // }
+  private addUnderSideGround(): void {
+    const geometry = new THREE.PlaneBufferGeometry(this._size.width, this._size.height, this._size.widthSegments, this._size.heightSegments)
+    const material = new THREE.ShaderMaterial({
+      vertexShader: require('./shaders/undersideground.vert'),
+      fragmentShader: require('./shaders/undersideground.frag'),
+      side: THREE.DoubleSide,
+      uniforms: this._surfaceMaterialUniforms
+    })
+    const ground = new THREE.Mesh(geometry, material)
+    // ground.position.z = 0
+    // ground.rotation.x = Math.PI / 2
+    this.mesh.add(ground)
+  }
 
   get getComponent() {
     return this.mesh

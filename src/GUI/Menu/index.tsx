@@ -1,5 +1,6 @@
 import {h, Component} from 'preact'
-import MenuItem from './MenuItem'
+import MenuItem from '../MenuItem'
+const styles = require('./style.scss')
 
 // export interface IMenu {
 //   children: MenuItem[]
@@ -11,7 +12,7 @@ class Menu extends Component<any, any> {
   }
 
   render() {
-    return <div>
+    return <div class={styles.menu}>
       {this.props.children}
     </div>
   }

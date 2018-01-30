@@ -1,14 +1,17 @@
 import { h, Component } from 'preact'
 import { connect } from 'unistore/preact'
-import { actions } from '../store'
+import { actions } from '../../store'
 import { bind } from 'decko'
-import Checkbox from './base/Checkbox'
+import Checkbox from '../base/Checkbox'
 
 export interface IVisibilityCheckboxProps {
   visible: boolean
   toggleVisible: Function
 }
 
+/**
+ * Test component for checkbox
+ */
 class VisibilityCheckbox extends Component<IVisibilityCheckboxProps, any> {
   constructor(props: IVisibilityCheckboxProps) {
     super(props)

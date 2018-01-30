@@ -2,6 +2,10 @@ import { h, Component } from 'preact'
 import { connect } from 'unistore/preact'
 import { bind } from 'decko'
 
+/**
+ * handleInputChange - must be sent as a prop to handle the input response
+ * value - the value controlling if checked or not
+ */
 export interface ICheckboxProps {
   handleInputChange: Function
   value: boolean

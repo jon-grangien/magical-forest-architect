@@ -75,7 +75,6 @@ class MainApp extends Component<IMainAppProps, any> {
 
   render() {
     return <div>
-      <TestComp />
       <GUI />
     </div>
   }

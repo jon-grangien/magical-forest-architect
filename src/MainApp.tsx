@@ -11,7 +11,6 @@ import WaterPlane from './components/WaterPlane/'
 import MeshStarSystem from './components/StarSystem/MeshStarSystem'
 import ParticleStarSystem from './components/StarSystem/ParticleStarSystem'
 import Cloud from './components/Cloud/'
-import Gui from './utils/GUI'
 import UniformSingleton from './UniformsSingleton'
 import * as THREE from 'three'
 import * as constants from './constants'
@@ -23,6 +22,7 @@ interface IMainAppProps {
   depth: number
   height: number
   scale: number
+  stateAsUniforms: string[]
 }
 
 class MainApp extends Component<IMainAppProps, any> {
@@ -92,11 +92,12 @@ class MainApp extends Component<IMainAppProps, any> {
     app.scene.rotation.y = -30 * Math.PI / 90
   }
 
+  // Simple bridge between redux store and uniforms
   componentWillReceiveProps(nextProps: IMainAppProps) {
     for (let key in nextProps) {
       if (nextProps.hasOwnProperty(key)) {
-        if (nextProps[key] !== this.props[key]) {
-          UniformSingleton.Instance.uniforms[`u_${key}`].value = nextProps[key] // test
+        if (nextProps[key] !== this.props[key] && this.props.stateAsUniforms.indexOf(key) > -1) {
+          UniformSingleton.Instance.uniforms[`u_${key}`].value = nextProps[key]
           UniformSingleton.Instance.setHillValuesUpdated()
         }
       }
@@ -112,6 +113,6 @@ class MainApp extends Component<IMainAppProps, any> {
   }
 }
 
-const mapToProps = ({ depth, height, scale }) => ({ depth, height, scale })
+const mapToProps = ({ depth, height, scale, stateAsUniforms }) => ({ depth, height, scale, stateAsUniforms })
 
 export default connect(mapToProps, actions)(MainApp)

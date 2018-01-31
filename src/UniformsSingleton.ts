@@ -12,9 +12,9 @@ export interface IAUni {
 //   u_sunLightColor: IAUni,
 //   u_sunLightPos: IAUni,
 //   u_sunTexture: IAUni,
-//   u_bumpHeight: IAUni,
+//   u_depth: IAUni,
 //   u_height: IAUni,
-//   u_hillFactor: IAUni,
+//   u_scale: IAUni,
 //   u_spikyness: IAUni
 // }
 export interface IUniforms {
@@ -52,9 +52,9 @@ class UniformSingleton {
       u_sunTexture: { type: 't', value: null },
 
       // hill values
-      u_bumpHeight: { type: 'f', value: 50.0 },
+      u_depth: { type: 'f', value: 50.0 },
       u_height: { type: 'f', value: 5.0 },
-      u_hillFactor: { type: 'f', value: 0.0005 },
+      u_scale: { type: 'f', value: 0.0005 },
       u_spikyness: { type: 'f', value: 0.0001 },
     }
   }

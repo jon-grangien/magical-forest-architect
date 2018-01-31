@@ -1,6 +1,6 @@
-import { h, render, Component } from 'preact'
-import { Provider } from 'redux-zero/preact'
-import { store } from './store'
+import { h, Component } from 'preact'
+import { connect } from 'redux-zero/preact'
+import { store, actions } from './store'
 import * as WebFontLoader from 'webfontloader'
 import GUI from './GUI'
 
@@ -20,6 +20,9 @@ declare let GOOGLE_WEB_FONTS: string[]
 
 interface IMainAppProps {
   name: string
+  depth: number
+  height: number
+  scale: number
 }
 
 class MainApp extends Component<IMainAppProps, any> {
@@ -87,21 +90,28 @@ class MainApp extends Component<IMainAppProps, any> {
 
     // Rotate scene for better view
     app.scene.rotation.y = -30 * Math.PI / 90
+  }
 
-    // Init GUI
-    const gui: any = new Gui()
+  componentWillReceiveProps(nextProps: IMainAppProps) {
+    for (let key in nextProps) {
+      if (nextProps.hasOwnProperty(key)) {
+        if (nextProps[key] !== this.props[key]) {
+          UniformSingleton.Instance.uniforms[`u_${key}`].value = nextProps[key] // test
+          UniformSingleton.Instance.setHillValuesUpdated()
+        }
+      }
+    }
+  }
+
+  shouldComponentUpdate() {
+    return false
   }
 
   render() {
-    return <div>
-      <GUI />
-    </div>
+    return <div> <GUI /> </div>
   }
 }
 
-// export default app
+const mapToProps = ({ depth, height, scale }) => ({ depth, height, scale })
 
-render(<Provider store={store}>
-  <MainApp name='Mainapp' />
-  </Provider>, 
-  document.getElementById('app'))
+export default connect(mapToProps, actions)(MainApp)

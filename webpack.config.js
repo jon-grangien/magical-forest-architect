@@ -6,7 +6,7 @@ module.exports = {
 	devtool: 'source-map',
 	entry: [
 		'webpack-hot-middleware/client',
-    './src/main.tsx'
+    './src/index.tsx'
   ],
 	resolve: {
 		extensions: ['.js', '.ts', '.tsx', 'css', 'scss']

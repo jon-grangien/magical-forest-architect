@@ -14,7 +14,7 @@
   },
   "files": [
     "./src/AppScene.ts",
-    "./src/main.tsx",
+    "./src/index.tsx",
     "node_modules/@types/three/index.d.ts"
   ]
 }

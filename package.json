@@ -2,7 +2,7 @@
   "name": "magical-forest-architect",
   "version": "1.0.1",
   "description": "Procedural landscape generator",
-  "main": "src/main.tsx",
+  "main": "src/index.tsx",
   "scripts": {
     "start": "npm run serve",
     "test": "echo \"Error: no test specified\" && exit 1",

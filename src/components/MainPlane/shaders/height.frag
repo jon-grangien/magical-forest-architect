@@ -1,7 +1,7 @@
 uniform float u_time;
-uniform float u_bumpHeight;
+uniform float u_depth;
 uniform float u_height;
-uniform float u_hillFactor;
+uniform float u_scale;
 uniform float u_spikyness;
 
 varying vec2 vUv;
@@ -402,7 +402,7 @@ void main() {
 
   // Generate noise frequency
   const float freqFactor = 4.0;
-  float hillFactor = u_hillFactor;
+  float hillFactor = u_scale;
   for (float i = 0.0; i <= freqFactor; i += 1.0) {
     float factor = exp2(i);
     elevation += u_height/(factor) * snoise(vec3(factor*hillFactor*vPos) - 0.5, temp);
@@ -412,7 +412,7 @@ void main() {
   // Truncate low enough values
   elevation = max(elevation, -4.0);
 
-  float bumpHeight = u_bumpHeight;
+  float bumpHeight = u_depth;
   vec3 finalElevation = bumpHeight * elevation * vNormal;
 
   // Apply noise

@@ -8,9 +8,6 @@ import ScaleSlider from './sliders/ScaleSlider'
 
 const GUI = () => (
   <Menu label='Options'>
-    <MenuItem label='Visibility'>
-      <VisibilityCheckbox /> 
-    </MenuItem>
     <MenuItem label='Depth'>
       <DepthSlider />
     </MenuItem>

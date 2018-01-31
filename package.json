@@ -40,6 +40,7 @@
     "node-sass": "^3.13.0",
     "preact": "^8.2.7",
     "raw-loader": "^0.5.1",
+    "redux-zero": "^4.10.0",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
     "three": "^0.84.0",
@@ -50,7 +51,6 @@
     "typescript": "^2.6.2",
     "typings-for-css-modules-loader": "^1.7.0",
     "uglify-js": "^3.3.5",
-    "unistore": "^3.0.4",
     "webfontloader": "^1.6.28",
     "webpack": "^3.10.0",
     "webpack-glsl-loader": "^1.0.1"

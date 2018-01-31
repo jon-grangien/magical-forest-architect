@@ -1,15 +1,21 @@
-import createStore from 'unistore'
+import * as createStore from 'redux-zero'
+import { applyMiddleware } from 'redux-zero/middleware'
+import { connect } from 'redux-zero/devtools'
 
-// initial global state
-export const store = createStore({
+// Initial global state
+const initialState: any = {
   visible: true,
   menuVisible: true,
   depth: 50,
   height: 5,
   scale: 0.5
-})
+}
 
-// actions for setting global state
+// Create store with devtools if in development
+const middlewares = (connect && process.env.NODE_ENV !== 'production') ? applyMiddleware(connect(initialState)) : []
+export const store = (createStore as any)(initialState, middlewares)
+
+// Actions for setting global state
 export const actions = (_store) => ({
   toggleVisible: ({ visible }) => ({ visible: !visible }),
   toggleMenuVisible: ({ menuVisible }) => ({ menuVisible: !menuVisible }),

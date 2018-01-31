@@ -1,5 +1,5 @@
 import { h, Component } from 'preact'
-import { connect } from 'unistore/preact'
+import { connect } from 'redux-zero/preact'
 import { actions } from '../../store'
 import { bind } from 'decko'
 import Slider from '../base/Slider'
@@ -25,13 +25,14 @@ class ScaleSlider extends Component<IScaleSlider, any> {
   }
 
   render(props: IScaleSlider) {
-    return <Slider
-      min={0.1}
-      max={1.0}
-      default={0.5}
-      value={props.scale}
-      handleInput={this.handleInput} />
+    return <Slider min={0.1}
+                  max={1.0}
+                  default={0.5}
+                  value={props.scale}
+                  handleInput={this.handleInput} />
   }
 }
 
-export default connect(['scale'], actions)(ScaleSlider)
+const mapToProps = ({ scale }) => ({ scale })
+
+export default connect(mapToProps, actions)(ScaleSlider)

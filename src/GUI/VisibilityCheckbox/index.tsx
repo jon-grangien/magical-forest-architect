@@ -1,5 +1,5 @@
 import { h, Component } from 'preact'
-import { connect } from 'unistore/preact'
+import { connect } from 'redux-zero/preact'
 import { actions } from '../../store'
 import { bind } from 'decko'
 import Checkbox from '../base/Checkbox'
@@ -25,10 +25,11 @@ class VisibilityCheckbox extends Component<IVisibilityCheckboxProps, any> {
   }
 
   render(props: IVisibilityCheckboxProps) {
-    return <Checkbox
-      value={props.visible}
-      handleInputChange={this.handleInputChange} />
+    return <Checkbox value={props.visible}
+                     handleInputChange={this.handleInputChange} />
   }
 }
 
-export default connect(['visible'], actions)(VisibilityCheckbox)
+const mapToProps = ({ visible }) => ({ visible })
+
+export default connect(mapToProps, actions)(VisibilityCheckbox)

@@ -1,5 +1,5 @@
 import { h, Component } from 'preact'
-import { connect } from 'unistore/preact'
+import { connect } from 'redux-zero/preact'
 import { actions } from '../../store'
 import { bind } from 'decko'
 import MenuItem from '../MenuItem'
@@ -22,17 +22,21 @@ class Menu extends Component<IMenuProps, any> {
   }
 
   render(props: IMenuProps) {
-    return <div class={props.menuVisible ? styles.menu : styles.menuHidden}>
-      <div class={styles.header}
-           onClick={this.toggle}>
-        <div>{props.label}</div>
-        <div>
-          {props.menuVisible ? 'hide' : 'show'}
+    return (
+      <div class={props.menuVisible ? styles.menu : styles.menuHidden}>
+        <div class={styles.header}
+            onClick={this.toggle}>
+          <div>{props.label}</div>
+          <div>
+            {props.menuVisible ? 'hide' : 'show'}
+          </div>
         </div>
+        {props.menuVisible ? this.props.children : null}
       </div>
-      {props.menuVisible ? this.props.children : null}
-    </div>
+    )
   }
 }
 
-export default connect(['menuVisible'], actions)(Menu)
+const mapToProps = ({ menuVisible }) => ({ menuVisible })
+
+export default connect(mapToProps, actions)(Menu)

@@ -1,5 +1,4 @@
 import { h, Component } from 'preact'
-import { connect } from 'unistore/preact'
 import { bind } from 'decko'
 
 /**

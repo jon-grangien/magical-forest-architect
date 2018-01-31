@@ -4726,6 +4726,10 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
+redux-zero@^4.10.0:
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/redux-zero/-/redux-zero-4.10.0.tgz#405b56983f118d01904c5e644ce2d67c8153e1f0"
+
 regenerate@^1.2.1:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/regenerate/-/regenerate-1.3.3.tgz#0c336d3980553d755c39b586ae3b20aa49c82b7f"
@@ -5768,10 +5772,6 @@ uniqid@^4.0.0:
 uniqs@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/uniqs/-/uniqs-2.0.0.tgz#ffede4b36b25290696e6e165d4a59edb998e6b02"
-
-unistore@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/unistore/-/unistore-3.0.4.tgz#e7304ee8c43c3ae31751ea733ea22ab63841d672"
 
 unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"

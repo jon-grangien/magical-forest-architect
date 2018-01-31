@@ -1,5 +1,5 @@
 import { h, render, Component } from 'preact'
-import { Provider } from 'unistore/preact'
+import { Provider } from 'redux-zero/preact'
 import { store } from './store'
 import * as WebFontLoader from 'webfontloader'
 import GUI from './GUI'

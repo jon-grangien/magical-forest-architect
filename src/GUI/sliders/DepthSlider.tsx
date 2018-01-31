@@ -1,5 +1,5 @@
 import { h, Component } from 'preact'
-import { connect } from 'unistore/preact'
+import { connect } from 'redux-zero/preact'
 import { actions } from '../../store'
 import { bind } from 'decko'
 import Slider from '../base/Slider'
@@ -25,13 +25,14 @@ class DepthSlider extends Component<IDepthSlider, any> {
   }
 
   render(props: IDepthSlider) {
-    return <Slider
-      min={20}
-      max={80}
-      default={50}
-      value={props.depth}
-      handleInput={this.handleInput} />
+    return <Slider min={20}
+                   max={80}
+                   default={50}
+                   value={props.depth}
+                   handleInput={this.handleInput} />
   }
 }
 
-export default connect(['depth'], actions)(DepthSlider)
+const mapToProps = ({ depth }) => ({ depth })
+
+export default connect(mapToProps, actions)(DepthSlider)

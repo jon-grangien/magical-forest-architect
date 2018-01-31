@@ -1,5 +1,6 @@
 import { h, Component } from 'preact'
 import { connect } from 'redux-zero/preact'
+import { bind } from 'decko'
 import { store, actions } from './store'
 import * as WebFontLoader from 'webfontloader'
 import GUI from './GUI'
@@ -14,6 +15,7 @@ import Cloud from './components/Cloud/'
 import UniformSingleton from './UniformsSingleton'
 import * as THREE from 'three'
 import * as constants from './constants'
+import BaseComponent from './components/BaseComponent'
 
 declare let GOOGLE_WEB_FONTS: string[]
 
@@ -26,8 +28,18 @@ interface IMainAppProps {
 }
 
 class MainApp extends Component<IMainAppProps, any> {
+  private appSceneHandle: THREE.Scene
+
   constructor(props: IMainAppProps) {
     super(props)
+    this.state = {
+      mounted: false
+    }
+  }
+
+  @bind
+  addComponent(component: BaseComponent) {
+    this.appSceneHandle.add(component.compMesh)
   }
 
   componentWillMount() {
@@ -50,6 +62,8 @@ class MainApp extends Component<IMainAppProps, any> {
   componentDidMount() {
     const uniforms = UniformSingleton.Instance.uniforms
     let app = new AppScene()
+
+    this.appSceneHandle = app.scene
 
     function onWindowResize() {
       app.renderer.setSize(window.innerWidth, window.innerHeight)
@@ -83,13 +97,15 @@ class MainApp extends Component<IMainAppProps, any> {
     app.addComponent(constants.MESH_STAR_SYSTEM_COMPONENT, new MeshStarSystem(18, 8000))
     app.addComponent(constants.PARTICLE_STAR_SYSTEM_COMPONENT, new ParticleStarSystem(500, 6000))
 
-    for (let i = 0; i < constants.NUMBER_OF_CLOUDS; i++) {
-      const size = THREE.Math.randFloat(60, 160)
-      app.addComponent(constants.CLOUD_COMPONENT + i.toString(), new Cloud(size, 32, 32))
-    }
+    // for (let i = 0; i < constants.NUMBER_OF_CLOUDS; i++) {
+    //   const size = THREE.Math.randFloat(60, 160)
+    //   app.addComponent(constants.CLOUD_COMPONENT + i.toString(), new Cloud(size, 32, 32))
+    // }
 
     // Rotate scene for better view
     app.scene.rotation.y = -30 * Math.PI / 90
+
+    this.setState({ mounted: true }, () => console.log('changed state'))
   }
 
   // Simple bridge between redux store and uniforms
@@ -105,14 +121,32 @@ class MainApp extends Component<IMainAppProps, any> {
   }
 
   shouldComponentUpdate() {
-    return false
+
+    // Don't re-render after component has rendered, mounted, and re-rendered once
+    if (this.state.mounted) {
+      return false
+    }
   }
 
-  render() {
-    return <div> <GUI /> </div>
+  render(_props: any, state: any) {
+    console.log('render')
+    return <div>
+      <GUI /> 
+      { state.mounted ? (
+        <Cloud size={120}
+              widthSegs={32}
+              heightSegs={32} 
+              onDone={this.addComponent} />
+      ) : null }
+    </div>
   }
 }
 
-const mapToProps = ({ depth, height, scale, stateAsUniforms }) => ({ depth, height, scale, stateAsUniforms })
+const mapToProps = ({ depth, height, scale, stateAsUniforms }) => ({ 
+  depth, 
+  height, 
+  scale, 
+  stateAsUniforms 
+})
 
 export default connect(mapToProps, actions)(MainApp)

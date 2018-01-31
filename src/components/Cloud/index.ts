@@ -1,23 +1,38 @@
 import * as THREE from 'three'
 import UniformSingleton from '../../UniformsSingleton'
 import { IPos3D } from '../../utils/CommonInterfaces'
+import { bind } from 'decko'
+import BaseComponent from '../BaseComponent'
+
+/**
+ * @param {number} size - Size of the sphere geometries
+ * @param {number} widthSegments - Width segments of the sphere geometries
+ * @param {number} heightSegments - Height segments of the sphere geometries
+ */
+export interface ICloud {
+  size: number
+  widthSegs: number
+  heightSeg: number
+  onDone: Function
+}
 
 /**
  * A cloud that is a sphere with a displaced surface
  */
-class Cloud {
-  private mesh: THREE.Mesh
+class Cloud extends BaseComponent {
+  componentDidMount() {
+    console.log('hello')
+    this.init()
+  }
 
-  /**
-   * Constructor
-   * @param {number} size - Size of the sphere geometries
-   * @param {number} widthSegments - Width segments of the sphere geometries
-   * @param {number} heightSegments - Height segments of the sphere geometries
-   */
-  constructor(size: number, widthSegments: number, heightSegments: number) {
+  public update() { }
+
+  @bind
+  private init() {
     const uniforms: any = UniformSingleton.Instance.uniforms
+    const { size, widthSegs, heightSegs } = this.props
 
-    const geometry = new THREE.SphereGeometry(size,  widthSegments, heightSegments)
+    const geometry = new THREE.SphereGeometry(size,  widthSegs, heightSegs)
     const material = new THREE.ShaderMaterial({
       vertexShader: require('./shaders/surface.vert'),
       fragmentShader: require('./shaders/surface.frag'),
@@ -33,9 +48,11 @@ class Cloud {
     this.mesh = new THREE.Mesh(geometry, material)
     const pos = this.generatePosition()
     this.mesh.position.set(pos.x, pos.y, pos.z)
-  }
 
-  public update() { }
+    setTimeout(() => {
+      this.props.onDone(this)
+    }, 1000)
+  }
 
   private generatePosition(): IPos3D {
     const pos: IPos3D = new THREE.Vector3(0.0, 0.0, 0.0)
@@ -57,9 +74,6 @@ class Cloud {
     return pos
   }
 
-  get getComponent(): THREE.Mesh {
-    return this.mesh
-  }
 }
 
 export default Cloud

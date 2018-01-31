@@ -268,7 +268,7 @@ void main() {
     float sd = vUv.x + 0.05 * snoise(vec2(freq*vUv.x, freq*vUv.y));
     float td = vUv.y + 0.05 * snoise(vec2(freq*vUv.x, freq*vUv.y));
     float small_noise = 0.1 * snoise(vUv);
-    float sin_variation = sin(0.005 * u_time) + small_noise;
+    float sin_variation = sin(0.01 * u_time) + small_noise;
     float cos_variation = cos(0.002 * u_time) - small_noise;
 
     vec2 cell1 = cellular(vec3(sd * sin_variation, td * cos_variation, sd));

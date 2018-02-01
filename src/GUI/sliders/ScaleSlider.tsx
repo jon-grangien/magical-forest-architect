@@ -26,9 +26,9 @@ class ScaleSlider extends Component<IScaleSlider, any> {
 
   render(props: IScaleSlider) {
     return <Slider min={0.0001}
-                   max={0.005}
+                   max={0.002}
                    default={0.0005}
-                   step={0.001}
+                   step={0.0001}
                    value={props.scale}
                    handleInput={this.handleInput} />
   }

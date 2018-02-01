@@ -12,7 +12,7 @@ class MenuItem extends Component<IMenuItemProps, any> {
 
   render(props: IMenuItemProps) {
     return <div class={styles.item}>
-      <div>
+      <div class={styles.label}>
         {props.label}
       </div>
       <div>

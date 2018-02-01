@@ -2,7 +2,7 @@ import { h, Component } from 'preact'
 import { connect } from 'redux-zero/preact'
 import { actions } from '../../store'
 import { bind } from 'decko'
-import Slider from '../base/Slider'
+import AppSlider from '../base/Slider'
 
 export interface IDepthSlider {
   depth: number
@@ -25,7 +25,7 @@ class DepthSlider extends Component<IDepthSlider, any> {
   }
 
   render(props: IDepthSlider) {
-    return <Slider min={20}
+    return <AppSlider min={20}
                    max={80}
                    default={50}
                    step={1}

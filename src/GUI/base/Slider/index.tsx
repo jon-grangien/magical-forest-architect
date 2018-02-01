@@ -3,7 +3,7 @@ import { actions } from '../../../store'
 import { bind } from 'decko'
 const styles = require('./style.scss')
 
-export interface ISliderProps {
+export interface IAppSliderProps {
   min: number
   max: number
   step: number
@@ -15,8 +15,8 @@ export interface ISliderProps {
 /**
  * Test component for checkbox
  */
-class Slider extends Component<ISliderProps, any> {
-  constructor(props: ISliderProps) {
+class AppSlider extends Component<IAppSliderProps, any> {
+  constructor(props: IAppSliderProps) {
     super(props)
   }
 
@@ -25,7 +25,7 @@ class Slider extends Component<ISliderProps, any> {
     this.props.handleInput(e)
   }
 
-  render(props: ISliderProps) {
+  render(props: IAppSliderProps) {
     const val: string = props.value ? props.value.toString() : undefined
 
     return <div class={styles.main}>
@@ -41,5 +41,4 @@ class Slider extends Component<ISliderProps, any> {
   }
 }
 
-export default Slider
-
+export default AppSlider

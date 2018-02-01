@@ -31,11 +31,15 @@ class Cloud extends BaseComponent {
       transparent: true
     })
 
-    this._objectHandle = new THREE.Mesh(geometry, material)
+    const mesh = new THREE.Mesh(geometry, material)
     const pos: IPos3D = this.generatePosition()
-    this._objectHandle.position.set(pos.x, pos.y, pos.z)
+    mesh.position.set(pos.x, pos.y, pos.z)
+    this.add(mesh)
   }
 
+  /**
+   * @Override
+   */
   public update() { }
 
   private generatePosition(): IPos3D {

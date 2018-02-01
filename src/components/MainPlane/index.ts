@@ -49,9 +49,12 @@ class MainPlane extends BaseComponent {
       uniforms: this._surfaceMaterialUniforms
     })
 
-    this._objectHandle = new THREE.Mesh(geometry, this._surfaceMaterial)
+    this.add(new THREE.Mesh(geometry, this._surfaceMaterial))
   }
 
+  /**
+   * @Override
+   */
   public update() {
     if (UniformSingleton.Instance.hillValuesHaveUpdated()) {
       this._planeFBO.render()
@@ -70,7 +73,7 @@ class MainPlane extends BaseComponent {
     const ground = new THREE.Mesh(geometry, material)
     // ground.position.z = 0
     // ground.rotation.x = Math.PI / 2
-    this._objectHandle.add(ground)
+    this.add(ground)
   }
 }
 

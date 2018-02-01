@@ -31,18 +31,21 @@ class Sun extends BaseComponent {
       transparent: true
     })
 
-    this._objectHandle = new THREE.Mesh(geometry, material)
-    this._objectHandle.position.set(position.x, position.y, position.z)
-    this._objectHandle.rotation.y += Math.PI / 2
-    this._objectHandle.rotation.z -= Math.PI / 2
+    this.add(new THREE.Mesh(geometry, material))
+    this.position.set(position.x, position.y, position.z)
+    this.rotation.y += Math.PI / 2
+    this.rotation.z -= Math.PI / 2
 
     // Light source
-    this._objectHandle.add( new THREE.PointLight(lightColor, 1, 3700.0) )
+    this.add( new THREE.PointLight(lightColor, 1, 3700.0) )
 
     // Glow object
-    this._objectHandle.add( this.addGlow(size, widthSegments, heightSegments) )
+    this.add( this.addGlow(size, widthSegments, heightSegments) )
   }
 
+  /**
+   * @Override
+   */
   public update(): void {}
 
   private addGlow(size: number, width: number, height: number): THREE.Mesh {

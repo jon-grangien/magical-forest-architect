@@ -30,7 +30,7 @@ class MeshStarSystem extends StarSystem {
    * Generate the system
    */
   public generateSystem(): void {
-    this._objectHandle = new THREE.Group()
+    const group = new THREE.Group()
 
     const uniforms = UniformSingleton.Instance.uniforms
     
@@ -62,7 +62,8 @@ class MeshStarSystem extends StarSystem {
         mesh.position.y *= 2.5
       }
 
-      this._objectHandle.add(mesh)
+      group.add(mesh)
+      this.add(group)
     }
   }
 }

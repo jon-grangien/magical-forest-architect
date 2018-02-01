@@ -42,10 +42,13 @@ class WaterPlane extends BaseComponent {
       transparent: true
     })
 
-    this._objectHandle = new THREE.Mesh(geometry, material)
+    this.add(new THREE.Mesh(geometry, material))
   }
 
-  public update() {}
+  /**
+   * @Override
+   */
+  public update(): void {}
 }
 
 export default WaterPlane

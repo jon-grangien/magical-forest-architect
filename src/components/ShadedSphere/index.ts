@@ -22,11 +22,14 @@ class ShadedSphere extends BaseComponent {
       fragmentShader: require('./shaders/frag.glsl')
     })
 
-    this._objectHandle = new THREE.Mesh(geometry, material)
+    this.add(new THREE.Mesh(geometry, material))
   }
 
+  /**
+   * @Override
+   */
   update() {
-    this._objectHandle.rotation.y += 0.007
+    this.rotation.y += 0.007
   }
 }
 

@@ -63,7 +63,7 @@ class ParticleStarSystem extends StarSystem {
       transparent: true
     })      
 
-    this._objectHandle = new THREE.Points(geo, mat)
+    this.add(new THREE.Points(geo, mat))
   }
 }
 

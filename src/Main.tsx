@@ -18,6 +18,7 @@ import * as constants from './constants'
 declare let GOOGLE_WEB_FONTS: string[]
 
 interface IMainAppProps {
+  renderWater: boolean
   depth: number
   height: number
   scale: number
@@ -25,6 +26,8 @@ interface IMainAppProps {
 }
 
 class Main extends Component<IMainAppProps, any> {
+  private _appHandle: AppScene
+
   constructor(props: IMainAppProps) {
     super(props)
   }
@@ -49,6 +52,7 @@ class Main extends Component<IMainAppProps, any> {
   componentDidMount() {
     const uniforms = UniformSingleton.Instance.uniforms
     let app = new AppScene()
+    this._appHandle = app
 
     function onWindowResize() {
       app.renderer.setSize(window.innerWidth, window.innerHeight)
@@ -60,7 +64,7 @@ class Main extends Component<IMainAppProps, any> {
 
     window.addEventListener( 'resize', onWindowResize, false )
 
-    app.addComponent(constants.MAIN_PLANE_COMPONENT, new MainPlane({
+    app.addComponent(constants.MAIN_PLANE_COMPONENT_KEY, new MainPlane({
       width: constants.PLANE_WIDTH_HEIGHT,
       height: constants.PLANE_WIDTH_HEIGHT,
       widthSegments: constants.PLANE_WIDTH_HEIGHT_SEGMENTS,
@@ -72,19 +76,19 @@ class Main extends Component<IMainAppProps, any> {
     // Set hill values to be changed to make listeners react to initial values
     UniformSingleton.Instance.setHillValuesUpdated()
 
-    app.addComponent(constants.WATER_COMPONENT, new WaterPlane({
+    app.addComponent(constants.WATER_COMPONENT_KEY, new WaterPlane({
       width: constants.WATER_WIDTH_HEIGHT,
       height: constants.WATER_WIDTH_HEIGHT,
       widthSegments: constants.WATER_WIDTH_HEIGHT_SEGMENTS,
       heightSegments: constants.WATER_WIDTH_HEIGHT_SEGMENTS,
     }))
 
-    app.addComponent(constants.MESH_STAR_SYSTEM_COMPONENT, new MeshStarSystem(18, 8000))
-    app.addComponent(constants.PARTICLE_STAR_SYSTEM_COMPONENT, new ParticleStarSystem(500, 6000))
+    app.addComponent(constants.MESH_STAR_SYSTEM_COMPONENT_KEY, new MeshStarSystem(18, 8000))
+    app.addComponent(constants.PARTICLE_STAR_SYSTEM_COMPONENT_KEY, new ParticleStarSystem(500, 6000))
 
     for (let i = 0; i < constants.NUMBER_OF_CLOUDS; i++) {
       const size = THREE.Math.randFloat(60, 160)
-      app.addComponent(constants.CLOUD_COMPONENT + i.toString(), new Cloud(size, 32, 32))
+      app.addComponent(constants.CLOUD_COMPONENT_KEY + i.toString(), new Cloud(size, 32, 32))
     }
 
     // Rotate scene for better view
@@ -95,9 +99,25 @@ class Main extends Component<IMainAppProps, any> {
   componentWillReceiveProps(nextProps: IMainAppProps) {
     for (let key in nextProps) {
       if (nextProps.hasOwnProperty(key)) {
+
+        // Uniforms
         if (nextProps[key] !== this.props[key] && this.props.stateAsUniforms.indexOf(key) > -1) {
           UniformSingleton.Instance.uniforms[`u_${key}`].value = nextProps[key]
           UniformSingleton.Instance.setHillValuesUpdated()
+        }
+
+        else if (nextProps[key] !== this.props[key] && key === 'renderWater') {
+
+          if (nextProps[key]) {
+            this._appHandle.addComponent(constants.WATER_COMPONENT_KEY, new WaterPlane({
+              width: constants.WATER_WIDTH_HEIGHT,
+              height: constants.WATER_WIDTH_HEIGHT,
+              widthSegments: constants.WATER_WIDTH_HEIGHT_SEGMENTS,
+              heightSegments: constants.WATER_WIDTH_HEIGHT_SEGMENTS
+            }))
+          } else {
+            this._appHandle.removeComponent(constants.WATER_COMPONENT_KEY)
+          }
         }
       }
     }
@@ -112,7 +132,8 @@ class Main extends Component<IMainAppProps, any> {
   }
 }
 
-const mapToProps = ({ depth, height, scale, stateAsUniforms }): IMainAppProps => ({ 
+const mapToProps = ({ renderWater, depth, height, scale, stateAsUniforms }): IMainAppProps => ({ 
+  renderWater, 
   depth, 
   height, 
   scale, 

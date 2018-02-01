@@ -1,10 +1,10 @@
-import { h, Component } from 'preact'
+import { h } from 'preact'
 import Menu from './Menu'
 import MenuItem from './MenuItem'
-import VisibilityCheckbox from './VisibilityCheckbox'
 import DepthSlider from './sliders/DepthSlider'
 import HeightSlider from './sliders/HeightSlider'
 import ScaleSlider from './sliders/ScaleSlider'
+import RenderWaterCheckbox from './RenderWaterCheckbox'
 
 const GUI = () => (
   <Menu label='Options'>
@@ -16,6 +16,9 @@ const GUI = () => (
     </MenuItem>
     <MenuItem label='Scale'>
       <ScaleSlider />
+    </MenuItem>
+    <MenuItem label='Render water'>
+      <RenderWaterCheckbox />
     </MenuItem>
   </Menu>
 )

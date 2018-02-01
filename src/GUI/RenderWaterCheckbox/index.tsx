@@ -4,16 +4,16 @@ import { actions } from '../../store'
 import { bind } from 'decko'
 import Checkbox from '../base/Checkbox'
 
-export interface IVisibilityCheckboxProps {
-  visible: boolean
-  toggleVisible: Function
+export interface IRenderWaterCheckboxProps {
+  renderWater: boolean
+  toggleRenderWater: Function
 }
 
 /**
  * Test component for checkbox
  */
-class VisibilityCheckbox extends Component<IVisibilityCheckboxProps, any> {
-  constructor(props: IVisibilityCheckboxProps) {
+class RenderWaterCheckbox extends Component<IRenderWaterCheckboxProps, any> {
+  constructor(props: IRenderWaterCheckboxProps) {
     super(props)
   }
 
@@ -21,15 +21,15 @@ class VisibilityCheckbox extends Component<IVisibilityCheckboxProps, any> {
   handleInputChange (e: any) {
     const { target } = e
     const value: boolean = target.type === 'checkbox' ? target.checked : false
-    this.props.toggleVisible()
+    this.props.toggleRenderWater()
   }
 
-  render(props: IVisibilityCheckboxProps) {
-    return <Checkbox value={props.visible}
+  render(props: IRenderWaterCheckboxProps) {
+    return <Checkbox value={props.renderWater}
                      handleInputChange={this.handleInputChange} />
   }
 }
 
-const mapToProps = ({ visible }) => ({ visible })
+const mapToProps = ({ renderWater }) => ({ renderWater })
 
-export default connect(mapToProps, actions)(VisibilityCheckbox)
+export default connect(mapToProps, actions)(RenderWaterCheckbox)

@@ -72,7 +72,7 @@ class AppScene {
    */
   removeComponent(key: string) {
     const component = this.components[key]
-    this.scene.remove(component.getMesh())
+    this.scene.remove(component)
     delete this.components[key]
     return component
   }

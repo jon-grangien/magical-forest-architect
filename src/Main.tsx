@@ -108,6 +108,7 @@ class Main extends Component<IMainAppProps, any> {
 
         else if (nextProps[key] !== this.props[key] && key === 'renderWater') {
 
+          // Add or remove water component
           if (nextProps[key]) {
             this._appHandle.addComponent(constants.WATER_COMPONENT_KEY, new WaterPlane({
               width: constants.WATER_WIDTH_HEIGHT,

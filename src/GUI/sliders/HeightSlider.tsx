@@ -28,6 +28,7 @@ class HeightSlider extends Component<IHeightSlider, any> {
     return <Slider min={0.5}
                    max={15}
                    default={5}
+                   step={0.5}
                    value={props.height}
                    handleInput={this.handleInput} />
   }

@@ -28,6 +28,7 @@ class DepthSlider extends Component<IDepthSlider, any> {
     return <Slider min={20}
                    max={80}
                    default={50}
+                   step={1}
                    value={props.depth}
                    handleInput={this.handleInput} />
   }

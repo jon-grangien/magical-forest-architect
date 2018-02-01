@@ -6,6 +6,7 @@ const styles = require('./style.scss')
 export interface ISliderProps {
   min: number
   max: number
+  step: number
   default: number
   value: number
   handleInput: Function
@@ -28,13 +29,13 @@ class Slider extends Component<ISliderProps, any> {
     const val: string = props.value ? props.value.toString() : undefined
 
     return <div class={styles.main}>
-      <input
-        type='range'
-        class={styles.slider}
-        min={props.min}
-        max={props.max}
-        value={val}
-        onInput={this.handleInput} />
+      <input type='range'
+             class={styles.slider}
+             min={props.min}
+             max={props.max}
+             step={props.step}
+             value={val}
+             onInput={this.handleInput} />
       <div class={styles.value}>{props.value || props.default}</div>
     </div> 
   }

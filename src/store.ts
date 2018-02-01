@@ -14,7 +14,7 @@ const initialState: any = {
   // App uniforms
   depth: 50,
   height: 5,
-  scale: 0.5,
+  scale: 0.0005,
 
   // Help app know which ones are uniforms
   stateAsUniforms: ['depth', 'height', 'scale']

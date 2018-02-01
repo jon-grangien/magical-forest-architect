@@ -1,18 +1,19 @@
 import * as THREE from 'three'
 import UniformSingleton, { IUniforms } from '../../UniformsSingleton'
+import BaseComponent from '../BaseComponent'
 
 /**
  * App water plane
  */
-class WaterPlane {
+class WaterPlane extends BaseComponent {
   private size: any
-  private mesh: THREE.Mesh
 
   /**
    * Constructor
    * @param {object} size - Sizes of geometry. Width, height, widthSegments, heightSegments.
    */
   constructor(size: any) {
+    super()
     this.size = size
     this.initialize()
   }
@@ -41,14 +42,10 @@ class WaterPlane {
       transparent: true
     })
 
-    this.mesh = new THREE.Mesh(geometry, material)
+    this._objectHandle = new THREE.Mesh(geometry, material)
   }
 
   public update() {}
-
-  get getComponent(): THREE.Mesh {
-    return this.mesh
-  }
 }
 
 export default WaterPlane

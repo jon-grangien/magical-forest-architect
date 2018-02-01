@@ -1,17 +1,18 @@
 import * as THREE from 'three'
 import UniformSingleton from '../../UniformsSingleton'
+import BaseComponent from '../BaseComponent'
 
 /**
  * Simple Sphere class with custom shaders
  */
-class ShadedSphere {
-  private mesh: THREE.Mesh
+class ShadedSphere extends BaseComponent {
 
   /**
    * Constructor
    * @param {object} size - Object of number radius, number widthSegments, number heightSegments
    */
   constructor(size: any) {
+    super()
     const uniforms: any = UniformSingleton.Instance.uniforms
 
     const geometry = new THREE.SphereGeometry(size.radius, size.widthSegments, size.heightSegments)
@@ -21,15 +22,11 @@ class ShadedSphere {
       fragmentShader: require('./shaders/frag.glsl')
     })
 
-    this.mesh = new THREE.Mesh(geometry, material)
+    this._objectHandle = new THREE.Mesh(geometry, material)
   }
 
   update() {
-    this.mesh.rotation.y += 0.007
-  }
-
-  get getComopnent(): THREE.Mesh {
-    return this.mesh
+    this._objectHandle.rotation.y += 0.007
   }
 }
 

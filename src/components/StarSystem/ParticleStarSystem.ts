@@ -6,7 +6,6 @@ import StarSystem from './StarSystem'
  * App main ground plane
  */
 class ParticleStarSystem extends StarSystem {
-  private _starPoints: THREE.Points
   private _spreadRange: number
 
   /**
@@ -64,11 +63,7 @@ class ParticleStarSystem extends StarSystem {
       transparent: true
     })      
 
-    this._starPoints = new THREE.Points(geo, mat)
-  }
-
-  get getComponent(): THREE.Group {
-    return this._starPoints
+    this._objectHandle = new THREE.Points(geo, mat)
   }
 }
 

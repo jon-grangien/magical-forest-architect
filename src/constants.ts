@@ -1,4 +1,4 @@
-// App objects
+// App object keys
 export const MAIN_PLANE_COMPONENT: string = 'plane'
 export const WATER_COMPONENT: string = 'water'
 export const SHADED_SPHERE_COMPONENT: string = 'shadedsphere'

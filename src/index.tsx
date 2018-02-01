@@ -1,11 +1,11 @@
 import { h, render } from 'preact'
 import { Provider, connect } from 'redux-zero/preact'
 import { store } from './store'
-import MainApp from './MainApp'
+import Main from './Main'
 
 render(
   <Provider store={store}>
-    <MainApp name='Mainapp' />
+    <Main />
   </Provider>, 
   document.getElementById('app')
 )

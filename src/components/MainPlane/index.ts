@@ -1,14 +1,14 @@
 import * as THREE from 'three'
 import UniformSingleton, { IUniforms } from '../../UniformsSingleton'
 import FBOHelper from '../../utils/FBOHelper'
+import BaseComponent from '../BaseComponent'
 
 /**
  * App main ground plane
  */
-class MainPlane {
+class MainPlane extends BaseComponent {
   readonly PLANE_FBO_LISTENER: string = 'PLANE_FBO_LISTENER'
 
-  private mesh: THREE.Mesh
   private appRenderer: THREE.WebGLRenderer
   private _planeFBO: FBOHelper
   private _surfaceMaterial: THREE.Material
@@ -20,6 +20,7 @@ class MainPlane {
    * @param {object} size - Sizes of geometry. Width, height, widthSegments, heightSegments.
    */
   constructor(size: any, renderer: THREE.WebGLRenderer) {
+    super()
     this.appRenderer = renderer
     this._size = size
     const uniforms: any = UniformSingleton.Instance.uniforms
@@ -48,7 +49,7 @@ class MainPlane {
       uniforms: this._surfaceMaterialUniforms
     })
 
-    this.mesh = new THREE.Mesh(geometry, this._surfaceMaterial)
+    this._objectHandle = new THREE.Mesh(geometry, this._surfaceMaterial)
   }
 
   public update() {
@@ -69,11 +70,7 @@ class MainPlane {
     const ground = new THREE.Mesh(geometry, material)
     // ground.position.z = 0
     // ground.rotation.x = Math.PI / 2
-    this.mesh.add(ground)
-  }
-
-  get getComponent() {
-    return this.mesh
+    this._objectHandle.add(ground)
   }
 }
 

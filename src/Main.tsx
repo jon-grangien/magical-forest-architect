@@ -18,14 +18,13 @@ import * as constants from './constants'
 declare let GOOGLE_WEB_FONTS: string[]
 
 interface IMainAppProps {
-  name: string
   depth: number
   height: number
   scale: number
   stateAsUniforms: string[]
 }
 
-class MainApp extends Component<IMainAppProps, any> {
+class Main extends Component<IMainAppProps, any> {
   constructor(props: IMainAppProps) {
     super(props)
   }
@@ -113,6 +112,11 @@ class MainApp extends Component<IMainAppProps, any> {
   }
 }
 
-const mapToProps = ({ depth, height, scale, stateAsUniforms }) => ({ depth, height, scale, stateAsUniforms })
+const mapToProps = ({ depth, height, scale, stateAsUniforms }): IMainAppProps => ({ 
+  depth, 
+  height, 
+  scale, 
+  stateAsUniforms 
+})
 
-export default connect(mapToProps, actions)(MainApp)
+export default connect(mapToProps, actions)(Main)

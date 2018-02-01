@@ -51,10 +51,12 @@ class UniformSingleton {
       u_sunLightPos: { type: 'v3', value: new THREE.Vector3(this.sunPosition.x, this.sunPosition.y, this.sunPosition.z) },
       u_sunTexture: { type: 't', value: null },
 
-      // hill values
+      // GUI compatible values
+      // Must be named the same as the redux store counterpart
       u_depth: { type: 'f', value: 50.0 },
       u_height: { type: 'f', value: 5.0 },
       u_scale: { type: 'f', value: 0.0005 },
+
       u_spikyness: { type: 'f', value: 0.0001 },
     }
   }

@@ -1,11 +1,13 @@
-abstract class StarSystem {
+import BaseComponent from '../BaseComponent'
+
+abstract class StarSystem extends BaseComponent {
   protected _starCount: number
 
   constructor(count: number) {
+    super()
     this._starCount = count
   }
 
-  abstract update(): void
   abstract generateSystem(): void
 }
 

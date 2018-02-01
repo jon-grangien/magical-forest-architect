@@ -6,7 +6,6 @@ import StarSystem from './StarSystem'
  * App main ground plane
  */
 class MeshStarSystem extends StarSystem {
-  private _starGroup: THREE.Group
   private _spreadRange: number
 
   /**
@@ -31,7 +30,7 @@ class MeshStarSystem extends StarSystem {
    * Generate the system
    */
   public generateSystem(): void {
-    this._starGroup = new THREE.Group()
+    this._objectHandle = new THREE.Group()
 
     const uniforms = UniformSingleton.Instance.uniforms
     
@@ -63,12 +62,8 @@ class MeshStarSystem extends StarSystem {
         mesh.position.y *= 2.5
       }
 
-      this._starGroup.add(mesh)
+      this._objectHandle.add(mesh)
     }
-  }
-
-  get getComponent(): THREE.Group {
-    return this._starGroup
   }
 }
 

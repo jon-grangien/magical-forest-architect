@@ -1,11 +1,11 @@
 import * as THREE from 'three'
 import UniformSingleton from '../../UniformsSingleton'
+import BaseComponent from '../BaseComponent'
 
 /**
  * Sun with procedurally animated texture, main light source
  */
-class Sun {
-  private mesh: THREE.Mesh
+class Sun extends BaseComponent {
 
   /**
    * Constructor
@@ -16,6 +16,7 @@ class Sun {
    * @param {number} lightColor - Color of light source
    */
   constructor(size: number, widthSegments: number, heightSegments: number, position: any, lightColor: number) {
+    super()
     const uniforms: any = UniformSingleton.Instance.uniforms
 
     const geometry = new THREE.SphereGeometry(size,  widthSegments, heightSegments)
@@ -30,17 +31,19 @@ class Sun {
       transparent: true
     })
 
-    this.mesh = new THREE.Mesh(geometry, material)
-    this.mesh.position.set(position.x, position.y, position.z)
-    this.mesh.rotation.y += Math.PI / 2
-    this.mesh.rotation.z -= Math.PI / 2
+    this._objectHandle = new THREE.Mesh(geometry, material)
+    this._objectHandle.position.set(position.x, position.y, position.z)
+    this._objectHandle.rotation.y += Math.PI / 2
+    this._objectHandle.rotation.z -= Math.PI / 2
 
     // Light source
-    this.mesh.add( new THREE.PointLight(lightColor, 1, 3700.0) )
+    this._objectHandle.add( new THREE.PointLight(lightColor, 1, 3700.0) )
 
     // Glow object
-    this.mesh.add( this.addGlow(size, widthSegments, heightSegments) )
+    this._objectHandle.add( this.addGlow(size, widthSegments, heightSegments) )
   }
+
+  public update(): void {}
 
   private addGlow(size: number, width: number, height: number): THREE.Mesh {
     const geometry = new THREE.SphereGeometry(1.3 * size, width, height)
@@ -55,10 +58,6 @@ class Sun {
     })
 
     return new THREE.Mesh(geometry, material)
-  }
-
-  get getComponent(): THREE.Mesh {
-    return this.mesh
   }
 }
 

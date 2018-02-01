@@ -1,12 +1,12 @@
 import * as THREE from 'three'
+import BaseComponent from '../BaseComponent'
 import UniformSingleton from '../../UniformsSingleton'
 import { IPos3D } from '../../utils/CommonInterfaces'
 
 /**
  * A cloud that is a sphere with a displaced surface
  */
-class Cloud {
-  private mesh: THREE.Mesh
+class Cloud extends BaseComponent {
 
   /**
    * Constructor
@@ -15,6 +15,7 @@ class Cloud {
    * @param {number} heightSegments - Height segments of the sphere geometries
    */
   constructor(size: number, widthSegments: number, heightSegments: number) {
+    super()
     const uniforms: any = UniformSingleton.Instance.uniforms
 
     const geometry = new THREE.SphereGeometry(size,  widthSegments, heightSegments)
@@ -30,9 +31,9 @@ class Cloud {
       transparent: true
     })
 
-    this.mesh = new THREE.Mesh(geometry, material)
-    const pos = this.generatePosition()
-    this.mesh.position.set(pos.x, pos.y, pos.z)
+    this._objectHandle = new THREE.Mesh(geometry, material)
+    const pos: IPos3D = this.generatePosition()
+    this._objectHandle.position.set(pos.x, pos.y, pos.z)
   }
 
   public update() { }
@@ -56,11 +57,6 @@ class Cloud {
 
     return pos
   }
-
-  get getComponent(): THREE.Mesh {
-    return this.mesh
-  }
 }
 
 export default Cloud
-

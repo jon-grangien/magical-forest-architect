@@ -1,7 +1,17 @@
 @import '../base/basestyle.scss';
 
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 .menu, 
 .menuHidden {
+  animation: slideIn 0.1s 1;
   position: fixed;
   top: 5px;
   left: 5px;
@@ -9,10 +19,11 @@
   width: 20%;
   min-width: 310px;
   font-size: $main-font-size;
+  border-radius: $dialog-border-radius;
 }
 
 .menu {
-  opacity: 0.85;
+  opacity: $dialog-standard-opacity;
 }
 
 .menuHidden {

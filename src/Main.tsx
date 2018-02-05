@@ -3,6 +3,7 @@ import { connect } from 'redux-zero/preact'
 import { store, actions } from './store'
 import * as WebFontLoader from 'webfontloader'
 import GUI from './GUI'
+import InfoBox from './GUI/InfoBox'
 
 import AppScene from './AppScene'
 import ShadedSphere from './components/ShadedSphere/'
@@ -22,14 +23,26 @@ interface IMainAppProps {
   depth: number
   height: number
   scale: number
-  stateAsUniforms: string[]
+  stateAsUniforms: string[],
+  isChrome: boolean
+}
+
+interface IMainAppState {
+  showGUI: boolean
 }
 
 class Main extends Component<IMainAppProps, any> {
+  readonly CHROME_ADVICE: string
   private _appHandle: AppScene
 
   constructor(props: IMainAppProps) {
     super(props)
+
+    this.state = {
+      showGUI: false
+    }
+
+    this.CHROME_ADVICE = 'You are running a browser that is not Chrome. This app works best in a modern version of Chrome, as some features may not work properly in other browsers at this stage of development.'
   }
 
   componentWillMount() {
@@ -50,6 +63,15 @@ class Main extends Component<IMainAppProps, any> {
   }
 
   componentDidMount() {
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        this.setState({
+          showGUI: true
+        })
+      }, 100)
+    })
+
     const uniforms = UniformSingleton.Instance.uniforms
     let app = new AppScene()
     this._appHandle = app
@@ -125,20 +147,29 @@ class Main extends Component<IMainAppProps, any> {
   }
 
   shouldComponentUpdate() {
-    return false
+    return !this.state.showGUI // Don't allow re-renders anymore after we let GUI to be rendered
   }
 
-  render() {
-    return <div> <GUI /> </div>
+  render(props: IMainAppProps, state: IMainAppState) {
+    const { showGUI } = state
+    if (!showGUI) {
+      return null
+    }
+
+    return <div> 
+      <GUI /> 
+      { !props.isChrome && <InfoBox msg={this.CHROME_ADVICE} /> }
+    </div>
   }
 }
 
-const mapToProps = ({ renderWater, depth, height, scale, stateAsUniforms }): IMainAppProps => ({ 
+const mapToProps = ({ renderWater, depth, height, scale, stateAsUniforms, isChrome }): IMainAppProps => ({ 
   renderWater, 
   depth, 
   height, 
   scale, 
-  stateAsUniforms 
+  stateAsUniforms,
+  isChrome
 })
 
 export default connect(mapToProps, actions)(Main)

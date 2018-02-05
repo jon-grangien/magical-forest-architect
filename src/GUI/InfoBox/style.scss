@@ -1,0 +1,49 @@
+@import '../base/basestyle.scss';
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.main {
+  animation: slideIn 0.1s 1;
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+  background-color: $main-bg-color;
+  // min-width: 20%;
+  min-width: 320px;
+  width: 20%;
+  font-size: $main-font-size;
+  border-radius: $dialog-border-radius;
+  padding: 10px;
+  opacity: $dialog-standard-opacity;
+  color: $main-font-color;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.msg {
+  font-family: $main-fontfam;
+  word-break: normal;
+  padding: 0 5px;
+  // width: 80%;
+
+  // align-items: flex-start;
+  display: flex;
+  flex: 6 0 0;
+}
+
+.close {
+  // width: 20%;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  flex: 1 0 0;
+}

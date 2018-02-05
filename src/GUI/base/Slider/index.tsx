@@ -18,7 +18,7 @@ export interface IAppSliderProps {
 }
 
 /**
- * Test component for checkbox
+ * General slider component
  */
 class AppSlider extends Component<IAppSliderProps, any> {
   private el: any
@@ -51,24 +51,14 @@ class AppSlider extends Component<IAppSliderProps, any> {
     const displayVal: number = Number((props.value || props.default).toFixed(4)) // fix decimals
 
     return <div class={styles.main}>
-    <Formfield>
-      <LayoutGrid>
-        <LayoutGrid.Inner>
-          <LayoutGrid.Cell cols={7}>
-            <MaterialSlider disabled={false}  
-                            ref={el => this.el = el}
-                            min={props.min}
-                            max={props.max}
-                            step={props.step}
-                            value={props.value}
-                            onInput={this.handleInput} />
-          </LayoutGrid.Cell>
-          <LayoutGrid.Cell cols={5} align='middle'>
-            <div class={styles.value}>{displayVal}</div>
-          </LayoutGrid.Cell>
-        </LayoutGrid.Inner>
-      </LayoutGrid>
-      </Formfield>
+      <MaterialSlider disabled={false}  
+                      ref={el => this.el = el}
+                      min={props.min}
+                      max={props.max}
+                      step={props.step}
+                      value={props.value}
+                      onInput={this.handleInput} />
+      <div class={styles.value}>{displayVal}</div>
     </div> 
   }
 }

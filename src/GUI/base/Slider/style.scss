@@ -1,22 +1,24 @@
 @import '../basestyle.scss';
 
 .main {
-  // display: flex;
-  // flex-direction: row;
-  width: 200px;
-  margin-right: 40px; // combat material components layout grid cell padding
-  //width: 100%;
+  display: flex;
+  flex-direction: row;
+  width: 180px;
+  margin-right: 15px; 
 }
 
 .value {
   color: $secondary-font-color;
-  // align-content: center;
-  // justify-content: center;
+  align-content: center;
+  justify-content: center;
   text-align: left;
-  // margin: auto auto auto 10px;
-  // min-width: 60px;
+  margin: auto auto auto 10px;
+  min-width: 40px;
 }
 
+// Custom css slider:
+// Works differently in all f-ing browsers
+//
 // $color-left: #4c7f78;
 // $color-right: #3b3c3d;
 // 

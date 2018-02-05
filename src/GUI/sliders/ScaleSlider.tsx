@@ -10,7 +10,7 @@ export interface IScaleSlider {
 }
 
 /**
- * Test component for checkbox
+ * Plane scale value slider
  */
 class ScaleSlider extends Component<IScaleSlider, any> {
   constructor(props: IScaleSlider) {
@@ -19,8 +19,6 @@ class ScaleSlider extends Component<IScaleSlider, any> {
 
   @bind
   handleInput(val: number) {
-    // const val: number = Number(target.value)
-    // const val: number = Number(e.target.attributes['aria-valuenow'].value)
     this.props.changeScale(val)
   }
 

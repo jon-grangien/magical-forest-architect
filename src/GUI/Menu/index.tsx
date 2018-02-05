@@ -28,10 +28,14 @@ class Menu extends Component<IMenuProps, any> {
             onClick={this.toggle}>
           <div>{props.label}</div>
           <div>
-            {props.menuVisible ? 'hide' : 'show'}
+        { props.menuVisible ? ( 
+        <i class='material-icons'>keyboard_arrow_down</i> 
+          ) : ( 
+        <i class='material-icons'>keyboard_arrow_left</i> 
+        ) }
           </div>
         </div>
-        {props.menuVisible ? this.props.children : null}
+      {props.menuVisible ? this.props.children : null}
       </div>
     )
   }

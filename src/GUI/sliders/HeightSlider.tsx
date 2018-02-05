@@ -10,7 +10,7 @@ export interface IHeightSlider {
 }
 
 /**
- * Test component for checkbox
+ * Plane height value slider
  */
 class HeightSlider extends Component<IHeightSlider, any> {
   constructor(props: IHeightSlider) {
@@ -19,8 +19,6 @@ class HeightSlider extends Component<IHeightSlider, any> {
 
   @bind
   handleInput(val: number) {
-    // const val: number = Number(target.value)
-    // const val: number = Number(e.target.attributes['aria-valuenow'].value)
     this.props.changeHeight(val)
   }
 

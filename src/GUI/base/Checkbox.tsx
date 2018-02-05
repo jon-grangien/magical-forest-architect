@@ -1,5 +1,6 @@
 import { h, Component } from 'preact'
 import { bind } from 'decko'
+import MaterialCheckbox from 'preact-material-components/Checkbox'
 
 /**
  * handleInputChange - must be sent as a prop to handle the input response
@@ -21,10 +22,8 @@ class Checkbox extends Component<ICheckboxProps, any> {
   }
 
   render(props: ICheckboxProps) {
-    return <input
-      type='checkbox'
-      checked={props.value}
-      onChange={this.handleInputChange} />
+    return <MaterialCheckbox checked={props.value}
+                             onChange={this.handleInputChange} />
   }
 }
 

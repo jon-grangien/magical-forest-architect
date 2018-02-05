@@ -1,7 +1,11 @@
 import { h, Component } from 'preact'
-import { actions } from '../../../store'
+import { connect } from 'redux-zero/preact'
 import { bind } from 'decko'
 const styles = require('./style.scss')
+import Formfield from 'preact-material-components/FormField'
+import MaterialSlider from 'preact-material-components/Slider'
+import LayoutGrid from 'preact-material-components/LayoutGrid'
+import 'preact-material-components/LayoutGrid/style.css'
 
 export interface IAppSliderProps {
   min: number
@@ -10,35 +14,65 @@ export interface IAppSliderProps {
   default: number
   value: number
   handleInput: Function
+  isChrome: boolean
 }
 
 /**
  * Test component for checkbox
  */
 class AppSlider extends Component<IAppSliderProps, any> {
+  private el: any
+
   constructor(props: IAppSliderProps) {
     super(props)
   }
 
   @bind
-  handleInput(e: any) {
-    this.props.handleInput(e)
+  handleInput() {
+    this.props.handleInput(this.el.MDComponent.foundation_.getValue())
+
+    // Chrome seems to handle initial layout fine
+    // but Firefox just can't deal with it
+    if (!this.props.isChrome) {
+      this.el.MDComponent.layout()
+    }
+  }
+
+  componentDidMount() {
+
+    // Call the layout adjust function 
+    // for the slider to make it fix itself
+    setTimeout(() => {
+      this.el.MDComponent.layout()
+    }, 10)
   }
 
   render(props: IAppSliderProps) {
-    const val: string = props.value ? props.value.toString() : undefined
+    const displayVal: number = Number((props.value || props.default).toFixed(4)) // fix decimals
 
     return <div class={styles.main}>
-      <input type='range'
-             class={styles.slider}
-             min={props.min}
-             max={props.max}
-             step={props.step}
-             value={val}
-             onInput={this.handleInput} />
-      <div class={styles.value}>{props.value || props.default}</div>
+    <Formfield>
+      <LayoutGrid>
+        <LayoutGrid.Inner>
+          <LayoutGrid.Cell cols={7}>
+            <MaterialSlider disabled={false}  
+                            ref={el => this.el = el}
+                            min={props.min}
+                            max={props.max}
+                            step={props.step}
+                            value={props.value}
+                            onInput={this.handleInput} />
+          </LayoutGrid.Cell>
+          <LayoutGrid.Cell cols={5} align='middle'>
+            <div class={styles.value}>{displayVal}</div>
+          </LayoutGrid.Cell>
+        </LayoutGrid.Inner>
+      </LayoutGrid>
+      </Formfield>
     </div> 
   }
 }
 
-export default AppSlider
+const mapToProps = ({ isChrome }) => ({ isChrome })
+
+export default connect(mapToProps, null)(AppSlider)

@@ -10,6 +10,7 @@ const initialState: any = {
 
   // App state
   renderWater: true,
+  isChrome: !!window['chrome'] && !!window['chrome'].webstore,
 
   // App uniforms
   depth: 50,

@@ -18,9 +18,9 @@ class ScaleSlider extends Component<IScaleSlider, any> {
   }
 
   @bind
-  handleInput(e: any) {
-    const { target } = e
-    const val: number = Number(target.value)
+  handleInput(val: number) {
+    // const val: number = Number(target.value)
+    // const val: number = Number(e.target.attributes['aria-valuenow'].value)
     this.props.changeScale(val)
   }
 

@@ -17,8 +17,8 @@ class MainPlane extends BaseComponent {
   private _size: IPlaneSize
 
   /**
-   * Constructor
-   * @param {IPlaneSize} size - Sizes of geometry. 
+   * @param  {IPlaneSize} size - The size of the plane
+   * @param  {THREE.WebGLRenderer} renderer - The app's renderer to be used for the FBO
    */
   constructor(size: IPlaneSize, renderer: THREE.WebGLRenderer) {
     super()
@@ -29,8 +29,8 @@ class MainPlane extends BaseComponent {
     // var positions = new THREE.DataTexture( data, width, height, THREE.RGBFormat, THREE.FloatType );
 
     const textureHeightShader = new THREE.ShaderMaterial({
-      vertexShader: require('./shaders/height.vert'),
-      fragmentShader: require('./shaders/height.frag'),
+      vertexShader: require('./shaders/displacement.vert'),
+      fragmentShader: require('./shaders/displacement.frag'),
       uniforms
     })
 

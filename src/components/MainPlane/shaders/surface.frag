@@ -1,5 +1,3 @@
-uniform vec2 u_resolution;
-uniform float u_time;
 uniform vec3 u_sunLightColor;
 uniform vec3 u_sunLightPos;
 
@@ -396,8 +394,8 @@ void main() {
 
   // Don't render the fragment at the
   // edges so that plane becomes circular. 
-  // TODO: This should be done once on the cpu.
-  // We don't even save performance here.
+  // TODO: This could be done once on the cpu?
+  // We don't save performance here.
   float centerDistance = distance(vUv, vec2(0.5, 0.5));
   if (centerDistance > 0.5) {
     discard;  
@@ -407,10 +405,8 @@ void main() {
 
   // sun light lambert
   vec3 lightColor = u_sunLightColor;
-  vec3 lightDirection = normalize(vPos.xyz - u_sunLightPos);
+  vec3 lightDirection = normalize(vPos - u_sunLightPos);
   addedLights.rgb += clamp(dot(-lightDirection, vNormal), 0.0, 1.0) * lightColor;
-
-  vec2 st = gl_FragCoord.xy/u_resolution.xy;
 
   vec3 tmp;
   float smallGrass = snoise(0.4 * vPos, tmp)
@@ -419,15 +415,13 @@ void main() {
     + 0.125*snoise(0.32*vPos, tmp)
     + 0.0625*snoise(0.64*vPos, tmp);
 
-  float bigGrass = cnoise(vec4(0.001 * vPos.x, 0.003 * vPos.y, 0.002 * vPos.z, 8.0));
+  // float bigGrass = cnoise(vec4(0.001 * vPos.x, 0.003 * vPos.y, 0.002 * vPos.z, 8.0));
 
-  vec3 ambientColor = 0.35 * vec3(0.6, 0.9, 0.8);
-  ambientColor.rgb += 0.07 * smallGrass;
-  ambientColor.rgb -= 0.4 * abs(bigGrass);
-  vec3 diffuse = mix(ambientColor.rgb + addedLights.rgb, ambientColor.rgb, 0.6);
+  vec3 ambientColor = 0.15 * vec3(0.6, 0.9, 0.8);
+  ambientColor += 0.07 * smallGrass;
+  // ambientColor -= 0.1 * abs(bigGrass);
 
-  //vec4 finalColor = mix(vec4(diffusecolor, 1.0), addedLights, addedLights);
-  vec4 finalColor = vec4(diffuse, 1.0);
+  vec3 diffuse = mix(ambientColor + addedLights.rgb, ambientColor.rgb, 0.6);
 
-  gl_FragColor = finalColor;
+  gl_FragColor = vec4(diffuse, 1.0);
 }

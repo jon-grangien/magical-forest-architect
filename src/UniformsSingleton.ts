@@ -47,7 +47,7 @@ class UniformSingleton {
       u_time: { type: 'f', value: 1.0 },
       u_resolution: { type: 'v2', value: new THREE.Vector2() },
 
-      u_sunLightColor: { type: 'v3', value: new THREE.Vector3(1.0, 0.7, 0.6) },
+      u_sunLightColor: { type: 'v3', value: new THREE.Vector3(0.8, 0.8, 0.9) },
       u_sunLightPos: { type: 'v3', value: new THREE.Vector3(this.sunPosition.x, this.sunPosition.y, this.sunPosition.z) },
       u_sunTexture: { type: 't', value: null },
 

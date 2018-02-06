@@ -1,18 +1,19 @@
 import * as THREE from 'three'
 import UniformSingleton, { IUniforms } from '../../UniformsSingleton'
 import BaseComponent from '../BaseComponent'
+import { IPlaneSize } from '../../utils/CommonInterfaces'
 
 /**
  * App water plane
  */
 class WaterPlane extends BaseComponent {
-  private size: any
+  private size: IPlaneSize
 
   /**
    * Constructor
-   * @param {object} size - Sizes of geometry. Width, height, widthSegments, heightSegments.
+   * @param {IPlaneSize} size - Sizes of geometry. 
    */
-  constructor(size: any) {
+  constructor(size: IPlaneSize) {
     super()
     this.size = size
     this.initialize()
@@ -30,7 +31,7 @@ class WaterPlane extends BaseComponent {
 
     // const test = THREE.ShaderLib.phong.fragmentShader
 
-    const geometry: THREE.PlaneBufferGeometry = new THREE.PlaneBufferGeometry(size.width, size.height, size.widthSegments, size.heightSegments)
+    const geometry: THREE.PlaneBufferGeometry = new THREE.PlaneBufferGeometry(size.width, size.height, size.widthSegs, size.heightSegs)
     const material: THREE.ShaderMaterial = new THREE.ShaderMaterial({
       vertexShader: require('./shaders/surface.vert'),
       fragmentShader: require('./shaders/surface.frag'),

@@ -421,7 +421,7 @@ void main() {
   float height = vPos.z + finalElevation.z;
 
   // Transform normal
-  vec3 g1 = dot(grad, vNormal.xyz) * vNormal.xyz;
+  vec3 g1 = dot(grad, vNormal) * vNormal;
   vec3 g2 = grad - g1;
   vec3 n = vNormal.xyz - g2;
   vec3 transformedNormal = normalize(n);
@@ -433,5 +433,5 @@ void main() {
   // }
 
   // Height map: x = height value, yzw = normal
-  gl_FragColor = vec4(height, transformedNormal);
+  gl_FragColor = vec4(height, transformedNormal.x, transformedNormal.y, transformedNormal.z);
 }

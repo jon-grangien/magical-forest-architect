@@ -89,8 +89,8 @@ class Main extends Component<IMainAppProps, any> {
     app.addComponent(constants.MAIN_PLANE_COMPONENT_KEY, new MainPlane({
       width: constants.PLANE_WIDTH_HEIGHT,
       height: constants.PLANE_WIDTH_HEIGHT,
-      widthSegments: constants.PLANE_WIDTH_HEIGHT_SEGMENTS,
-      heightSegments: constants.PLANE_WIDTH_HEIGHT_SEGMENTS,
+      widthSegs: constants.PLANE_WIDTH_HEIGHT_SEGMENTS,
+      heightSegs: constants.PLANE_WIDTH_HEIGHT_SEGMENTS,
     },
       app.renderer
     ))
@@ -101,8 +101,8 @@ class Main extends Component<IMainAppProps, any> {
     app.addComponent(constants.WATER_COMPONENT_KEY, new WaterPlane({
       width: constants.WATER_WIDTH_HEIGHT,
       height: constants.WATER_WIDTH_HEIGHT,
-      widthSegments: constants.WATER_WIDTH_HEIGHT_SEGMENTS,
-      heightSegments: constants.WATER_WIDTH_HEIGHT_SEGMENTS,
+      widthSegs: constants.WATER_WIDTH_HEIGHT_SEGMENTS,
+      heightSegs: constants.WATER_WIDTH_HEIGHT_SEGMENTS,
     }))
 
     app.addComponent(constants.MESH_STAR_SYSTEM_COMPONENT_KEY, new MeshStarSystem(18, 8000))
@@ -135,8 +135,8 @@ class Main extends Component<IMainAppProps, any> {
             this._appHandle.addComponent(constants.WATER_COMPONENT_KEY, new WaterPlane({
               width: constants.WATER_WIDTH_HEIGHT,
               height: constants.WATER_WIDTH_HEIGHT,
-              widthSegments: constants.WATER_WIDTH_HEIGHT_SEGMENTS,
-              heightSegments: constants.WATER_WIDTH_HEIGHT_SEGMENTS
+              widthSegs: constants.WATER_WIDTH_HEIGHT_SEGMENTS,
+              heightSegs: constants.WATER_WIDTH_HEIGHT_SEGMENTS
             }))
           } else {
             this._appHandle.removeComponent(constants.WATER_COMPONENT_KEY)

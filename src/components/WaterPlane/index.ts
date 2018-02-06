@@ -40,6 +40,7 @@ class WaterPlane extends BaseComponent {
         USE_MAP: ''
       },
       side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
       transparent: true
     })
 

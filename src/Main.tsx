@@ -9,6 +9,7 @@ import AppScene from './AppScene'
 import ShadedSphere from './components/ShadedSphere/'
 import MainPlane from './components/MainPlane/'
 import WaterPlane from './components/WaterPlane/'
+import ContainerGround from './components/ContainerGround/'
 import MeshStarSystem from './components/StarSystem/MeshStarSystem'
 import ParticleStarSystem from './components/StarSystem/ParticleStarSystem'
 import Cloud from './components/Cloud/'
@@ -76,7 +77,7 @@ class Main extends Component<IMainAppProps, any> {
     let app = new AppScene()
     this._appHandle = app
 
-    function onWindowResize() {
+    const onWindowResize = () => {
       app.renderer.setSize(window.innerWidth, window.innerHeight)
       app.camera.aspect = window.innerWidth / window.innerHeight
       app.camera.updateProjectionMatrix()
@@ -104,6 +105,8 @@ class Main extends Component<IMainAppProps, any> {
       widthSegs: constants.WATER_WIDTH_HEIGHT_SEGMENTS,
       heightSegs: constants.WATER_WIDTH_HEIGHT_SEGMENTS,
     }))
+
+    app.addComponent('bigcylinder', new ContainerGround())
 
     app.addComponent(constants.MESH_STAR_SYSTEM_COMPONENT_KEY, new MeshStarSystem(18, 8000))
     app.addComponent(constants.PARTICLE_STAR_SYSTEM_COMPONENT_KEY, new ParticleStarSystem(500, 6000))

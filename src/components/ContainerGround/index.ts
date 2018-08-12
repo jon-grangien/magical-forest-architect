@@ -47,6 +47,7 @@ class ContainerGround extends BaseComponent {
     const openEnded = true
     const color = 0x110a00
 
+
     const cylGeometry = new THREE.CylinderBufferGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded)
     // const geometry: THREE.PlaneBufferGeometry = new THREE.PlaneBufferGeometry(size.width, size.height, size.widthSegs, size.heightSegs)
     // const material: THREE.ShaderMaterial = new THREE.ShaderMaterial({
@@ -85,25 +86,16 @@ class ContainerGround extends BaseComponent {
     this.add(bottom)
 
     // turtle
-    // OBJLoader(THREE)
-    // MTLLoader(THREE)
     const path = 'turtle/'
-    // const mtlLoader = new MTLLoader()
     const objLoader = new THREE.OBJLoader2()
     objLoader.setPath(path)
-    // mtlLoader.setPath(path)
-
-    // const mtlLoader = MTLLoader(THREE)
-
-    // const xhrResponse = (xhr) => { console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' ) }
-    // const xhrError = (error) => { console.log( 'An error happened', error ) }
 
     const onLoadObj = (event: any) => {
       const group = event.detail.loaderRootNode as Group
 
       console.log(group)
       const pos = group.position
-      group.position.set(pos.x, pos.y, pos.z - 1700)
+      group.position.set(pos.x, pos.y, pos.z - 1800)
 
       group.rotation.z = Math.PI / 2
 
@@ -128,8 +120,8 @@ class ContainerGround extends BaseComponent {
     const time = UniformSingleton.Instance.uniforms.u_time.value
 
     if (this.turtle) {
-      this.turtle.position.z += 5.0 * Math.sin(1.5 * time)
-      this.turtle.position.x += 2.5 * Math.sin(time)
+      this.turtle.position.z += 1.0 * Math.sin(0.5 * time)
+      this.turtle.position.x += 0.5 * Math.sin(0.3 * time)
     }
   }
 }

@@ -38,7 +38,8 @@ class ContainerGround extends BaseComponent {
   initialize() {
     // const { size } = this
     // const unis: any = UniformSingleton.Instance.uniforms
-    //
+    
+    const uniforms = UniformSingleton.Instance.uniforms
     const radiusTop = (4096 / 2) + 32
     const radiusBottom = radiusTop - (radiusTop / 16)
     const height = 512
@@ -50,17 +51,6 @@ class ContainerGround extends BaseComponent {
 
     const cylGeometry = new THREE.CylinderBufferGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded)
     // const geometry: THREE.PlaneBufferGeometry = new THREE.PlaneBufferGeometry(size.width, size.height, size.widthSegs, size.heightSegs)
-    // const material: THREE.ShaderMaterial = new THREE.ShaderMaterial({
-    //   vertexShader: require('./shaders/surface.vert'),
-    //   fragmentShader: require('./shaders/surface.frag'),
-    //   uniforms,
-    //   defines: {
-    //     USE_MAP: ''
-    //   },
-    //   side: THREE.DoubleSide,
-    //   blending: THREE.AdditiveBlending,
-    //   transparent: true
-    // })
     const cylMaterial = new THREE.MeshBasicMaterial({
       color,
       side: THREE.DoubleSide
@@ -73,17 +63,32 @@ class ContainerGround extends BaseComponent {
     cylinder.position.set(pos.x, pos.y, pos.z - 250)
 
     const bottomGeo = new THREE.CircleBufferGeometry(radiusBottom, 64) // 32?
-    const bottomMat = new THREE.MeshBasicMaterial({
+
+    const bottomMatBasic = new THREE.MeshBasicMaterial({
       color,
-      side: THREE.DoubleSide
+      side: THREE.BackSide
     })
-    const bottom = new THREE.Mesh(bottomGeo, bottomMat)
+
+    const bottomMatOceanSurface: THREE.ShaderMaterial = new THREE.ShaderMaterial({
+      vertexShader: require('./shaders/oceansurface.vert'),
+      fragmentShader: require('./shaders/oceansurface.frag'),
+      uniforms,
+      defines: {
+        USE_MAP: ''
+      },
+      side: THREE.FrontSide,
+      blending: THREE.AdditiveBlending
+    })
+    const bottom = new THREE.Mesh(bottomGeo, bottomMatOceanSurface)
+    const bottomBackside = new THREE.Mesh(bottomGeo, bottomMatBasic)
 
     pos = bottom.position
     bottom.position.set(pos.x, pos.y, pos.z - 500)
+    bottomBackside.position.set(pos.x, pos.y, pos.z) // pos was modified
 
     this.add(cylinder)
     this.add(bottom)
+    this.add(bottomBackside)
 
     // turtle
     const path = 'turtle/'

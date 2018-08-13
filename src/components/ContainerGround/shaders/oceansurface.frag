@@ -85,9 +85,9 @@ void main() {
   pattern = max(0.0, pattern);
 
   // adjust intensity
-  pattern = pattern * 0.9;
+  pattern = pattern * 0.7;
 
-  vec3 color = vec3(0.7, 1.0, 0.95);
+  vec3 color = vec3(1.0, 0.9, 0.60);
 
   gl_FragColor = vec4(color - pattern, 1.0);
 }

@@ -5,6 +5,7 @@ import DepthSlider from './sliders/DepthSlider'
 import HeightSlider from './sliders/HeightSlider'
 import ScaleSlider from './sliders/ScaleSlider'
 import RenderWaterCheckbox from './RenderWaterCheckbox'
+import RenderGroundEnvCheckbox from './RenderGroundEnvCheckbox'
 
 export interface IGuiState {
   renderedOnce: boolean
@@ -46,6 +47,9 @@ class GUI extends Component<any, IGuiState> {
         </MenuItem>
         <MenuItem label='Render water'>
           <RenderWaterCheckbox />
+        </MenuItem>
+        <MenuItem label='Render container'>
+          <RenderGroundEnvCheckbox />
         </MenuItem>
       </Menu>
     )

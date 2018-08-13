@@ -1,6 +1,4 @@
 import * as THREE from 'three'
-// import * as OBJLoader from 'three-obj-loader'
-// import * as MTLLoader from 'three-mtl-loader'
 import UniformSingleton from '../../UniformsSingleton'
 
 import {
@@ -22,23 +20,17 @@ import {
  * App containing ground
  */
 class ContainerGround extends BaseComponent {
-  private turtle: THREE.Group
-  private localTime: number = 0.001
+  private _turtle: THREE.Group
 
   /**
    * Constructor
-   * @param {IPlaneSize} size - Sizes of geometry. 
    */
   constructor() {
     super()
-    // this.size = size
     this.initialize()
   }
 
   initialize() {
-    // const { size } = this
-    // const unis: any = UniformSingleton.Instance.uniforms
-    
     const uniforms = UniformSingleton.Instance.uniforms
     const radiusTop = (4096 / 2) + 32
     const radiusBottom = radiusTop - (radiusTop / 16)
@@ -50,7 +42,6 @@ class ContainerGround extends BaseComponent {
 
 
     const cylGeometry = new THREE.CylinderBufferGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded)
-    // const geometry: THREE.PlaneBufferGeometry = new THREE.PlaneBufferGeometry(size.width, size.height, size.widthSegs, size.heightSegs)
     const cylMaterial = new THREE.MeshBasicMaterial({
       color,
       side: THREE.DoubleSide
@@ -105,7 +96,7 @@ class ContainerGround extends BaseComponent {
       group.rotation.z = Math.PI / 2
 
       group.scale.set(50, 50, 50)
-      this.turtle = group
+      this._turtle = group
       this.add(group)
     }
 
@@ -124,9 +115,9 @@ class ContainerGround extends BaseComponent {
   public update(): void {
     const time = UniformSingleton.Instance.uniforms.u_time.value
 
-    if (this.turtle) {
-      this.turtle.position.z += 1.0 * Math.sin(0.5 * time)
-      this.turtle.position.x += 0.5 * Math.sin(0.3 * time)
+    if (this._turtle) {
+      this._turtle.position.z += 1.0 * Math.sin(0.5 * time)
+      this._turtle.position.x += 0.5 * Math.sin(0.3 * time)
     }
   }
 }

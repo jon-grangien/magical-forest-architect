@@ -21,6 +21,7 @@ declare let GOOGLE_WEB_FONTS: string[]
 
 interface IMainAppProps {
   renderWater: boolean
+  renderGroundEnv: boolean
   depth: number
   height: number
   scale: number
@@ -106,7 +107,7 @@ class Main extends Component<IMainAppProps, any> {
       heightSegs: constants.WATER_WIDTH_HEIGHT_SEGMENTS,
     }))
 
-    app.addComponent('bigcylinder', new ContainerGround())
+    app.addComponent(constants.GROUND_ENV_COMPONENT_KEY, new ContainerGround())
 
     app.addComponent(constants.MESH_STAR_SYSTEM_COMPONENT_KEY, new MeshStarSystem(18, 8000))
     app.addComponent(constants.PARTICLE_STAR_SYSTEM_COMPONENT_KEY, new ParticleStarSystem(500, 6000))
@@ -145,6 +146,14 @@ class Main extends Component<IMainAppProps, any> {
             this._appHandle.removeComponent(constants.WATER_COMPONENT_KEY)
           }
         }
+
+        else if (nextProps[key] !== this.props[key] && key === 'renderGroundEnv') {
+          if (nextProps[key]) {
+            this._appHandle.addComponent(constants.GROUND_ENV_COMPONENT_KEY, new ContainerGround())
+          } else {
+            this._appHandle.removeComponent(constants.GROUND_ENV_COMPONENT_KEY)
+          }
+        }
       }
     }
   }
@@ -166,8 +175,9 @@ class Main extends Component<IMainAppProps, any> {
   }
 }
 
-const mapToProps = ({ renderWater, depth, height, scale, stateAsUniforms, isChrome }): IMainAppProps => ({ 
+const mapToProps = ({ renderWater, renderGroundEnv, depth, height, scale, stateAsUniforms, isChrome }): IMainAppProps => ({ 
   renderWater, 
+  renderGroundEnv, 
   depth, 
   height, 
   scale, 

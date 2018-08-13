@@ -10,6 +10,7 @@ const initialState: any = {
 
   // App state
   renderWater: true,
+  renderGroundEnv: true,
   isChrome: !!window['chrome'] && !!window['chrome'].webstore,
 
   // App uniforms
@@ -29,6 +30,7 @@ export const store = (createStore as any)(initialState, middlewares)
 export const actions = (_store) => ({
   toggleMenuVisible: ({ menuVisible }) => ({ menuVisible: !menuVisible }),
   toggleRenderWater: ({ renderWater }) => ({ renderWater: !renderWater }),
+  toggleRenderGroundEnv: ({ renderGroundEnv }) => ({ renderGroundEnv: !renderGroundEnv }),
 
   changeDepth: (_state: any, val: number) => ({ depth: val }),
   changeHeight: (_state: any, val: number) => ({ height: val }),

@@ -1,6 +1,7 @@
 // App object keys
 export const MAIN_PLANE_COMPONENT_KEY: string = 'plane'
 export const WATER_COMPONENT_KEY: string = 'water'
+export const GROUND_ENV_COMPONENT_KEY: string = 'ground_environment'
 export const SHADED_SPHERE_COMPONENT_KEY: string = 'shadedsphere'
 export const MESH_STAR_SYSTEM_COMPONENT_KEY: string = 'meshstarsystem'
 export const PARTICLE_STAR_SYSTEM_COMPONENT_KEY: string = 'particlestarsystem'

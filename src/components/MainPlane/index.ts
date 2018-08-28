@@ -13,7 +13,6 @@ class MainPlane extends BaseComponent {
   private appRenderer: THREE.WebGLRenderer
   private _planeFBO: FBOHelper
   private _surfaceMaterial: THREE.Material
-  private _surfaceMaterialUniforms: any
   private _size: IPlaneSize
 
   /**
@@ -38,18 +37,20 @@ class MainPlane extends BaseComponent {
     this._planeFBO.render()
     UniformSingleton.Instance.registerHillValueListener(this.PLANE_FBO_LISTENER)
 
-    this._surfaceMaterialUniforms = {
-      u_heightmap: { value: this._planeFBO.texture },
-      u_sunLightColor: { value: uniforms.u_sunLightColor.value },
-      u_sunLightPos: { value: uniforms.u_sunLightPos.value }
-    }
+    // this._surfaceMaterialUniforms = {
+    //   u_heightmap: { value: this._planeFBO.texture },
+    //   u_sunLightColor: { value: uniforms.u_sunLightColor.value },
+    //   u_sunLightPos: { value: UniformSingleton.Instance.uniforms.u_sunLightPos.value }
+    // }
+
+    uniforms.u_heightMap.value = this._planeFBO.texture 
 
     const geometry = new THREE.PlaneBufferGeometry(this._size.width, this._size.height, this._size.widthSegs, this._size.heightSegs)
     this._surfaceMaterial = new THREE.ShaderMaterial({
       vertexShader: require('./shaders/surface.vert'),
       fragmentShader: require('./shaders/surface.frag'),
       side: THREE.DoubleSide,
-      uniforms: this._surfaceMaterialUniforms
+      uniforms: uniforms
     })
 
     this.add(new THREE.Mesh(geometry, this._surfaceMaterial))
@@ -63,6 +64,9 @@ class MainPlane extends BaseComponent {
       this._planeFBO.render()
       UniformSingleton.Instance.hillValueListenerHandledChange(this.PLANE_FBO_LISTENER)
     }
+
+    // const updatedSunLightPos = UniformSingleton.Instance.uniforms.u_sunLightPos.value
+    // this._surfaceMaterialUniforms.u_sunLightPos.value = updatedSunLightPos
   }
 
   private addUnderSideGround(): void {
@@ -71,7 +75,7 @@ class MainPlane extends BaseComponent {
       vertexShader: require('./shaders/undersideground.vert'),
       fragmentShader: require('./shaders/undersideground.frag'),
       side: THREE.DoubleSide,
-      uniforms: this._surfaceMaterialUniforms
+      uniforms: UniformSingleton.Instance.uniforms
     })
     const ground = new THREE.Mesh(geometry, material)
     // ground.position.z = 0

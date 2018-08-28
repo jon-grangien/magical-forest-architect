@@ -6,6 +6,7 @@ import HeightSlider from './sliders/HeightSlider'
 import ScaleSlider from './sliders/ScaleSlider'
 import RenderWaterCheckbox from './RenderWaterCheckbox'
 import RenderGroundEnvCheckbox from './RenderGroundEnvCheckbox'
+import MovingSunCheckbox from './MovingSunCheckbox'
 
 export interface IGuiState {
   renderedOnce: boolean
@@ -50,6 +51,9 @@ class GUI extends Component<any, IGuiState> {
         </MenuItem>
         <MenuItem label='Render container'>
           <RenderGroundEnvCheckbox />
+        </MenuItem>
+        <MenuItem label='Toggle moving sun'>
+          <MovingSunCheckbox />
         </MenuItem>
       </Menu>
     )

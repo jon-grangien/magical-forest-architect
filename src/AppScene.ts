@@ -34,12 +34,6 @@ class AppScene {
 
     const uniforms = Uniforms.Instance.uniforms
 
-    // Add sun
-    const sunLightColor = 0xF4F142
-    const sunPos = uniforms.u_sunLightPos.value
-    this.sun = new Sun(512, 32, 32, sunPos, sunLightColor)
-    this.scene.add( this.sun )
-
     // Renderer
     this.renderer = new THREE.WebGLRenderer()
     this.renderer.setSize(window.innerWidth, window.innerHeight)
@@ -77,6 +71,13 @@ class AppScene {
     return component
   }
 
+  /**
+   * @param key - Name of the component
+   */
+  getComponent(key: string) {
+    return this.components[key]
+  }
+
   render() {
     requestAnimationFrame(() => {
       this.render()
@@ -91,9 +92,6 @@ class AppScene {
         this.components[key].update()
       }
     }
-
-    this.sun.position.x += 0.09 * Math.sin(0.08 * Uniforms.Instance.uniforms.u_time.value)
-    Uniforms.Instance.uniforms.u_sunLightPos.value = this.sun.position
 
     this.renderer.render(this.scene, this.camera)
     this.controls.update()

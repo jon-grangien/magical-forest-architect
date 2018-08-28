@@ -1,4 +1,5 @@
 // App object keys
+export const SUN_COMPONENT_KEY: string = 'sun'
 export const MAIN_PLANE_COMPONENT_KEY: string = 'plane'
 export const WATER_COMPONENT_KEY: string = 'water'
 export const GROUND_ENV_COMPONENT_KEY: string = 'ground_environment'
@@ -7,7 +8,12 @@ export const MESH_STAR_SYSTEM_COMPONENT_KEY: string = 'meshstarsystem'
 export const PARTICLE_STAR_SYSTEM_COMPONENT_KEY: string = 'particlestarsystem'
 export const CLOUD_COMPONENT_KEY: string = 'cloud'
 
+export const SUN_LIGHT_COLOR: number = 0xF4F142
 export const NUMBER_OF_CLOUDS: number = 3
+
+export const RENDER_WATER_STATE_KEY: string = 'renderWater'
+export const RENDER_GROUND_ENV_STATE_KEY: string = 'renderGroundEnv'
+export const MOVING_SUN_STATE_KEY: string = 'movingSun'
 
 // Water properties
 export const PLANE_WIDTH_HEIGHT: number = 2048

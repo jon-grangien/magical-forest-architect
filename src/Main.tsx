@@ -6,7 +6,7 @@ import GUI from './GUI'
 import InfoBox from './GUI/InfoBox'
 
 import AppScene from './AppScene'
-import ShadedSphere from './components/ShadedSphere/'
+import Sun from './components/Sun'
 import MainPlane from './components/MainPlane/'
 import WaterPlane from './components/WaterPlane/'
 import ContainerGround from './components/ContainerGround/'
@@ -22,6 +22,7 @@ declare let GOOGLE_WEB_FONTS: string[]
 interface IMainAppProps {
   renderWater: boolean
   renderGroundEnv: boolean
+  movingSun: boolean
   depth: number
   height: number
   scale: number
@@ -88,6 +89,13 @@ class Main extends Component<IMainAppProps, any> {
 
     window.addEventListener( 'resize', onWindowResize, false )
 
+    app.addComponent(constants.SUN_COMPONENT_KEY, new Sun(
+      512,
+      32,
+      32,
+      constants.SUN_LIGHT_COLOR
+    ))
+
     app.addComponent(constants.MAIN_PLANE_COMPONENT_KEY, new MainPlane({
       width: constants.PLANE_WIDTH_HEIGHT,
       height: constants.PLANE_WIDTH_HEIGHT,
@@ -123,6 +131,11 @@ class Main extends Component<IMainAppProps, any> {
 
   // Simple bridge between redux store and uniforms
   componentWillReceiveProps(nextProps: IMainAppProps) {
+
+    const propChanged = (propKey: string) => {
+      return nextProps[propKey] !== this.props[propKey] 
+    }
+
     for (let key in nextProps) {
       if (nextProps.hasOwnProperty(key)) {
 
@@ -132,7 +145,7 @@ class Main extends Component<IMainAppProps, any> {
           UniformSingleton.Instance.setHillValuesUpdated()
         }
 
-        else if (nextProps[key] !== this.props[key] && key === 'renderWater') {
+        else if (propChanged(key) && key === constants.RENDER_WATER_STATE_KEY) {
 
           // Add or remove water component
           if (nextProps[key]) {
@@ -147,11 +160,20 @@ class Main extends Component<IMainAppProps, any> {
           }
         }
 
-        else if (nextProps[key] !== this.props[key] && key === 'renderGroundEnv') {
+        else if (propChanged(key) && key === constants.RENDER_GROUND_ENV_STATE_KEY) {
           if (nextProps[key]) {
             this._appHandle.addComponent(constants.GROUND_ENV_COMPONENT_KEY, new ContainerGround())
           } else {
             this._appHandle.removeComponent(constants.GROUND_ENV_COMPONENT_KEY)
+          }
+        }
+
+        else if (propChanged(key) && key === constants.MOVING_SUN_STATE_KEY) {
+          const theSun = this._appHandle.getComponent(constants.SUN_COMPONENT_KEY)
+          if (nextProps[key]) {
+            theSun.setMoving(true)
+          } else {
+            theSun.setMoving(false)
           }
         }
       }
@@ -175,14 +197,24 @@ class Main extends Component<IMainAppProps, any> {
   }
 }
 
-const mapToProps = ({ renderWater, renderGroundEnv, depth, height, scale, stateAsUniforms, isChrome }): IMainAppProps => ({ 
-  renderWater, 
-  renderGroundEnv, 
-  depth, 
-  height, 
-  scale, 
-  stateAsUniforms,
-  isChrome
+const mapToProps = ({ 
+    renderWater, 
+    renderGroundEnv, 
+    movingSun,
+    depth, 
+    height, 
+    scale, 
+    stateAsUniforms, 
+    isChrome 
+  }): IMainAppProps => ({ 
+    renderWater, 
+    renderGroundEnv, 
+    movingSun,
+    depth, 
+    height, 
+    scale, 
+    stateAsUniforms,
+    isChrome
 })
 
 export default connect(mapToProps, actions)(Main)

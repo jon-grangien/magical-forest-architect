@@ -58,8 +58,11 @@ class UniformSingleton {
       u_scale: { type: 'f', value: 0.0005 },
 
       u_spikyness: { type: 'f', value: 0.0001 },
+
+      u_heightMap: { type: 't', value: null}
     }
   }
+
 
   public setHillValuesUpdated(): void {
     this._hillValuesUpdated = true

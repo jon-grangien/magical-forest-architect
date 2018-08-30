@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 const TrackballControls = require('three-trackballcontrols')
+import * as TWEEN from '@tweenjs/tween.js'
 // import TrackballControls from 'three-trackballcontrols'
 
 import Sun from './components/Sun'
@@ -79,7 +80,8 @@ class AppScene {
   }
 
   render() {
-    requestAnimationFrame(() => {
+    requestAnimationFrame((time: any) => {
+      TWEEN.update(time)
       this.render()
     })
 

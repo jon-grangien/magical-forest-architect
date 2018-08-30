@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { IPos3D } from './utils/CommonInterfaces'
+import { SUN_INITIAL_POSITION } from './constants'
 
 export interface IAUni {
   type: string,
@@ -34,7 +35,6 @@ class UniformSingleton {
 
   public uniforms: IUniforms
 
-  private sunPosition: IPos3D
   private _hillValuesUpdated: boolean
   private _hillValueListeners: IHillValueListeners
 
@@ -42,13 +42,12 @@ class UniformSingleton {
     this._hillValuesUpdated = false
     this._hillValueListeners = {}
 
-    this.sunPosition = { x: 450.0, y: 5000.0, z: 400.0 }
     this.uniforms = {
       u_time: { type: 'f', value: 1.0 },
       u_resolution: { type: 'v2', value: new THREE.Vector2() },
 
       u_sunLightColor: { type: 'v3', value: new THREE.Vector3(0.8, 0.8, 0.9) },
-      u_sunLightPos: { type: 'v3', value: new THREE.Vector3(this.sunPosition.x, this.sunPosition.y, this.sunPosition.z) },
+      u_sunLightPos: { type: 'v3', value: new THREE.Vector3(SUN_INITIAL_POSITION.x, SUN_INITIAL_POSITION.y, SUN_INITIAL_POSITION.z) },
       u_sunTexture: { type: 't', value: null },
 
       // GUI compatible values

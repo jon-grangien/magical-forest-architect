@@ -56,7 +56,7 @@ class Main extends Component<IMainAppProps, any> {
     if (webFontsToLoad.length > 0) {
       webFontLoaderOptions = (webFontLoaderOptions || {})
       webFontLoaderOptions.google = {
-          families: webFontsToLoad
+        families: webFontsToLoad
       }
     }
 
@@ -87,7 +87,7 @@ class Main extends Component<IMainAppProps, any> {
       uniforms.u_resolution.value.y = app.renderer.domElement.height
     }
 
-    window.addEventListener( 'resize', onWindowResize, false )
+    window.addEventListener('resize', onWindowResize, false)
 
     app.addComponent(constants.SUN_COMPONENT_KEY, new Sun(
       512,
@@ -133,7 +133,7 @@ class Main extends Component<IMainAppProps, any> {
   componentWillReceiveProps(nextProps: IMainAppProps) {
 
     const propChanged = (propKey: string) => {
-      return nextProps[propKey] !== this.props[propKey] 
+      return nextProps[propKey] !== this.props[propKey]
     }
 
     for (let key in nextProps) {
@@ -171,10 +171,8 @@ class Main extends Component<IMainAppProps, any> {
         else if (propChanged(key) && key === constants.MOVING_SUN_STATE_KEY) {
           const theSun = this._appHandle.getComponent(constants.SUN_COMPONENT_KEY)
           if (nextProps[key]) {
-            // theSun.setMoving(true)
             theSun.startTween()
           } else {
-            // theSun.setMoving(false)
             theSun.stopTween()
           }
         }
@@ -192,31 +190,31 @@ class Main extends Component<IMainAppProps, any> {
       return null
     }
 
-    return <div> 
-      <GUI /> 
-      { !props.isChrome && <InfoBox msg={this.CHROME_ADVICE} /> }
+    return <div>
+      <GUI />
+      {!props.isChrome && <InfoBox msg={this.CHROME_ADVICE} />}
     </div>
   }
 }
 
-const mapToProps = ({ 
-    renderWater, 
-    renderGroundEnv, 
-    movingSun,
-    depth, 
-    height, 
-    scale, 
-    stateAsUniforms, 
-    isChrome 
-  }): IMainAppProps => ({ 
-    renderWater, 
-    renderGroundEnv, 
-    movingSun,
-    depth, 
-    height, 
-    scale, 
-    stateAsUniforms,
-    isChrome
+const mapToProps = ({
+  renderWater,
+  renderGroundEnv,
+  movingSun,
+  depth,
+  height,
+  scale,
+  stateAsUniforms,
+  isChrome
+}): IMainAppProps => ({
+  renderWater,
+  renderGroundEnv,
+  movingSun,
+  depth,
+  height,
+  scale,
+  stateAsUniforms,
+  isChrome
 })
 
 export default connect(mapToProps, actions)(Main)

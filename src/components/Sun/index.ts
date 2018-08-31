@@ -8,7 +8,6 @@ import * as TWEEN from '@tweenjs/tween.js'
  * Sun with procedurally animated texture, main light source
  */
 class Sun extends BaseComponent {
-  private isMoving: boolean = false
   private _tween: any
   private _mutatingPos: any
 
@@ -56,10 +55,6 @@ class Sun extends BaseComponent {
 
     this.position.x += 0.09 * Math.sin(0.08 * uniforms.u_time.value)
     UniformSingleton.Instance.uniforms.u_sunLightPos.value = this.position
-  }
-
-  public setMoving(isMoving: boolean) {
-    this.isMoving = isMoving
   }
 
   public startTween() {

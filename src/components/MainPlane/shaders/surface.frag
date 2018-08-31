@@ -421,7 +421,7 @@ void main() {
   ambientColor += 0.07 * smallGrass;
   // ambientColor -= 0.1 * abs(bigGrass);
 
-  vec3 diffuse = mix(ambientColor + addedLights.rgb, ambientColor.rgb, 0.6);
+  vec3 diffuse = ambientColor * 1.2 + addedLights.rgb * 0.2;
 
   gl_FragColor = vec4(diffuse, 1.0);
 }

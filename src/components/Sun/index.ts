@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import UniformSingleton from '../../UniformsSingleton'
 import BaseComponent from '../BaseComponent'
-import { SUN_INITIAL_POSITION } from '../../constants'
+import { SUN_INITIAL_POSITION, NUMBER_OF_SUN_POSITION_TWEENS } from '../../constants'
 import * as TWEEN from '@tweenjs/tween.js'
 
 /**
@@ -9,7 +9,8 @@ import * as TWEEN from '@tweenjs/tween.js'
  */
 class Sun extends BaseComponent {
   private isMoving: boolean = false
-  private tween: any
+  private _tween: any
+  private _mutatingPos: any
 
   /**
    * Constructor
@@ -23,7 +24,7 @@ class Sun extends BaseComponent {
 
     this.setupTween()
 
-    const geometry = new THREE.SphereGeometry(size,  widthSegments, heightSegments)
+    const geometry = new THREE.SphereGeometry(size, widthSegments, heightSegments)
     const material = new THREE.ShaderMaterial({
       vertexShader: require('./shaders/surface.vert'),
       fragmentShader: require('./shaders/surface.frag'),
@@ -41,10 +42,10 @@ class Sun extends BaseComponent {
     this.rotation.z -= Math.PI / 2
 
     // Light source
-    this.add( new THREE.PointLight(lightColor, 5, 10000.0) )
+    this.add(new THREE.PointLight(lightColor, 5, 10000.0))
 
     // Glow object
-    this.add( this.addGlow(size, widthSegments, heightSegments) )
+    this.add(this.addGlow(size, widthSegments, heightSegments))
   }
 
   /**
@@ -53,25 +54,7 @@ class Sun extends BaseComponent {
   public update(): void {
     const { uniforms } = UniformSingleton.Instance
 
-    // if (this.isMoving) {
-    //   this.position.z += 15.0 * Math.sin(0.2 * uniforms.u_time.value) // up
-    //   this.position.y += -60.00 * Math.cos(0.1 * uniforms.u_time.value) // across
-    //   this.position.x += 5.00 * Math.cos(0.1 * uniforms.u_time.value) 
-
-    //   if (this.position.y < -3000) {
-    //     this.position.y = -3000
-    //   } else if (this.position.y > 5000) {
-    //     this.position.y = 5000
-    //   }
-
-    //   if (this.position.z < -100) {
-    //     this.position.z = -100
-    //   }
-
-    // } else {
-    //   this.position.x += 0.09 * Math.sin(0.08 * uniforms.u_time.value)
-    // }
-
+    this.position.x += 0.09 * Math.sin(0.08 * uniforms.u_time.value)
     UniformSingleton.Instance.uniforms.u_sunLightPos.value = this.position
   }
 
@@ -80,12 +63,11 @@ class Sun extends BaseComponent {
   }
 
   public startTween() {
-    console.log('hello')
-    this.tween.start()
+    this._tween.start()
   }
 
   public stopTween() {
-    this.tween.stop()
+    this._tween.stop()
     this.setPositionToInitial()
   }
 
@@ -104,19 +86,86 @@ class Sun extends BaseComponent {
     return new THREE.Mesh(geometry, material)
   }
 
+  private calculateZTweenSteps(nSteps: number, range: number): Array<number> {
+    const step = range / nSteps
+
+    let steps = []
+    for (let i = 0; i < nSteps / 2; i++) {
+      steps.push((SUN_INITIAL_POSITION.z + (i + 1) * step) - (i * step / 3))
+    }
+
+    let reversed = steps.slice().reverse()
+    reversed.shift()
+    reversed.push(SUN_INITIAL_POSITION.z)
+
+    return steps.concat(reversed)
+  }
+
+  private resetMutatingPos() {
+    this._mutatingPos = { ...SUN_INITIAL_POSITION }
+  }
+
   private setupTween() {
-    this.tween = new TWEEN.Tween(SUN_INITIAL_POSITION)
-      .to({x: 450.0, y: -5000.0, z: 1000.0}, 5000)
-      .repeat(Infinity)
-      .delay(0)
-      .onUpdate(obj => {
-        console.log(obj.y)
-        this.position.set(obj.x, obj.y, obj.z)
-      })
+    const xPos = 450.0
+    const yPosRange = Math.abs(SUN_INITIAL_POSITION.y * 2)
+    const zPosRange = Math.abs(SUN_INITIAL_POSITION.z * 20)
+    const amountTweens = NUMBER_OF_SUN_POSITION_TWEENS
+    const yStep = yPosRange / amountTweens
+
+    if (amountTweens % 2 !== 0) {
+      console.error(`amountTweens should be an even number but is ${amountTweens}`)
+    }
+
+    const zSteps = this.calculateZTweenSteps(amountTweens, zPosRange)
+    const setPos = (obj) => this.position.set(obj.x, obj.y, obj.z)
+
+    this.resetMutatingPos()
+
+    let lastTween
+    for (let i = 0; i < amountTweens; i++) {
+      const iterFirst = i === 0
+      const iterLast = i === amountTweens - 1
+
+      const yTarget = SUN_INITIAL_POSITION.y - (i + 1) * yStep
+      const zTarget = zSteps[i]
+
+      const tween = new TWEEN.Tween(this._mutatingPos)
+        .to({
+          x: xPos,
+          y: yTarget,
+          z: zTarget
+        }, 3000)
+        .delay(0)
+        .onUpdate(obj => {
+          setPos(obj)
+        })
+
+      if (iterFirst) {
+        this._tween = tween
+        lastTween = this._tween
+      } else {
+        lastTween.chain(tween)
+        lastTween = tween
+      }
+
+      if (iterLast) {
+        const resetToStartTween = new TWEEN.Tween(this._mutatingPos)
+          .to({
+            x: SUN_INITIAL_POSITION.x,
+            y: SUN_INITIAL_POSITION.y,
+            z: SUN_INITIAL_POSITION.z
+          }, 1)
+          .delay(0)
+          .onUpdate(obj => setPos(obj))
+          .onComplete(() => this._tween.start())
+
+        tween.chain(resetToStartTween)
+      }
+    }
   }
 
   private setPositionToInitial() {
-    this.position.set(SUN_INITIAL_POSITION.x, SUN_INITIAL_POSITION.y, SUN_INITIAL_POSITION.z) // gets mutated
+    this.position.set(SUN_INITIAL_POSITION.x, SUN_INITIAL_POSITION.y, SUN_INITIAL_POSITION.z)
   }
 }
 

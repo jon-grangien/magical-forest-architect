@@ -89,7 +89,6 @@ class ContainerGround extends BaseComponent {
     const onLoadObj = (event: any) => {
       const group = event.detail.loaderRootNode as Group
 
-      console.log(group)
       const pos = group.position
       group.position.set(pos.x, pos.y, pos.z - 1800)
 

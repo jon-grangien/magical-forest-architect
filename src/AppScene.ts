@@ -80,8 +80,8 @@ class AppScene {
   }
 
   render() {
-    requestAnimationFrame((time: any) => {
-      TWEEN.update(time)
+    requestAnimationFrame(() => {
+      TWEEN.update()
       this.render()
     })
 

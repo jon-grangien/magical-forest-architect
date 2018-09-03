@@ -83,12 +83,11 @@ class MainPlane extends BaseComponent {
     let xCoord = Math.floor(x + width / 2)
     let yCoord = Math.floor(y + height / 2)
 
-    const channelShift = 0
-    const idx = Math.floor(yCoord * width * 4 + (xCoord * 4) + channelShift)
-    console.log(`idx=${idx}, this.planeFBOPixels[idx]=${this._planeFBOPixels[idx]}`)
+    const idx = Math.floor(yCoord * width * 4 + (xCoord * 4))
 
-    if (idx > this._planeFBOPixels.length) {
-      console.error('Tried to access out of range pixel value from FBO pixel array')
+    const pixelLength = this._planeFBOPixels.length
+    if (idx > pixelLength) {
+      console.error(`Tried to access pixel ${idx} in range of only ${pixelLength} in FBO pixel array`)
       return -999999
     }
 

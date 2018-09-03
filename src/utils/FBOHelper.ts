@@ -9,10 +9,12 @@ class FBOHelper {
   private _scene: THREE.Scene
   private _orthographicCamera: THREE.OrthographicCamera
   private _renderTarget: THREE.WebGLRenderTarget
+  private _gl: WebGLRenderingContext
 
   constructor(width: number, height: number, renderer: THREE.WebGLRenderer, shader: THREE.ShaderMaterial) {
     this._renderer = renderer
     const gl: WebGLRenderingContext = this._renderer.getContext()
+    this._gl = gl
 
     if (!gl.getExtension('OES_texture_float')) {
       throw new Error('Float textures are not supported')
@@ -55,6 +57,12 @@ class FBOHelper {
 
   get texture(): THREE.Texture {
     return this._renderTarget.texture
+  }
+
+  get imageData(): any {
+    let pixels = new Uint8Array(this._renderTarget.width * this._renderTarget.height * 4)
+    this._gl.readPixels(0, 0, this._renderTarget.width, this._renderTarget.height, this._gl.RGBA, this._gl.UNSIGNED_BYTE, pixels)
+    return pixels.slice()
   }
 }
 

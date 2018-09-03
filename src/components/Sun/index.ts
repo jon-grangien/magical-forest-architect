@@ -57,11 +57,11 @@ class Sun extends BaseComponent {
     UniformSingleton.Instance.uniforms.u_sunLightPos.value = this.position
   }
 
-  public startTween() {
+  public startMovement() {
     this._tween.start()
   }
 
-  public stopTween() {
+  public stopMovement() {
     this._tween.stop()
     this.setPositionToInitial()
   }

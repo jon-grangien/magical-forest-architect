@@ -405,8 +405,10 @@ void main() {
 
   // sun light lambert
   vec3 lightColor = u_sunLightColor;
-  vec3 lightDirection = normalize(vPos - u_sunLightPos);
-  addedLights.rgb += clamp(dot(-lightDirection, vNormal), 0.0, 1.0) * lightColor;
+  vec3 lightPos = u_sunLightPos;
+  // lightPos.z = -lightPos.z;
+  vec3 lightDirection = normalize(vPos - lightPos);
+  addedLights.rgb += clamp(dot(-lightDirection, vNormal), 0.0, 1.0) + lightColor; // multiply for more accurate
 
   vec3 tmp;
   float smallGrass = snoise(0.4 * vPos, tmp)

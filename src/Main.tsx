@@ -171,9 +171,9 @@ class Main extends Component<IMainAppProps, any> {
         else if (propChanged(key) && key === constants.MOVING_SUN_STATE_KEY) {
           const theSun = this._appHandle.getComponent(constants.SUN_COMPONENT_KEY)
           if (nextProps[key]) {
-            theSun.startTween()
+            theSun.startMovement()
           } else {
-            theSun.stopTween()
+            theSun.stopMovement()
           }
         }
       }

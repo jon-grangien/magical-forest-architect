@@ -143,10 +143,10 @@ class MainPlane extends BaseComponent {
     const onLoadMtl = (loadedMaterials: MaterialCreator) => {
       objLoader.setModelName('lowpolytree')
       objLoader.setMaterials(loadedMaterials)
-      objLoader.load('CartoonTree.obj', onLoadObj, null, null, null, false)
+      objLoader.load('cartoontree_new.obj', onLoadObj, null, null, null, false)
     }
 
-    objLoader.loadMtl('cartoontree/CartoonTree.mtl', null, onLoadMtl)
+    objLoader.loadMtl('cartoontree/cartoontree_new.mtl', null, onLoadMtl)
   }
 
   // private addUnderSideGround(): void {

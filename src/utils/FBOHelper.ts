@@ -59,9 +59,11 @@ class FBOHelper {
     return this._renderTarget.texture
   }
 
-  get imageData(): any {
-    let pixels = new Uint8Array(this._renderTarget.width * this._renderTarget.height * 4)
-    this._gl.readPixels(0, 0, this._renderTarget.width, this._renderTarget.height, this._gl.RGBA, this._gl.UNSIGNED_BYTE, pixels)
+  get imageData(): Float32Array {
+    console.log(this._gl)
+    console.log(this._gl.readPixels)
+    let pixels = new Float32Array(this._renderTarget.width * this._renderTarget.height * 4)
+    this._gl.readPixels(0, 0, this._renderTarget.width, this._renderTarget.height, this._gl.RGBA, this._gl.FLOAT, pixels)
     return pixels.slice()
   }
 }

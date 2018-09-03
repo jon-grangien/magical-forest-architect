@@ -22,6 +22,7 @@ export interface IAppSliderProps {
  */
 class AppSlider extends Component<IAppSliderProps, any> {
   private el: any
+  private _layoutAdjustInterval: any
 
   constructor(props: IAppSliderProps) {
     super(props)
@@ -31,8 +32,8 @@ class AppSlider extends Component<IAppSliderProps, any> {
   handleInput() {
     this.props.handleInput(this.el.MDComponent.foundation_.getValue())
 
-    // Chrome seems to handle initial layout fine
-    // but Firefox just can't deal with it
+    // Chrome seems to handle input 
+    // change but not Firefox 
     if (!this.props.isChrome) {
       this.el.MDComponent.layout()
     }
@@ -44,7 +45,15 @@ class AppSlider extends Component<IAppSliderProps, any> {
     // for the slider to make it fix itself
     setTimeout(() => {
       this.el.MDComponent.layout()
-    }, 10)
+    }, 1000)
+
+    this._layoutAdjustInterval = setInterval(() => {
+      this.el.MDComponent.layout()
+    }, 1000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this._layoutAdjustInterval)
   }
 
   render(props: IAppSliderProps) {

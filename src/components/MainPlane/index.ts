@@ -1,4 +1,13 @@
 import * as THREE from 'three'
+import {
+  Group,
+  MaterialCreator,
+  OBJLoader2
+} from 'three'
+require('imports-loader?THREE=three!three/examples/js/loaders/LoaderSupport.js')
+require('imports-loader?THREE=three!three/examples/js/loaders/MTLLoader.js')
+require('imports-loader?THREE=three!three/examples/js/loaders/OBJLoader2.js')
+
 import UniformSingleton, { IUniforms } from '../../UniformsSingleton'
 import FBOHelper from '../../utils/FBOHelper'
 import BaseComponent from '../BaseComponent'
@@ -17,6 +26,7 @@ class MainPlane extends BaseComponent {
   private _planeMesh: THREE.Mesh
 
   private _intersectionBall: THREE.Object3D
+  private _trees: THREE.Group
 
   /**
    * @param  {IPlaneSize} size - The size of the plane
@@ -55,6 +65,8 @@ class MainPlane extends BaseComponent {
     const ballMat = new THREE.MeshBasicMaterial({ color: 0xffff00 })
     this._intersectionBall = new THREE.Mesh(ballGeo, ballMat)
     this.add(this._intersectionBall)
+
+    this.addTestTree()
   }
 
   /**
@@ -64,7 +76,11 @@ class MainPlane extends BaseComponent {
     if (UniformSingleton.Instance.hillValuesHaveUpdated()) {
       this._planeFBO.render()
       this._planeFBOPixels = this._planeFBO.imageData
-      console.log(this._planeFBOPixels)
+
+      if (this._trees.children && this._trees.children.length > 0) {
+        this._trees[0] = this.getHeightValueForXYPosition(this._trees[0].x, this._trees[0].y)
+      }
+
       UniformSingleton.Instance.hillValueListenerHandledChange(this.PLANE_FBO_LISTENER)
     }
 
@@ -102,6 +118,35 @@ class MainPlane extends BaseComponent {
     const newX = x + 1
     const newY = y - 1
     this._intersectionBall.position.set(newX, newY, this.getHeightValueForXYPosition(newX, newY))
+  }
+
+  private addTestTree(): void {
+    const path = 'cartoontree/'
+    const objLoader = new THREE.OBJLoader2()
+    objLoader.setPath(path)
+
+    const onLoadObj = (event: any) => {
+      const group = event.detail.loaderRootNode as Group
+
+      const pos = group.position
+      pos.x = pos.x + 200
+      pos.y = pos.y - 100
+      group.position.set(pos.x, pos.y, this.getHeightValueForXYPosition(pos.x, pos.y))
+
+      group.rotation.x = Math.PI / 2
+
+      group.scale.set(20, 20, 20)
+      this._trees.add(group)
+      this.add(group)
+    }
+
+    const onLoadMtl = (loadedMaterials: MaterialCreator) => {
+      objLoader.setModelName('lowpolytree')
+      objLoader.setMaterials(loadedMaterials)
+      objLoader.load('CartoonTree.obj', onLoadObj, null, null, null, false)
+    }
+
+    objLoader.loadMtl('cartoontree/CartoonTree.mtl', null, onLoadMtl)
   }
 
   // private addUnderSideGround(): void {

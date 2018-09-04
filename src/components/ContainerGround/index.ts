@@ -1,16 +1,7 @@
 import * as THREE from 'three'
 import UniformSingleton from '../../UniformsSingleton'
+import { LoadOBJMTL } from '../../utils/LoadOBJMTL'
 
-import {
-  Group,
-  MaterialCreator,
-  OBJLoader2
-} from 'three'
-require('imports-loader?THREE=three!three/examples/js/loaders/LoaderSupport.js')
-require('imports-loader?THREE=three!three/examples/js/loaders/MTLLoader.js')
-require('imports-loader?THREE=three!three/examples/js/loaders/OBJLoader2.js')
-
-// import UniformSingleton, { IUniforms } from '../../UniformsSingleton'
 import BaseComponent from '../BaseComponent'
 import {
   IPlaneSize
@@ -81,14 +72,7 @@ class ContainerGround extends BaseComponent {
     this.add(bottom)
     this.add(bottomBackside)
 
-    // turtle
-    const path = 'turtle/'
-    const objLoader = new THREE.OBJLoader2()
-    objLoader.setPath(path)
-
-    const onLoadObj = (event: any) => {
-      const group = event.detail.loaderRootNode as Group
-
+    const onLoadTurtleObj = (group: THREE.Group) => {
       const pos = group.position
       group.position.set(pos.x, pos.y, pos.z - 1800)
 
@@ -99,13 +83,13 @@ class ContainerGround extends BaseComponent {
       this.add(group)
     }
 
-    const onLoadMtl = (loadedMaterials: MaterialCreator) => {
-      objLoader.setModelName('turtle')
-      objLoader.setMaterials(loadedMaterials)
-      objLoader.load('10042_Sea_Turtle_V2_iterations-2.obj', onLoadObj, null, null, null, false)
-    }
-
-    objLoader.loadMtl('turtle/10042_Sea_Turtle_V2_iterations-2.mtl', null, onLoadMtl)
+    LoadOBJMTL({
+      path: 'turtle/',
+      modelName: 'turtle',
+      objFilename: '10042_Sea_Turtle_V2_iterations-2.obj',
+      mtlFilename: '10042_Sea_Turtle_V2_iterations-2.mtl',
+      onLoadObjCallback: onLoadTurtleObj
+    })
   }
 
   /**

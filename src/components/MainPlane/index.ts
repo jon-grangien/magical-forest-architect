@@ -1,12 +1,5 @@
 import * as THREE from 'three'
-import {
-  Group,
-  MaterialCreator,
-  OBJLoader2
-} from 'three'
-require('imports-loader?THREE=three!three/examples/js/loaders/LoaderSupport.js')
-require('imports-loader?THREE=three!three/examples/js/loaders/MTLLoader.js')
-require('imports-loader?THREE=three!three/examples/js/loaders/OBJLoader2.js')
+import { LoadOBJMTL } from '../../utils/LoadOBJMTL'
 
 import UniformSingleton, { IUniforms } from '../../UniformsSingleton'
 import FBOHelper from '../../utils/FBOHelper'
@@ -122,13 +115,8 @@ class MainPlane extends BaseComponent {
   }
 
   private addTestTree(): void {
-    const path = 'cartoontree/'
-    const objLoader = new THREE.OBJLoader2()
-    objLoader.setPath(path)
 
-    const onLoadObj = (event: any) => {
-      const group = event.detail.loaderRootNode as Group
-
+    const onLoadTreeObj = (group: THREE.Group) => {
       const pos = group.position
       pos.x = pos.x + 200
       pos.y = pos.y - 100
@@ -141,13 +129,13 @@ class MainPlane extends BaseComponent {
       this.add(group)
     }
 
-    const onLoadMtl = (loadedMaterials: MaterialCreator) => {
-      objLoader.setModelName('lowpolytree')
-      objLoader.setMaterials(loadedMaterials)
-      objLoader.load('cartoontree_new.obj', onLoadObj, null, null, null, false)
-    }
-
-    objLoader.loadMtl('cartoontree/cartoontree_new.mtl', null, onLoadMtl)
+    LoadOBJMTL({
+      path: 'cartoontree/',
+      modelName: 'cartoontree',
+      objFilename: 'cartoontree_new.obj',
+      mtlFilename: 'cartoontree_new.mtl',
+      onLoadObjCallback: onLoadTreeObj
+    })
   }
 
   // private addUnderSideGround(): void {

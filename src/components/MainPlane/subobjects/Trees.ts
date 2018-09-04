@@ -2,19 +2,21 @@ import * as THREE from 'three'
 import { LoadOBJMTL } from '../../../utils/LoadOBJMTL'
 
 export interface ITrees {
+  amount: number
   getHeight: (x: number, y: number) => number
   onDone: () => void
 }
 
 class Trees {
   readonly TREE_SEA_LEVEL_SHIFT: number = 5
-  readonly AMOUNT_TREES: number = 100
 
+  private _amountTrees: number
   private _trees: THREE.Object3D[]
   private _getHeight: (x: number, y: number) => number
   private _onDone: () => void
 
   constructor(params: ITrees) {
+    this._amountTrees = params.amount
     this._trees = []
     this._getHeight = params.getHeight
     this._onDone = params.onDone
@@ -49,7 +51,7 @@ class Trees {
       firstTreeGroup.rotation.x = Math.PI / 2
       firstTreeGroup.scale.set(20, 20, 20)
 
-      for (let i = 0; i < this.AMOUNT_TREES; i++) {
+      for (let i = 0; i < this._amountTrees; i++) {
         const clonedTreeGroup = firstTreeGroup.clone()
         addTreeGroup(clonedTreeGroup)
       }
@@ -104,7 +106,6 @@ class Trees {
   }
 
   public forEach(callback: (tree: THREE.Object3D) => void): void {
-    console.log(this._trees.length)
     for (const tree of this._trees) {
       callback(tree)
     }

@@ -1,12 +1,12 @@
 import * as THREE from 'three'
-import Trees from './subobjects/Trees'
-
 import UniformSingleton, { IUniforms } from '../../UniformsSingleton'
 import FBOHelper from '../../utils/FBOHelper'
 import BaseComponent from '../BaseComponent'
 import { IPlaneSize } from '../../utils/CommonInterfaces'
 import { store } from '../../store'
 import { RENDER_WATER_STATE_KEY } from '../../constants'
+import Trees from './subobjects/Trees'
+import Fairies from './subobjects/Fairies'
 
 /**
  * App main ground plane
@@ -20,8 +20,8 @@ class MainPlane extends BaseComponent {
   private _size: IPlaneSize
   private _planeMesh: THREE.Mesh
 
-  // private _intersectionBall: THREE.Object3D
   private _trees: Trees
+  private _fairies: Fairies
 
   /**
    * @param  {IPlaneSize} size - The size of the plane
@@ -56,15 +56,17 @@ class MainPlane extends BaseComponent {
     this._planeMesh = new THREE.Mesh(geometry, this._surfaceMaterial)
     this.add(this._planeMesh)
 
-    // const ballGeo = new THREE.SphereGeometry(16, 32, 32)
-    // const ballMat = new THREE.MeshBasicMaterial({ color: 0xffff00 })
-    // this._intersectionBall = new THREE.Mesh(ballGeo, ballMat)
-    // this.add(this._intersectionBall)
-
     this._trees = new Trees({
+      amount: 100,
       getHeight: this.getHeightValueForXYPosition,
       onDone: () => this._trees.forEach(tree => this.add(tree))
     })
+
+    this._fairies = new Fairies({
+      amount: 10,
+      getHeight: this.getHeightValueForXYPosition
+    })
+    this._fairies.forEach(fairy => this.add(fairy))
 
     let currentRenderWaterState
     store.subscribe(() => {
@@ -91,6 +93,10 @@ class MainPlane extends BaseComponent {
 
       if (this._trees && this._trees.hasTrees()) {
         this._trees.updateTreePositions(store.getState()[RENDER_WATER_STATE_KEY])
+      }
+
+      if (this._fairies) {
+        this._fairies.updateHeightValues()
       }
 
       UniformSingleton.Instance.hillValueListenerHandledChange(this.PLANE_FBO_LISTENER)

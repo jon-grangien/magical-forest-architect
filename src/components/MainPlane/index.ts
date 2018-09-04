@@ -5,6 +5,8 @@ import UniformSingleton, { IUniforms } from '../../UniformsSingleton'
 import FBOHelper from '../../utils/FBOHelper'
 import BaseComponent from '../BaseComponent'
 import { IPlaneSize } from '../../utils/CommonInterfaces'
+import { store } from '../../store'
+import { RENDER_WATER_STATE_KEY } from '../../constants'
 
 /**
  * App main ground plane
@@ -62,6 +64,20 @@ class MainPlane extends BaseComponent {
     this.add(this._intersectionBall)
 
     this.addTrees()
+
+    let currentRenderWaterState
+    store.subscribe(() => {
+      let previousRenderWaterState = currentRenderWaterState
+      currentRenderWaterState = store.getState()[RENDER_WATER_STATE_KEY]
+
+      if (previousRenderWaterState !== currentRenderWaterState) {
+        if (currentRenderWaterState === true) {
+          this.hideAllTreesBelowSeaLevel()
+        } else {
+          this.showAllTrees()
+        }
+      }
+    })
   }
 
   /**
@@ -174,14 +190,30 @@ class MainPlane extends BaseComponent {
       const { position } = tree
       const newZ = this.getHeightValueForXYPosition(position.x, position.y)
       tree.position.set(position.x, position.y, newZ)
-      tree.updateMatrixWorld(true)
-      console.log(position.z, newZ, tree.position.z)
 
-      if (tree.position.z < - this.TREE_SEA_LEVEL_SHIFT) {
-        tree.visible = false
-      } else {
-        tree.visible = true
+      if (store.getState()[RENDER_WATER_STATE_KEY] === true) {
+        this.hideTreeBelowSeaLevel(tree)
       }
+    }
+  }
+
+  private hideAllTreesBelowSeaLevel(): void {
+    for (let tree of this._trees) {
+      this.hideTreeBelowSeaLevel(tree)
+    }
+  }
+
+  private showAllTrees(): void {
+    for (let tree of this._trees) {
+      tree.visible = true
+    }
+  }
+
+  private hideTreeBelowSeaLevel(tree: THREE.Object3D): void {
+    if (tree.position.z < - this.TREE_SEA_LEVEL_SHIFT) {
+      tree.visible = false
+    } else {
+      tree.visible = true
     }
   }
 

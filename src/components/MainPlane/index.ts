@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { LoadOBJMTL } from '../../utils/LoadOBJMTL'
+import Trees from './Trees'
 
 import UniformSingleton, { IUniforms } from '../../UniformsSingleton'
 import FBOHelper from '../../utils/FBOHelper'
@@ -13,7 +13,6 @@ import { RENDER_WATER_STATE_KEY } from '../../constants'
  */
 class MainPlane extends BaseComponent {
   readonly PLANE_FBO_LISTENER: string = 'PLANE_FBO_LISTENER'
-  readonly TREE_SEA_LEVEL_SHIFT: number = 5
 
   private _planeFBO: FBOHelper
   private _planeFBOPixels: Float32Array
@@ -21,8 +20,8 @@ class MainPlane extends BaseComponent {
   private _size: IPlaneSize
   private _planeMesh: THREE.Mesh
 
-  private _intersectionBall: THREE.Object3D
-  private _trees: THREE.Object3D[]
+  // private _intersectionBall: THREE.Object3D
+  private _trees: Trees
 
   /**
    * @param  {IPlaneSize} size - The size of the plane
@@ -31,7 +30,6 @@ class MainPlane extends BaseComponent {
   constructor(size: IPlaneSize, renderer: THREE.WebGLRenderer) {
     super()
     this._size = size
-    this._trees = []
     const uniforms: IUniforms = UniformSingleton.Instance.uniforms
 
     const textureHeightShader = new THREE.ShaderMaterial({
@@ -58,12 +56,15 @@ class MainPlane extends BaseComponent {
     this._planeMesh = new THREE.Mesh(geometry, this._surfaceMaterial)
     this.add(this._planeMesh)
 
-    const ballGeo = new THREE.SphereGeometry(16, 32, 32)
-    const ballMat = new THREE.MeshBasicMaterial({ color: 0xffff00 })
-    this._intersectionBall = new THREE.Mesh(ballGeo, ballMat)
-    this.add(this._intersectionBall)
+    // const ballGeo = new THREE.SphereGeometry(16, 32, 32)
+    // const ballMat = new THREE.MeshBasicMaterial({ color: 0xffff00 })
+    // this._intersectionBall = new THREE.Mesh(ballGeo, ballMat)
+    // this.add(this._intersectionBall)
 
-    this.addTrees()
+    this._trees = new Trees({
+      getHeight: this.getHeightValueForXYPosition,
+      onDone: () => this._trees.forEach(tree => this.add(tree))
+    })
 
     let currentRenderWaterState
     store.subscribe(() => {
@@ -72,9 +73,9 @@ class MainPlane extends BaseComponent {
 
       if (previousRenderWaterState !== currentRenderWaterState) {
         if (currentRenderWaterState === true) {
-          this.hideAllTreesBelowSeaLevel()
+          this._trees.hideAllTreesBelowSeaLevel()
         } else {
-          this.showAllTrees()
+          this._trees.showAllTrees()
         }
       }
     })
@@ -88,14 +89,14 @@ class MainPlane extends BaseComponent {
       this._planeFBO.render()
       this._planeFBOPixels = this._planeFBO.imageData
 
-      if (this._trees && this._trees.length > 0) {
-        this.updateTreePositions()
+      if (this._trees && this._trees.hasTrees()) {
+        this._trees.updateTreePositions(store.getState()[RENDER_WATER_STATE_KEY])
       }
 
       UniformSingleton.Instance.hillValueListenerHandledChange(this.PLANE_FBO_LISTENER)
     }
 
-    this.moveTestBall(0.5, true, false)
+    // this.moveTestBall(0.5, true, false)
   }
 
   /**
@@ -104,7 +105,7 @@ class MainPlane extends BaseComponent {
    * @param y (number)
    * @returns (number)
    */
-  public getHeightValueForXYPosition(x: number, y: number): number {
+  public getHeightValueForXYPosition = (x: number, y: number): number => {
     const { width, height } = this._size
 
     let xCoord = Math.floor(x + width / 2)
@@ -124,98 +125,12 @@ class MainPlane extends BaseComponent {
   /**
    * Move the position of a small sphere across the plane
    */
-  private moveTestBall(speed: number, positiveX: boolean, positiveY: boolean): void {
-    const { x, y } = this._intersectionBall.position
-    const newX = positiveX ? x + speed : x - speed
-    const newY = positiveY ? y + speed : y - speed
-    this._intersectionBall.position.set(newX, newY, this.getHeightValueForXYPosition(newX, newY))
-  }
-
-  private addTrees(): void {
-
-    const addTreeGroupToScene = (group: THREE.Group) => {
-      const pos = group.position
-      const min = -700
-      const max = 700
-      pos.x = THREE.Math.randFloat(min, max)
-      pos.y = THREE.Math.randFloat(min, max)
-      group.position.set(pos.x, pos.y, this.getHeightValueForXYPosition(pos.x, pos.y))
-
-      if (group.position.z < - this.TREE_SEA_LEVEL_SHIFT) {
-        group.visible = false
-      }
-
-      const scale = group.scale
-      let sizeFactor
-      const poll = Math.random()
-      if (poll < 0.5) {
-        sizeFactor = 1.0 + poll
-        group.scale.set(scale.x * sizeFactor, scale.y * sizeFactor, scale.z * sizeFactor)
-      } else if (poll > 0.8) {
-        sizeFactor = poll
-        group.scale.set(scale.x * sizeFactor, scale.y * sizeFactor, scale.z * sizeFactor)
-      }
-
-      this._trees.push(group)
-    }
-
-    const onLoadTreeObj = (firstTreeGroup: THREE.Group) => {
-      firstTreeGroup.rotation.x = Math.PI / 2
-      firstTreeGroup.scale.set(20, 20, 20)
-
-      const amountTrees = 100
-      for (let i = 0; i < amountTrees; i++) {
-        const clonedTreeGroup = firstTreeGroup.clone()
-        addTreeGroupToScene(clonedTreeGroup)
-      }
-
-      addTreeGroupToScene(firstTreeGroup)
-
-      for (const tree of this._trees) {
-        this.add(tree)
-      }
-    }
-
-    LoadOBJMTL({
-      path: 'cartoontree/',
-      modelName: 'cartoontree',
-      objFilename: 'cartoontree_new.obj',
-      mtlFilename: 'cartoontree_new.mtl',
-      onLoadObjCallback: onLoadTreeObj
-    })
-  }
-
-  private updateTreePositions(): void {
-    for (let tree of this._trees) {
-      const { position } = tree
-      const newZ = this.getHeightValueForXYPosition(position.x, position.y)
-      tree.position.set(position.x, position.y, newZ)
-
-      if (store.getState()[RENDER_WATER_STATE_KEY] === true) {
-        this.hideTreeBelowSeaLevel(tree)
-      }
-    }
-  }
-
-  private hideAllTreesBelowSeaLevel(): void {
-    for (let tree of this._trees) {
-      this.hideTreeBelowSeaLevel(tree)
-    }
-  }
-
-  private showAllTrees(): void {
-    for (let tree of this._trees) {
-      tree.visible = true
-    }
-  }
-
-  private hideTreeBelowSeaLevel(tree: THREE.Object3D): void {
-    if (tree.position.z < - this.TREE_SEA_LEVEL_SHIFT) {
-      tree.visible = false
-    } else {
-      tree.visible = true
-    }
-  }
+  // private moveTestBall(speed: number, positiveX: boolean, positiveY: boolean): void {
+  //   const { x, y } = this._intersectionBall.position
+  //   const newX = positiveX ? x + speed : x - speed
+  //   const newY = positiveY ? y + speed : y - speed
+  //   this._intersectionBall.position.set(newX, newY, this.getHeightValueForXYPosition(newX, newY))
+  // }
 
   // private addUnderSideGround(): void {
   //   const geometry = new THREE.PlaneBufferGeometry(this._size.width, this._size.height, this._size.widthSegs, this._size.heightSegs)

@@ -73,8 +73,10 @@ class MainPlane extends BaseComponent {
 
       // TODO: fix
       if (this._trees.children && this._trees.children.length > 0) {
-        for (const tree of this._trees.children) {
-          tree.position.z = this.getHeightValueForXYPosition(tree.position.x, tree.position.y)
+        for (let tree of this._trees.children) {
+          const { position } = tree
+          const newZ = this.getHeightValueForXYPosition(position.x, position.y)
+          tree.position.set(position.x, position.y, newZ)
         }
       }
 

@@ -35,6 +35,7 @@ class MainPlane extends BaseComponent {
   constructor(size: IPlaneSize, renderer: THREE.WebGLRenderer) {
     super()
     this._size = size
+    this._trees = new THREE.Group()
     const uniforms: IUniforms = UniformSingleton.Instance.uniforms
 
     const textureHeightShader = new THREE.ShaderMaterial({
@@ -84,7 +85,7 @@ class MainPlane extends BaseComponent {
       UniformSingleton.Instance.hillValueListenerHandledChange(this.PLANE_FBO_LISTENER)
     }
 
-    this.moveTestBall()
+    this.moveTestBall(0.5, true, false)
   }
 
   /**
@@ -113,10 +114,10 @@ class MainPlane extends BaseComponent {
   /**
    * Move the position of a small sphere across the plane
    */
-  private moveTestBall(): void {
+  private moveTestBall(speed: number, positiveX: boolean, positiveY: boolean): void {
     const { x, y } = this._intersectionBall.position
-    const newX = x + 1
-    const newY = y - 1
+    const newX = positiveX ? x + speed : x - speed
+    const newY = positiveY ? y + speed : y - speed
     this._intersectionBall.position.set(newX, newY, this.getHeightValueForXYPosition(newX, newY))
   }
 

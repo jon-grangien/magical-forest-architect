@@ -20,7 +20,7 @@ class MainPlane extends BaseComponent {
   private _planeMesh: THREE.Mesh
 
   private _intersectionBall: THREE.Object3D
-  private _trees: THREE.Group
+  private _trees: THREE.Object3D[]
 
   /**
    * @param  {IPlaneSize} size - The size of the plane
@@ -29,7 +29,7 @@ class MainPlane extends BaseComponent {
   constructor(size: IPlaneSize, renderer: THREE.WebGLRenderer) {
     super()
     this._size = size
-    this._trees = new THREE.Group()
+    this._trees = []
     const uniforms: IUniforms = UniformSingleton.Instance.uniforms
 
     const textureHeightShader = new THREE.ShaderMaterial({
@@ -72,7 +72,7 @@ class MainPlane extends BaseComponent {
       this._planeFBO.render()
       this._planeFBOPixels = this._planeFBO.imageData
 
-      if (this._trees.children && this._trees.children.length > 0) {
+      if (this._trees && this._trees.length > 0) {
         this.updateTreePositions()
       }
 
@@ -140,7 +140,7 @@ class MainPlane extends BaseComponent {
         group.scale.set(scale.x * sizeFactor, scale.y * sizeFactor, scale.z * sizeFactor)
       }
 
-      this._trees.add(group)
+      this._trees.push(group)
     }
 
     const onLoadTreeObj = (firstTreeGroup: THREE.Group) => {
@@ -155,8 +155,8 @@ class MainPlane extends BaseComponent {
 
       addTreeGroupToScene(firstTreeGroup)
 
-      for (const child of this._trees.children) {
-        this.add(child)
+      for (const tree of this._trees) {
+        this.add(tree)
       }
     }
 
@@ -170,8 +170,7 @@ class MainPlane extends BaseComponent {
   }
 
   private updateTreePositions(): void {
-    // TODO: fix
-    for (let tree of this._trees.children) {
+    for (let tree of this._trees) {
       const { position } = tree
       const newZ = this.getHeightValueForXYPosition(position.x, position.y)
       tree.position.set(position.x, position.y, newZ)

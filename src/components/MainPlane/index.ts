@@ -60,7 +60,7 @@ class MainPlane extends BaseComponent {
     this._intersectionBall = new THREE.Mesh(ballGeo, ballMat)
     this.add(this._intersectionBall)
 
-    this.addTestTree()
+    this.addTrees()
   }
 
   /**
@@ -71,8 +71,11 @@ class MainPlane extends BaseComponent {
       this._planeFBO.render()
       this._planeFBOPixels = this._planeFBO.imageData
 
+      // TODO: fix
       if (this._trees.children && this._trees.children.length > 0) {
-        this._trees[0] = this.getHeightValueForXYPosition(this._trees[0].x, this._trees[0].y)
+        for (const tree of this._trees.children) {
+          tree.position.z = this.getHeightValueForXYPosition(tree.position.x, tree.position.y)
+        }
       }
 
       UniformSingleton.Instance.hillValueListenerHandledChange(this.PLANE_FBO_LISTENER)
@@ -114,19 +117,49 @@ class MainPlane extends BaseComponent {
     this._intersectionBall.position.set(newX, newY, this.getHeightValueForXYPosition(newX, newY))
   }
 
-  private addTestTree(): void {
+  private addTrees(): void {
 
-    const onLoadTreeObj = (group: THREE.Group) => {
+    const addTreeGroupToScene = (group: THREE.Group) => {
       const pos = group.position
-      pos.x = pos.x + 200
-      pos.y = pos.y - 100
+      const min = -700
+      const max = 700
+      pos.x = THREE.Math.randFloat(min, max)
+      pos.y = THREE.Math.randFloat(min, max)
       group.position.set(pos.x, pos.y, this.getHeightValueForXYPosition(pos.x, pos.y))
 
-      group.rotation.x = Math.PI / 2
+      if (group.position.z < -5) {
+        return
+      }
 
-      group.scale.set(20, 20, 20)
+      const scale = group.scale
+      let sizeFactor
+      const poll = Math.random()
+      if (poll < 0.5) {
+        sizeFactor = 1.0 + poll
+        group.scale.set(scale.x * sizeFactor, scale.y * sizeFactor, scale.z * sizeFactor)
+      } else if (poll > 0.8) {
+        sizeFactor = poll
+        group.scale.set(scale.x * sizeFactor, scale.y * sizeFactor, scale.z * sizeFactor)
+      }
+
       this._trees.add(group)
-      this.add(group)
+    }
+
+    const onLoadTreeObj = (firstTreeGroup: THREE.Group) => {
+      firstTreeGroup.rotation.x = Math.PI / 2
+      firstTreeGroup.scale.set(20, 20, 20)
+
+      const amountTrees = 100
+      for (let i = 0; i < amountTrees; i++) {
+        const clonedTreeGroup = firstTreeGroup.clone()
+        addTreeGroupToScene(clonedTreeGroup)
+      }
+
+      addTreeGroupToScene(firstTreeGroup)
+
+      for (const child of this._trees.children) {
+        this.add(child)
+      }
     }
 
     LoadOBJMTL({

@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { LoadOBJMTL } from '../../utils/LoadOBJMTL'
+import { LoadOBJMTL } from '../../../utils/LoadOBJMTL'
 
 export interface ITrees {
   getHeight: (x: number, y: number) => number

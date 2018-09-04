@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import Trees from './Trees'
+import Trees from './subobjects/Trees'
 
 import UniformSingleton, { IUniforms } from '../../UniformsSingleton'
 import FBOHelper from '../../utils/FBOHelper'

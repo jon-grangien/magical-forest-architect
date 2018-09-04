@@ -11,6 +11,7 @@ import { IPlaneSize } from '../../utils/CommonInterfaces'
  */
 class MainPlane extends BaseComponent {
   readonly PLANE_FBO_LISTENER: string = 'PLANE_FBO_LISTENER'
+  readonly TREE_SEA_LEVEL_SHIFT: number = 5
 
   private _planeFBO: FBOHelper
   private _planeFBOPixels: Float32Array
@@ -71,13 +72,8 @@ class MainPlane extends BaseComponent {
       this._planeFBO.render()
       this._planeFBOPixels = this._planeFBO.imageData
 
-      // TODO: fix
       if (this._trees.children && this._trees.children.length > 0) {
-        for (let tree of this._trees.children) {
-          const { position } = tree
-          const newZ = this.getHeightValueForXYPosition(position.x, position.y)
-          tree.position.set(position.x, position.y, newZ)
-        }
+        this.updateTreePositions()
       }
 
       UniformSingleton.Instance.hillValueListenerHandledChange(this.PLANE_FBO_LISTENER)
@@ -129,8 +125,8 @@ class MainPlane extends BaseComponent {
       pos.y = THREE.Math.randFloat(min, max)
       group.position.set(pos.x, pos.y, this.getHeightValueForXYPosition(pos.x, pos.y))
 
-      if (group.position.z < -5) {
-        return
+      if (group.position.z < - this.TREE_SEA_LEVEL_SHIFT) {
+        group.visible = false
       }
 
       const scale = group.scale
@@ -171,6 +167,23 @@ class MainPlane extends BaseComponent {
       mtlFilename: 'cartoontree_new.mtl',
       onLoadObjCallback: onLoadTreeObj
     })
+  }
+
+  private updateTreePositions(): void {
+    // TODO: fix
+    for (let tree of this._trees.children) {
+      const { position } = tree
+      const newZ = this.getHeightValueForXYPosition(position.x, position.y)
+      tree.position.set(position.x, position.y, newZ)
+      tree.updateMatrixWorld(true)
+      console.log(position.z, newZ, tree.position.z)
+
+      if (tree.position.z < - this.TREE_SEA_LEVEL_SHIFT) {
+        tree.visible = false
+      } else {
+        tree.visible = true
+      }
+    }
   }
 
   // private addUnderSideGround(): void {

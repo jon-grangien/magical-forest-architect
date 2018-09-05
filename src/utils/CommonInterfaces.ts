@@ -4,6 +4,11 @@ export interface IPos3D {
   z: number
 }
 
+export interface IPos2D {
+  x: number,
+  y: number
+}
+
 export interface IImmutablePos3D {
   readonly x: number,
   readonly y: number,

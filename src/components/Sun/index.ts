@@ -108,7 +108,7 @@ class Sun extends BaseComponent {
     const yStep = yPosRange / amountTweens
 
     if (amountTweens % 2 !== 0) {
-      console.error(`amountTweens should be an even number but is ${amountTweens}`)
+      console.error(`Sun: amountTweens should be an even number but is ${amountTweens}`)
     }
 
     const zSteps = this.calculateZTweenSteps(amountTweens, zPosRange)
@@ -116,7 +116,7 @@ class Sun extends BaseComponent {
 
     this.resetMutatingPos()
 
-    let lastTween
+    let prevTween
     for (let i = 0; i < amountTweens; i++) {
       const iterFirst = i === 0
       const iterLast = i === amountTweens - 1
@@ -137,10 +137,10 @@ class Sun extends BaseComponent {
 
       if (iterFirst) {
         this._tween = tween
-        lastTween = this._tween
+        prevTween = this._tween
       } else {
-        lastTween.chain(tween)
-        lastTween = tween
+        prevTween.chain(tween)
+        prevTween = tween
       }
 
       if (iterLast) {

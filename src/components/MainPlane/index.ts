@@ -63,7 +63,10 @@ class MainPlane extends BaseComponent {
     })
 
     this._fairies = new Fairies({
-      amount: 20,
+      amount: 10,
+      posRangeMin: -700,
+      posRangeMax: 700,
+      isRenderingWater: store.getState()[RENDER_WATER_STATE_KEY],
       getHeight: this.getHeightValueForXYPosition
     })
     this._fairies.forEach(fairy => this.add(fairy))
@@ -76,8 +79,10 @@ class MainPlane extends BaseComponent {
       if (previousRenderWaterState !== currentRenderWaterState) {
         if (currentRenderWaterState === true) {
           this._trees.hideAllTreesBelowSeaLevel()
+          this._fairies.setIsRenderingWater(true)
         } else {
           this._trees.showAllTrees()
+          this._fairies.setIsRenderingWater(false)
         }
       }
     })
@@ -97,7 +102,7 @@ class MainPlane extends BaseComponent {
       }
 
       if (this._fairies) {
-        this._fairies.updateHeightValues(isRenderingWater)
+        this._fairies.updateHeightValues()
       }
 
       UniformSingleton.Instance.hillValueListenerHandledChange(this.PLANE_FBO_LISTENER)

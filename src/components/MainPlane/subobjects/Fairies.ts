@@ -6,6 +6,8 @@ export interface IFairies {
 }
 
 class Fairies {
+  readonly HEIGHT_ABOVE_GROUND: number = 20
+
   private _fairies: THREE.Object3D[]
   private _getHeight: (x: number, y: number) => number
   private _ball: THREE.Object3D
@@ -31,10 +33,15 @@ class Fairies {
     }
   }
 
-  public updateHeightValues(): void {
+  public updateHeightValues(isRenderingWater: boolean): void {
     for (const fairy of this._fairies) {
       const { position } = fairy
-      const newZ = this.getHeight(position.x, position.y)
+      let newZ = this.getHeight(position.x, position.y)
+
+      if (isRenderingWater && newZ < this.HEIGHT_ABOVE_GROUND) {
+        newZ = this.HEIGHT_ABOVE_GROUND
+      }
+
       fairy.position.set(position.x, position.y, newZ)
     }
   }
@@ -50,7 +57,7 @@ class Fairies {
   }
 
   private getHeight(x: number, y: number): number {
-    return this._getHeight(x, y) + 20
+    return this._getHeight(x, y) + this.HEIGHT_ABOVE_GROUND
   }
 }
 

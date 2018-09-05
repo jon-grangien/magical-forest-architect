@@ -63,7 +63,7 @@ class MainPlane extends BaseComponent {
     })
 
     this._fairies = new Fairies({
-      amount: 10,
+      amount: 20,
       getHeight: this.getHeightValueForXYPosition
     })
     this._fairies.forEach(fairy => this.add(fairy))
@@ -91,12 +91,13 @@ class MainPlane extends BaseComponent {
       this._planeFBO.render()
       this._planeFBOPixels = this._planeFBO.imageData
 
+      const isRenderingWater = store.getState()[RENDER_WATER_STATE_KEY]
       if (this._trees && this._trees.hasTrees()) {
-        this._trees.updateTreePositions(store.getState()[RENDER_WATER_STATE_KEY])
+        this._trees.updateTreePositions(isRenderingWater)
       }
 
       if (this._fairies) {
-        this._fairies.updateHeightValues()
+        this._fairies.updateHeightValues(isRenderingWater)
       }
 
       UniformSingleton.Instance.hillValueListenerHandledChange(this.PLANE_FBO_LISTENER)

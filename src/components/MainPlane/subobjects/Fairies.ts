@@ -39,7 +39,6 @@ class Fairies {
       const posY = THREE.Math.randFloat(min, max)
       const posZ = this.getHeight(posX, posY)
 
-
       const fairy = this._ball.clone()
       fairy.position.set(posX, posY, posZ)
       this.generateAndSetTween(posX, posY, fairy)

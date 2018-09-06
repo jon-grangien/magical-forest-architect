@@ -41,6 +41,7 @@ class MainPlane extends BaseComponent {
     this._planeFBO = new FBOHelper(this._size.width, this._size.height, renderer, textureHeightShader)
     this._planeFBO.render()
     this._planeFBOPixels = this._planeFBO.imageData
+    this.setHeightMapMinMax(this._planeFBOPixels)
     UniformSingleton.Instance.registerHillValueListener(this.PLANE_FBO_LISTENER)
 
     uniforms.u_heightMap.value = this._planeFBO.texture
@@ -50,7 +51,7 @@ class MainPlane extends BaseComponent {
       vertexShader: require('./shaders/surface.vert'),
       fragmentShader: require('./shaders/surface.frag'),
       side: THREE.DoubleSide,
-      uniforms: uniforms
+      uniforms
     })
 
     this._planeMesh = new THREE.Mesh(geometry, this._surfaceMaterial)
@@ -95,6 +96,7 @@ class MainPlane extends BaseComponent {
     if (UniformSingleton.Instance.hillValuesHaveUpdated()) {
       this._planeFBO.render()
       this._planeFBOPixels = this._planeFBO.imageData
+      this.setHeightMapMinMax(this._planeFBOPixels)
 
       const isRenderingWater = store.getState()[RENDER_WATER_STATE_KEY]
       if (this._trees && this._trees.hasTrees()) {
@@ -132,6 +134,30 @@ class MainPlane extends BaseComponent {
     }
 
     return this._planeFBOPixels[idx] + 5
+  }
+
+  private setHeightMapMinMax(pixels: Float32Array): void {
+    let min = Infinity
+    let max = -Infinity
+
+    for (let i = 0; i < pixels.length; i = i + 4) {
+      if (i > pixels.length) {
+        break
+      }
+
+      const pixel = pixels[i]
+
+      if (pixel < min) {
+        min = pixel
+      }
+
+      if (pixel > max) {
+        max = pixel
+      }
+    }
+
+    UniformSingleton.Instance.uniforms.u_heightMapMax.value = max
+    UniformSingleton.Instance.uniforms.u_heightMapMin.value = min
   }
 
   /**

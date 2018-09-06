@@ -58,7 +58,9 @@ class UniformSingleton {
 
       u_spikyness: { type: 'f', value: 0.0001 },
 
-      u_heightMap: { type: 't', value: null }
+      u_heightMap: { type: 't', value: null },
+      u_heightMapMin: { type: 'f', value: 0.0 },
+      u_heightMapMax: { type: 'f', value: 0.0 }
     }
   }
 

@@ -428,11 +428,17 @@ void main() {
   vec3 diffuse = ambientColor * 1.2 + addedLights.rgb * 0.2;
 
   float subSurfaceLevel = vPos.z;
-  subSurfaceLevel = min(subSurfaceLevel, -0.000001); 
-  subSurfaceLevel = abs(subSurfaceLevel); 
-  subSurfaceLevel = subSurfaceLevel / abs(u_heightMapMin); 
+  subSurfaceLevel = min(subSurfaceLevel, -0.000001);        // Take the negative part
+  subSurfaceLevel = abs(subSurfaceLevel);                   // Make values positive
+  subSurfaceLevel = subSurfaceLevel / abs(u_heightMapMin);  // Map to 0.0 - 1.0
 
-  diffuse = mix(diffuse, diffuse * vec3(0.37, 0.3, 0.24), smoothstep(0.0, 1.0, subSurfaceLevel));
+  subSurfaceLevel = subSurfaceLevel + 0.35;
+  subSurfaceLevel = min(subSurfaceLevel, 1.0);
+
+  // vec3 subSurfaceColor = vec3(0.37, 0.3, 0.24);
+  vec3 subSurfaceColor = vec3(1.0, 0.63, 0.35);
+  vec3 additiveSubSurfaceColor = 0.35 * subSurfaceColor;
+  diffuse = mix(diffuse, diffuse + additiveSubSurfaceColor, smoothstep(0.0, 1.0, subSurfaceLevel));
   diffuse = clamp(diffuse, 0.0, 1.0);
 
   gl_FragColor = vec4(diffuse, 1.0);

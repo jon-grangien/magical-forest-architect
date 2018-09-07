@@ -1,32 +1,15 @@
 import * as THREE from 'three'
 import * as TWEEN from '@tweenjs/tween.js'
 import { IPos2D } from '../../../utils/CommonInterfaces'
+import PlaneEnvObjects, { IPlaneEnvObjects } from './PlaneEnvObjects'
 
-
-export interface IFairies {
-  amount: number
-  posRangeMin: number
-  posRangeMax: number
-  isRenderingWater: boolean
-  getHeight: (x: number, y: number) => number
-}
-
-class Fairies {
+class Fairies extends PlaneEnvObjects {
   readonly HEIGHT_ABOVE_GROUND: number = 20
 
-  private _fairies: THREE.Object3D[]
-  private _getHeight: (x: number, y: number) => number
   private _ball: THREE.Object3D
-  private _posRangeMin: number
-  private _posRangeMax: number
-  private _isRenderingWater: boolean
 
-  constructor(params: IFairies) {
-    this._fairies = []
-    this._getHeight = params.getHeight
-    this._posRangeMin = params.posRangeMin
-    this._posRangeMax = params.posRangeMax
-    this._isRenderingWater = params.isRenderingWater
+  constructor(params: IPlaneEnvObjects) {
+    super(params)
 
     const ballGeo = new THREE.SphereGeometry(8, 16, 16)
     const ballMat = new THREE.MeshBasicMaterial({ color: 0x41f488 })
@@ -37,40 +20,39 @@ class Fairies {
       const max = this._posRangeMax
       const posX = THREE.Math.randFloat(min, max)
       const posY = THREE.Math.randFloat(min, max)
-      const posZ = this.getHeight(posX, posY)
+      const posZ = this.calculateAdjustedHeight(posX, posY)
 
       const fairy = this._ball.clone()
       fairy.position.set(posX, posY, posZ)
       this.generateAndSetTween(posX, posY, fairy)
-      this._fairies.push(fairy)
+      this._objects.push(fairy)
     }
+
+    setTimeout(() => this.spawnObjects(), 0)
   }
 
+  /**
+   * @Override
+   */
   public updateHeightValues(): void {
-    for (const fairy of this._fairies) {
+    for (const fairy of this._objects) {
       const { position } = fairy
-      let newZ = this.getHeight(position.x, position.y)
-
-      if (this._isRenderingWater && newZ < this.HEIGHT_ABOVE_GROUND) {
-        newZ = this.HEIGHT_ABOVE_GROUND
-      }
-
+      let newZ = this.calculateAdjustedHeight(position.x, position.y)
       fairy.position.set(position.x, position.y, newZ)
     }
   }
 
-  public forEach(callback: (fairy: THREE.Object3D) => void): void {
-    for (const fairy of this._fairies) {
-      callback(fairy)
+  /**
+   * @param x (number) - x pos
+   * @param y (number) - y pos
+   */
+  private calculateAdjustedHeight(x: number, y: number): number {
+    let terrainHeight = this.calculateHeight(x, y)
+    if (this._waterIsRendering && terrainHeight <= this.HEIGHT_ABOVE_GROUND) {
+      terrainHeight = 0
     }
-  }
 
-  public getFairies(): THREE.Object3D[] {
-    return this._fairies
-  }
-
-  public setIsRenderingWater(isRendering: boolean): void {
-    this._isRenderingWater = isRendering
+    return terrainHeight + this.HEIGHT_ABOVE_GROUND
   }
 
   private generateAndSetTween(x: number, y: number, fairy: THREE.Object3D): any {
@@ -79,7 +61,7 @@ class Fairies {
     const amountTweens = Math.floor(THREE.Math.randFloat(3, 6))
 
     const setPos = (pos: IPos2D) => {
-      fairy.position.set(pos.x, pos.y, this.getHeight(pos.x, pos.y))
+      fairy.position.set(pos.x, pos.y, this.calculateAdjustedHeight(pos.x, pos.y))
     }
 
     let firstTween
@@ -124,15 +106,6 @@ class Fairies {
     }
 
     firstTween.start()
-  }
-
-  private getHeight(x: number, y: number): number {
-    let terrainHeight = this._getHeight(x, y)
-    if (this._isRenderingWater && terrainHeight <= this.HEIGHT_ABOVE_GROUND) {
-      terrainHeight = 0
-    }
-
-    return terrainHeight + this.HEIGHT_ABOVE_GROUND
   }
 
 }

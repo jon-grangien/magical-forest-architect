@@ -1,35 +1,17 @@
 import * as THREE from 'three'
-import { LoadOBJMTL } from '../../../utils/LoadOBJMTL'
+import PlaneEnvObjects, { IPlaneEnvObjects } from './PlaneEnvObjects'
 
-export interface ITrees {
-  amount: number
-  getHeight: (x: number, y: number) => number
-  onDone: () => void
-}
-
-class Trees {
-  readonly TREE_SEA_LEVEL_SHIFT: number = 5
-
-  private _amountTrees: number
-  private _trees: THREE.Object3D[]
-  private _getHeight: (x: number, y: number) => number
-  private _onDone: () => void
-
-  constructor(params: ITrees) {
-    this._amountTrees = params.amount
-    this._trees = []
-    this._getHeight = params.getHeight
-    this._onDone = params.onDone
+class Trees extends PlaneEnvObjects {
+  constructor(params: IPlaneEnvObjects) {
+    super(params)
 
     const addTreeGroup = (group: THREE.Group) => {
       const pos = group.position
-      const min = -700
-      const max = 700
-      pos.x = THREE.Math.randFloat(min, max)
-      pos.y = THREE.Math.randFloat(min, max)
-      group.position.set(pos.x, pos.y, this._getHeight(pos.x, pos.y))
+      pos.x = THREE.Math.randFloat(this._posRangeMin, this._posRangeMax)
+      pos.y = THREE.Math.randFloat(this._posRangeMin, this._posRangeMax)
+      group.position.set(pos.x, pos.y, this.calculateHeight(pos.x, pos.y))
 
-      if (group.position.z < - this.TREE_SEA_LEVEL_SHIFT) {
+      if (group.position.z < - this.SEA_LEVEL_SURPLUS_SPACE) {
         group.visible = false
       }
 
@@ -44,23 +26,23 @@ class Trees {
         group.scale.set(scale.x * sizeFactor, scale.y * sizeFactor, scale.z * sizeFactor)
       }
 
-      this._trees.push(group)
+      this._objects.push(group)
     }
 
     const onLoadTreeObj = (firstTreeGroup: THREE.Group) => {
       firstTreeGroup.rotation.x = Math.PI / 2
       firstTreeGroup.scale.set(20, 20, 20)
 
-      for (let i = 0; i < this._amountTrees; i++) {
+      for (let i = 0; i < this._amountObjects; i++) {
         const clonedTreeGroup = firstTreeGroup.clone()
         addTreeGroup(clonedTreeGroup)
       }
 
       addTreeGroup(firstTreeGroup)
-      this._onDone()
+      this.spawnObjects()
     }
 
-    LoadOBJMTL({
+    this.loadObjMtl({
       path: 'cartoontree/',
       modelName: 'cartoontree',
       objFilename: 'cartoontree_new.obj',
@@ -70,53 +52,18 @@ class Trees {
   }
 
   /**
-   * Updates height (z value) positions of all trees
-   * @param renderWater - Whether or not water is rendered
+   * @Override
    */
-  public updateTreePositions(renderWater: boolean): void {
-    for (let tree of this._trees) {
-      const { position } = tree
-      const newZ = this._getHeight(position.x, position.y)
-      tree.position.set(position.x, position.y, newZ)
+  public updateHeightValues() {
+    for (let obj of this._objects) {
+      const { position } = obj
+      const newZ = this.calculateHeight(position.x, position.y)
+      obj.position.set(position.x, position.y, newZ)
 
-      if (renderWater) {
-        this.hideTreeBelowSeaLevel(tree)
+      if (this._waterIsRendering) {
+        this.hideBelowSeaLevel(obj)
       }
     }
-  }
-
-  public hideAllTreesBelowSeaLevel(): void {
-    for (let tree of this._trees) {
-      this.hideTreeBelowSeaLevel(tree)
-    }
-  }
-
-  public showAllTrees(): void {
-    for (let tree of this._trees) {
-      tree.visible = true
-    }
-  }
-
-  public hideTreeBelowSeaLevel(tree: THREE.Object3D): void {
-    if (tree.position.z < - this.TREE_SEA_LEVEL_SHIFT) {
-      tree.visible = false
-    } else {
-      tree.visible = true
-    }
-  }
-
-  public forEach(callback: (tree: THREE.Object3D) => void): void {
-    for (const tree of this._trees) {
-      callback(tree)
-    }
-  }
-
-  public hasTrees(): boolean {
-    return this._trees.length > 0
-  }
-
-  public getTrees(): THREE.Object3D[] {
-    return this._trees
   }
 }
 

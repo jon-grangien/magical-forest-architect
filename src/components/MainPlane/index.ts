@@ -57,20 +57,24 @@ class MainPlane extends BaseComponent {
     this._planeMesh = new THREE.Mesh(geometry, this._surfaceMaterial)
     this.add(this._planeMesh)
 
+    const isRenderingWater = store.getState()[RENDER_WATER_STATE_KEY]
     this._trees = new Trees({
       amount: 100,
-      getHeight: this.getHeightValueForXYPosition,
-      onDone: () => this._trees.forEach(tree => this.add(tree))
+      posRangeMin: -800,
+      posRangeMax: 800,
+      calculateHeight: this.getHeightValueForXYPosition,
+      waterIsRendering: isRenderingWater,
+      spawnObjects: () => this._trees.forEach(tree => this.add(tree))
     })
 
     this._fairies = new Fairies({
       amount: 10,
       posRangeMin: -700,
       posRangeMax: 700,
-      isRenderingWater: store.getState()[RENDER_WATER_STATE_KEY],
-      getHeight: this.getHeightValueForXYPosition
+      calculateHeight: this.getHeightValueForXYPosition,
+      waterIsRendering: store.getState()[RENDER_WATER_STATE_KEY],
+      spawnObjects: () => this._fairies.forEach(fairy => this.add(fairy))
     })
-    this._fairies.forEach(fairy => this.add(fairy))
 
     let currentRenderWaterState
     store.subscribe(() => {
@@ -79,11 +83,13 @@ class MainPlane extends BaseComponent {
 
       if (previousRenderWaterState !== currentRenderWaterState) {
         if (currentRenderWaterState === true) {
-          this._trees.hideAllTreesBelowSeaLevel()
-          this._fairies.setIsRenderingWater(true)
+          this._trees.waterIsRendering = true
+          this._trees.hideAllBelowSeaLevel()
+          this._fairies.waterIsRendering = true
         } else {
-          this._trees.showAllTrees()
-          this._fairies.setIsRenderingWater(false)
+          this._trees.showAll()
+          this._trees.waterIsRendering = false
+          this._fairies.waterIsRendering = false
         }
       }
     })
@@ -98,9 +104,9 @@ class MainPlane extends BaseComponent {
       this._planeFBOPixels = this._planeFBO.imageData
       this.setHeightMapMinMax(this._planeFBOPixels)
 
-      const isRenderingWater = store.getState()[RENDER_WATER_STATE_KEY]
-      if (this._trees && this._trees.hasTrees()) {
-        this._trees.updateTreePositions(isRenderingWater)
+      // const isRenderingWater = store.getState()[RENDER_WATER_STATE_KEY]
+      if (this._trees && this._trees.hasObjects()) {
+        this._trees.updateHeightValues()
       }
 
       if (this._fairies) {
@@ -133,7 +139,7 @@ class MainPlane extends BaseComponent {
       return -999999
     }
 
-    return this._planeFBOPixels[idx] + 5
+    return this._planeFBOPixels[idx] + 5 // reconsider
   }
 
   private setHeightMapMinMax(pixels: Float32Array): void {

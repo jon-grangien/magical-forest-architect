@@ -5,6 +5,7 @@ import * as TWEEN from '@tweenjs/tween.js'
 
 import Sun from './components/Sun'
 import Uniforms from './UniformsSingleton'
+import AppControls from './utils/Controls.ts'
 
 /**
  * Main class
@@ -13,9 +14,11 @@ class AppScene {
   public scene: THREE.Scene
   public camera: THREE.PerspectiveCamera
   public renderer: THREE.WebGLRenderer
+  public frameCounter: number = 0
 
   private components: any
-  private controls: any
+  private controls: AppControls
+  private clock: THREE.Clock
   private sun: Sun
 
   constructor() {
@@ -43,7 +46,8 @@ class AppScene {
 
     uniforms.u_resolution.value.x = this.renderer.domElement.width
     uniforms.u_resolution.value.y = this.renderer.domElement.height
-    this.controls = new TrackballControls(this.camera, this.renderer.domElement)
+    this.controls = new AppControls(this.camera, this.renderer.domElement)
+    this.clock = new THREE.Clock(true)
 
     this.render()
   }
@@ -85,6 +89,8 @@ class AppScene {
       this.render()
     })
 
+    this.frameCounter++
+
     this.renderer.clear()
 
     Uniforms.Instance.uniforms.u_time.value += 0.05
@@ -96,7 +102,15 @@ class AppScene {
     }
 
     this.renderer.render(this.scene, this.camera)
-    this.controls.update()
+    this.controls.update(this.clock.getDelta())
+
+    // console.log(this.camera.position)
+    // this.camera.lookAt(new THREE.Vector3(0.0, 0.0, 0.0))
+
+    if (this.frameCounter === 120) {
+      this.controls.switchToPlayerView(this.camera, this.renderer.domElement)
+      this.camera.position.set(0, 0, 400)
+    }
   }
 }
 

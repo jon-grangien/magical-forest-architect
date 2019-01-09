@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 const TrackballControls = require('three-trackballcontrols')
 import FirstPersonControls from './FirstPersonControls'
+import PointerLockControls from './PointerLockControls'
 
 
 class AppControls {
@@ -18,11 +19,15 @@ class AppControls {
 
   switchToPlayerView(camera: any, domElement: any) {
     this._playerActivated = true
-    this._controls = new FirstPersonControls(camera, domElement)
+    this._controls = new PointerLockControls(camera, domElement)
   }
 
   update(delta: any) {
     this._controls.update(delta)
+  }
+
+  getObject() {
+    return this._controls.getObject()
   }
 
 }

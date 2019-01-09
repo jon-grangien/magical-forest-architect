@@ -85,13 +85,13 @@ class AppScene {
   }
 
   switchToPlayerView() {
-    const mainPlaneComponent = this.getComponent(constants.MAIN_PLANE_COMPONENT_KEY)
+    // const mainPlaneComponent = this.getComponent(constants.MAIN_PLANE_COMPONENT_KEY)
 
     this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 20000)
     this.camera.position.set(370.0, 190.0, 200.0)
     this.camera.lookAt(new THREE.Vector3(200.0, 0.0, 0.0))
-    this.camera.rotation.x = Math.PI 
-    mainPlaneComponent.add(this.camera)
+    // this.camera.rotation.y = -30 * Math.PI / 90
+    // mainPlaneComponent.add(this.camera)
     this.controls.switchToPlayerView(this.camera, this.renderer.domElement)
   }
 
@@ -113,8 +113,26 @@ class AppScene {
       }
     }
 
-    this.renderer.render(this.scene, this.camera)
     this.controls.update(this.clock.getDelta())
+
+    if (this.controls.playerActivated) {
+      // ideal way
+      const { x, y } = this.camera.position
+      const mainPlaneComponent = this.getComponent(constants.MAIN_PLANE_COMPONENT_KEY)
+      // const height = mainPlaneComponent.getHeightValueForXYPosition(x, y)
+      // this.camera.position.set(x, y, height)
+
+      // test
+      const newX = this.controls.getObject().position.x
+      const newY = this.controls.getObject().position.x
+      const newZ = this.controls.getObject().position.x
+      this.camera.position.set(newX, newY, newZ)
+      this.camera.updateProjectionMatrix()
+      console.log(this.camera.position)
+    }
+
+    this.renderer.render(this.scene, this.camera)
+
 
     // console.log(this.camera.position)
     // this.camera.lookAt(new THREE.Vector3(0.0, 0.0, 0.0))
@@ -124,13 +142,6 @@ class AppScene {
     //   this.camera.position.set(0, 0, 800)
     // }
 
-    if (this.controls.playerActivated) {
-      const { x, y } = this.camera.position
-      const mainPlaneComponent = this.getComponent(constants.MAIN_PLANE_COMPONENT_KEY)
-      const height = mainPlaneComponent.getHeightValueForXYPosition(x, y)
-      this.camera.position.set(x, y, height)
-      console.log(this.camera.position)
-    }
   }
 }
 

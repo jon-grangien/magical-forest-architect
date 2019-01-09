@@ -1,20 +1,23 @@
 import * as THREE from 'three'
 const TrackballControls = require('three-trackballcontrols')
-// require('imports-loader?THREE=three!three/examples/js/controls/FirstPersonControls.js')
-// import FirstPersonControls from '@fabienmotte/three-first-person-controls'
 import FirstPersonControls from './FirstPersonControls'
 
 
 class AppControls {
   private _controls: any
+  private _playerActivated: boolean
 
   constructor(camera: any, domElement: any) {
     this._controls = new TrackballControls(camera, domElement)
 
   }
 
+  get playerActivated(): boolean {
+    return this._playerActivated
+  }
+
   switchToPlayerView(camera: any, domElement: any) {
-    console.log('switching to player view')
+    this._playerActivated = true
     this._controls = new FirstPersonControls(camera, domElement)
   }
 

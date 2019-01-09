@@ -7,6 +7,7 @@ import ScaleSlider from './sliders/ScaleSlider'
 import RenderWaterCheckbox from './RenderWaterCheckbox'
 import RenderGroundEnvCheckbox from './RenderGroundEnvCheckbox'
 import MovingSunCheckbox from './MovingSunCheckbox'
+import SpawnButton from './SpawnButton'
 
 export interface IGuiState {
   renderedOnce: boolean
@@ -54,6 +55,9 @@ class GUI extends Component<any, IGuiState> {
         </MenuItem>
         <MenuItem label='Toggle moving sun'>
           <MovingSunCheckbox />
+        </MenuItem>
+        <MenuItem label='Finish and spawn!'>
+          <SpawnButton />
         </MenuItem>
       </Menu>
     )

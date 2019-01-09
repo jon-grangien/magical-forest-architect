@@ -107,9 +107,13 @@ class AppScene {
     // console.log(this.camera.position)
     // this.camera.lookAt(new THREE.Vector3(0.0, 0.0, 0.0))
 
-    if (this.frameCounter === 120) {
-      this.controls.switchToPlayerView(this.camera, this.renderer.domElement)
-      this.camera.position.set(0, 0, 400)
+    // if (this.frameCounter === 120) {
+    //   this.controls.switchToPlayerView(this.camera, this.renderer.domElement)
+    //   this.camera.position.set(0, 0, 800)
+    // }
+
+    if (this.controls.playerActivated) {
+      // this.camera.position.z = groundHeight
     }
   }
 }

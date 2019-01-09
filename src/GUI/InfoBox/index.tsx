@@ -1,5 +1,4 @@
 import { h, Component } from 'preact'
-import { connect } from 'redux-zero/preact'
 import { actions } from '../../store'
 import { bind } from 'decko'
 import Button from 'preact-material-components/Button'

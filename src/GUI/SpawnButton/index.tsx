@@ -7,6 +7,7 @@ import 'preact-material-components/Button/style.css'
 // const styles = require('./style.scss')
 
 export interface ISpawnProps {
+  spawned: boolean
   toggleSpawned: Function
 }
 
@@ -21,10 +22,15 @@ class SpawnButton extends Component<ISpawnProps, any> {
   }
 
   render() {
-      return <Button raised onClick={this.handleClick}>Spawn!</Button>
+      return <Button 
+        disabled={this.props.spawned} 
+        raised 
+        onClick={this.handleClick}>
+          GO
+      </Button>
   }
 }
 
-// const mapToProps = ({ renderWater }) => ({ renderWater })
+const mapToProps = ({ spawned }) => ({ spawned })
 
 export default connect(null, actions)(SpawnButton)

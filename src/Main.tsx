@@ -23,6 +23,7 @@ interface IMainAppProps {
   renderWater: boolean
   renderGroundEnv: boolean
   movingSun: boolean
+  spawned: boolean
   depth: number
   height: number
   scale: number
@@ -176,17 +177,29 @@ class Main extends Component<IMainAppProps, any> {
             theSun.stopMovement()
           }
         }
+
+        else if (propChanged(key) && key === 'spawned') {
+          console.log('changed')
+        }
       }
     }
   }
 
-  shouldComponentUpdate() {
-    return !this.state.showGUI // Don't allow re-renders anymore after we let GUI to be rendered
+  shouldComponentUpdate(nextProps: IMainAppProps) {
+    // Unless spawned state changed, 
+    // Don't allow re-renders anymore after we let GUI be rendered
+
+    if (nextProps.spawned) {
+      return true
+    }
+
+    return !this.state.showGUI 
   }
 
   render(props: IMainAppProps, state: IMainAppState) {
     const { showGUI } = state
-    if (!showGUI) {
+    console.log(props)
+    if (!showGUI || props.spawned) {
       return null
     }
 
@@ -201,6 +214,7 @@ const mapToProps = ({
   renderWater,
   renderGroundEnv,
   movingSun,
+  spawned,
   depth,
   height,
   scale,
@@ -210,6 +224,7 @@ const mapToProps = ({
   renderWater,
   renderGroundEnv,
   movingSun,
+  spawned,
   depth,
   height,
   scale,

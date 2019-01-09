@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 const TrackballControls = require('three-trackballcontrols')
 import * as TWEEN from '@tweenjs/tween.js'
+import * as constants from './constants'
 // import TrackballControls from 'three-trackballcontrols'
 
 import Sun from './components/Sun'
@@ -84,6 +85,13 @@ class AppScene {
   }
 
   switchToPlayerView() {
+    const mainPlaneComponent = this.getComponent(constants.MAIN_PLANE_COMPONENT_KEY)
+
+    this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 20000)
+    this.camera.position.set(370.0, 190.0, 200.0)
+    this.camera.lookAt(new THREE.Vector3(200.0, 0.0, 0.0))
+    this.camera.rotation.x = Math.PI 
+    mainPlaneComponent.add(this.camera)
     this.controls.switchToPlayerView(this.camera, this.renderer.domElement)
   }
 
@@ -117,7 +125,11 @@ class AppScene {
     // }
 
     if (this.controls.playerActivated) {
-      // this.camera.position.z = groundHeight
+      const { x, y } = this.camera.position
+      const mainPlaneComponent = this.getComponent(constants.MAIN_PLANE_COMPONENT_KEY)
+      const height = mainPlaneComponent.getHeightValueForXYPosition(x, y)
+      this.camera.position.set(x, y, height)
+      console.log(this.camera.position)
     }
   }
 }

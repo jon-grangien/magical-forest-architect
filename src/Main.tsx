@@ -179,7 +179,7 @@ class Main extends Component<IMainAppProps, any> {
         }
 
         else if (propChanged(key) && key === 'spawned') {
-          console.log('changed')
+          this._appHandle.switchToPlayerView()
         }
       }
     }

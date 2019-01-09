@@ -83,6 +83,10 @@ class AppScene {
     return this.components[key]
   }
 
+  switchToPlayerView() {
+    this.controls.switchToPlayerView(this.camera, this.renderer.domElement)
+  }
+
   render() {
     requestAnimationFrame(() => {
       TWEEN.update()

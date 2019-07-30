@@ -4,7 +4,6 @@ const TrackballControls = require('three-trackballcontrols')
 // import FirstPersonControls from '@fabienmotte/three-first-person-controls'
 import FirstPersonControls from './FirstPersonControls'
 
-
 class AppControls {
   private _controls: any
 

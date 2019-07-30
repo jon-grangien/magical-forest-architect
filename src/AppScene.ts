@@ -34,6 +34,7 @@ class AppScene {
 
     this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 20000)
     this.camera.position.set(-512, -794.0, 208.0)
+    this.camera.up = new THREE.Vector3(0.0, 0.0, 1.0)
     this.camera.lookAt(new THREE.Vector3(0.0, 0.0, 0.0))
 
     const uniforms = Uniforms.Instance.uniforms
@@ -104,12 +105,10 @@ class AppScene {
     this.renderer.render(this.scene, this.camera)
     this.controls.update(this.clock.getDelta())
 
-    // console.log(this.camera.position)
-    // this.camera.lookAt(new THREE.Vector3(0.0, 0.0, 0.0))
-
     if (this.frameCounter === 120) {
+      this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 20000)
       this.controls.switchToPlayerView(this.camera, this.renderer.domElement)
-      this.camera.position.set(0, 0, 400)
+      this.camera.position.set(0.0, 0.0, 208.0)
     }
   }
 }

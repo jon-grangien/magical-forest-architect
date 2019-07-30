@@ -126,7 +126,7 @@ class Main extends Component<IMainAppProps, any> {
     }
 
     // Rotate scene for better view
-    app.scene.rotation.y = -30 * Math.PI / 90
+    // app.scene.rotation.y = -30 * Math.PI / 90
   }
 
   // Simple bridge between redux store and uniforms

@@ -21,6 +21,7 @@ class AppScene {
   private controls: AppControls
   private clock: THREE.Clock
   private sun: Sun
+  private _orbitViewIsActive: boolean = true
 
   constructor() {
     this.components = {}
@@ -38,14 +39,9 @@ class AppScene {
     this.scene.add(new THREE.AxisHelper(100))
 
     this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 20000)
-    // this.camera.position.set(-500.0, -700.0, 200.0)
-    this.camera.position.set(-5.0, 70.0, 0.0)
+    this.camera.position.set(1200.0, 400.0, 0.0)
     this.camera.up.set(0, 1, 0)
-    this.camera.lookAt(new THREE.Vector3(SUN_INITIAL_POSITION.x, SUN_INITIAL_POSITION.y, SUN_INITIAL_POSITION.z).normalize())
-
-    // const quaternion = new THREE.Quaternion()
-    // quaternion.setFromAxisAngle( new THREE.Vector3( 1, 0, 0 ), Math.PI / 2 )
-    // this.camera.quaternion.copy(quaternion)
+    this.camera.lookAt(new THREE.Vector3(0, 0, 0))
 
     const uniforms = Uniforms.Instance.uniforms
 
@@ -59,19 +55,26 @@ class AppScene {
     uniforms.u_resolution.value.y = this.renderer.domElement.height
     this.controls = new AppControls(this.camera, this.renderer.domElement)
 
-    document.addEventListener('click', () => {
-      if (!this.controls.getControls().isLocked) {
-        this.controls.getControls().lock()
-        console.log(this.camera.getWorldDirection())
-      } else {
-        this.controls.getControls().unlock()
-      }
-    }, false)
-
-    // this.scene.add(this.controls.getControls().getObject())
     this.clock = new THREE.Clock(true)
 
     this.render()
+
+    const onKeyDown = (event) => {
+      switch (event.keyCode) {
+        case 32: // space
+
+          if (this._orbitViewIsActive) {
+            this.switchToPlayerView()
+          } else {
+            this.switchToOrbitView()
+          }
+
+          break
+        default:
+          break
+      }
+    }
+    document.addEventListener('keydown', onKeyDown, false)
   }
 
   /**
@@ -105,6 +108,26 @@ class AppScene {
     return this.components[key]
   }
 
+  switchToPlayerView() {
+    this.camera.position.set(-5.0, 70.0, 0.0)
+    this.camera.up.set(0, 1, 0)
+
+    this.controls.switchToPlayerView(this.camera, this.renderer.domElement)
+
+    this.camera.lookAt(new THREE.Vector3(SUN_INITIAL_POSITION.x, SUN_INITIAL_POSITION.y, SUN_INITIAL_POSITION.z).normalize())
+    this._orbitViewIsActive = false
+  }
+
+  switchToOrbitView() {
+    this.camera.position.set(1200.0, 400.0, 0.0)
+    this.camera.up.set(0, 1, 0)
+
+    this.controls.switchToOrbitView(this.camera, this.renderer.domElement)
+
+    this.camera.lookAt(new THREE.Vector3(0, 0, 0))
+    this._orbitViewIsActive = true
+  }
+
   render() {
     requestAnimationFrame(() => {
       TWEEN.update()
@@ -123,29 +146,8 @@ class AppScene {
       }
     }
 
-    // this.camera.position.z += 1
-
     this.renderer.render(this.scene, this.camera)
     this.controls.update(this.clock.getDelta())
-
-    // if (this.frameCounter === 100) {
-      // // this.scene.rotation.y = -30 * Math.PI / 90
-      // // this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 20000)
-      // this.camera.position.set(-100.0, 0.0, 0.0)
-      // this.camera.up = new THREE.Vector3(0.0, 0.0, 1.0)
-      // // this.camera.lookAt(new THREE.Vector3(0.0, 1.0, 0.0))
-      // // this.camera.lookAt(this.getComponent(SUN_COMPONENT_KEY).position)
-      // this.camera.lookAt(new THREE.Vector3(0.0, 1.0, 0.0))
-    // }
-
-    // if (this.frameCounter === 120) {
-
-      // // todo: modify controls
-      // this.controls.switchToPlayerView(this.camera, this.renderer.domElement)
-      // // this.camera.rotation.x = Math.PI / 2.0
-      // this.camera.updateProjectionMatrix()
-      // this.camera.updateMatrixWorld(true)
-    // }
   }
 }
 

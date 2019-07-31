@@ -15,3 +15,4 @@ yarn start
 yarn build
 ```
 
+Or just do `npm install` and `npm start` because it's probably fine

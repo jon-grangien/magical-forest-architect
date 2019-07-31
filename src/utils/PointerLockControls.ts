@@ -124,10 +124,6 @@ let PointerLockControls = function ( camera: any, domElement?: any ) {
 
   }
 
-  this.update = function () {
-    // stub
-  }
-
   this.connect()
 
 }

@@ -48,18 +48,6 @@ class AppControls {
     return this._controls
   }
 
-  lockPointer(): void {
-    if (this.controlsHaveFunction('lock')) {
-      this._controls.lock()
-    }
-  }
-
-  unlockPointer(): void {
-    if (this.controlsHaveFunction('unlock')) {
-      this._controls.unlock()
-    }
-  }
-
   private controlsHaveFunction(funcName: string) {
     return (this._controls[funcName] !== undefined && this._controls[funcName] instanceof Function)
   }

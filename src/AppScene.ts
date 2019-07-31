@@ -145,6 +145,13 @@ class AppScene {
       }
     }
 
+    if (!this._orbitViewIsActive) {
+      const { x, z } = this.camera.position
+      const mainPlaneComponent = this.getComponent(constants.MAIN_PLANE_COMPONENT_KEY)
+      const height = mainPlaneComponent.getHeightValueForXYPosition(x, z) + 10
+      this.camera.position.set(x, height, z)
+    }
+
     this.controls.update(this.clock.getDelta())
     this.renderer.render(this.scene, this.camera)
   }

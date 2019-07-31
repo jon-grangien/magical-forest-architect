@@ -12,6 +12,7 @@ const initialState: any = {
   renderWater: true,
   renderGroundEnv: true,
   movingSun: false,
+  spawned: false,
   isChrome: !!window['chrome'] && !!window['chrome'].webstore,
 
   // App uniforms
@@ -33,6 +34,7 @@ export const actions = (_store) => ({
   toggleRenderWater: ({ renderWater }) => ({ renderWater: !renderWater }),
   toggleRenderGroundEnv: ({ renderGroundEnv }) => ({ renderGroundEnv: !renderGroundEnv }),
   toggleMovingSun: ({ movingSun }) => ({ movingSun: !movingSun }),
+  toggleSpawned: ({ spawned }) => ({ spawned: !spawned }),
 
   changeDepth: (_state: any, val: number) => ({ depth: val }),
   changeHeight: (_state: any, val: number) => ({ height: val }),

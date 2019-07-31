@@ -26,7 +26,6 @@ let PointerLockControls = function ( camera: any, domElement?: any ) {
   let lockEvent = { type: 'lock' }
   let unlockEvent = { type: 'unlock' }
 
-  // let euler = new Euler( 0, 0, 0, 'YXZ' )
   let euler = new Euler( 0, 0, 0, 'YXZ' )
 
   let PI_2 = Math.PI / 2

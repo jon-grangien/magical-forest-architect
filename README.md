@@ -8,7 +8,7 @@ Install [yarn](https://yarnpkg.com/).
 ```bash
 yarn  
   
-# hot reloading dev server on port 8080
+# hot reloading dev server on port 1337
 yarn start
   
 # minified build, load in browser however you want

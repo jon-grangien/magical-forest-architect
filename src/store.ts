@@ -19,9 +19,11 @@ const initialState: any = {
   depth: 50,
   height: 5,
   scale: 0.0005,
+  grassDetailFactor: 3,
+  grassIntensityFactor: 4,
 
   // Help app know which ones are uniforms
-  stateAsUniforms: ['depth', 'height', 'scale']
+  stateAsUniforms: ['depth', 'height', 'scale', 'grassDetailFactor', 'grassIntensityFactor']
 }
 
 // Create store with devtools if in development
@@ -38,5 +40,7 @@ export const actions = (_store) => ({
 
   changeDepth: (_state: any, val: number) => ({ depth: val }),
   changeHeight: (_state: any, val: number) => ({ height: val }),
-  changeScale: (_state: any, val: number) => ({ scale: val })
+  changeScale: (_state: any, val: number) => ({ scale: val }),
+  changeGrassDetailFactor: (_state: any, val: number) => ({ grassDetailFactor: val }),
+  changeGrassIntensityFactor: (_state: any, val: number) => ({ grassIntensityFactor: val })
 })

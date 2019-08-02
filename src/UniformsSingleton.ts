@@ -55,6 +55,8 @@ class UniformSingleton {
       u_depth: { type: 'f', value: 50.0 },
       u_height: { type: 'f', value: 5.0 },
       u_scale: { type: 'f', value: 0.0005 },
+      u_grassDetailFactor: { type: 'f', value: 3.0 },
+      u_grassIntensityFactor: { type: 'f', value: 4.0 },
 
       u_spikyness: { type: 'f', value: 0.0001 },
 

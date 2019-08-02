@@ -2,6 +2,8 @@ uniform vec3 u_sunLightColor;
 uniform vec3 u_sunLightPos;
 
 uniform float u_heightMapMin;
+uniform float u_grassDetailFactor;
+uniform float u_grassIntensityFactor;
 
 varying vec3 vNormal;
 varying vec3 vPos;
@@ -413,17 +415,17 @@ void main() {
   addedLights.rgb += clamp(dot(-lightDirection, vNormal), 0.0, 1.0) + lightColor; // multiply for more accurate
 
   vec3 tmp;
-  float smallGrass = snoise(0.4 * vPos, tmp)
-    + 0.5*snoise(0.8*vPos, tmp)
-    + 0.25*snoise(0.16*vPos, tmp)
-    + 0.125*snoise(0.32*vPos, tmp)
-    + 0.0625*snoise(0.64*vPos, tmp);
+  float noise_pos_base = 0.04 * u_grassDetailFactor;
+  float smallGrass = snoise(noise_pos_base * vPos, tmp)
+    + 0.5*snoise(noise_pos_base * 2.0 * vPos, tmp)
+    + 0.25*snoise(noise_pos_base * 2.0 * vPos, tmp)
+    + 0.125*snoise(noise_pos_base * 2.0 * vPos, tmp)
+    + 0.0625*snoise(noise_pos_base * vPos, tmp);
 
-  // float bigGrass = cnoise(vec4(0.001 * vPos.x, 0.003 * vPos.y, 0.002 * vPos.z, 8.0));
+  /* float bigGrass = cnoise(vec4(0.001 * vPos.x, 0.003 * vPos.y, 0.002 * vPos.z, 8.0)); */
 
-  vec3 ambientColor = 0.15 * vec3(0.6, 0.9, 0.8);
-  ambientColor += 0.07 * smallGrass;
-  // ambientColor -= 0.1 * abs(bigGrass);
+  vec3 ambientColor = 0.15 * vec3(0.7, 0.9, 0.5);
+  ambientColor += 0.02 * u_grassIntensityFactor * smallGrass; // slider: 0.02 to 0.20
 
   vec3 diffuse = ambientColor * 1.2 + addedLights.rgb * 0.2;
 

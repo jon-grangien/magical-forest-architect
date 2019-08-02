@@ -27,6 +27,8 @@ interface IMainAppProps {
   depth: number
   height: number
   scale: number
+  grassDetailFactor: number
+  grassIntensityFactor: number
   stateAsUniforms: string[],
   isChrome: boolean
 }
@@ -218,6 +220,8 @@ const mapToProps = ({
   depth,
   height,
   scale,
+  grassDetailFactor,
+  grassIntensityFactor,
   stateAsUniforms,
   isChrome
 }): IMainAppProps => ({
@@ -228,6 +232,8 @@ const mapToProps = ({
   depth,
   height,
   scale,
+  grassDetailFactor,
+  grassIntensityFactor,
   stateAsUniforms,
   isChrome
 })

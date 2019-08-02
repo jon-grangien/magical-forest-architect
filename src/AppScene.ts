@@ -37,7 +37,7 @@ class AppScene {
     this.scene.rotation.z += Math.PI / 2
     this.scene.rotation.x -= Math.PI / 2
 
-    this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 20000)
+    this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.05, 20000)
     this.camera.position.set(1200.0, 400.0, 0.0)
     this.camera.up.set(0, 1, 0)
     this.camera.lookAt(new THREE.Vector3(0, 0, 0))
@@ -146,12 +146,24 @@ class AppScene {
     }
 
     if (!this._orbitViewIsActive) {
-      const { x, z } = this.camera.position
+      const { x, y, z } = this.camera.position
+
+      const workingObject = new THREE.Object3D()
+      workingObject.position.set(x, z, y)
+
+      // // inverse rotation to match scene
+      workingObject.rotation.x += Math.PI / 2
+      workingObject.rotation.z -= Math.PI / 2
+
       const mainPlaneComponent = this.getComponent(constants.MAIN_PLANE_COMPONENT_KEY)
-      const height = mainPlaneComponent.getHeightValueForXYPosition(x, z) + 50
-      this.camera.position.set(x, height, z)
+      const heightValue = mainPlaneComponent.getHeightValueForXYPosition(workingObject.position.x, workingObject.position.y) + 50
+      // const heightValue = mainPlaneComponent.getHeightValueForXYPosition(x, z) + 50
+      // workingObject.z = height
+
+      this.camera.position.set(x, heightValue, z)
     }
 
+    // console.log(this.camera.position)
     this.controls.update(this.clock.getDelta(), this.camera)
     this.renderer.render(this.scene, this.camera)
   }

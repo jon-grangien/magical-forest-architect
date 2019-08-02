@@ -4,6 +4,8 @@ import MenuItem from './MenuItem'
 import DepthSlider from './sliders/DepthSlider'
 import HeightSlider from './sliders/HeightSlider'
 import ScaleSlider from './sliders/ScaleSlider'
+import GrassDetailSlider from './sliders/GrassDetailSlider'
+import GrassIntensitySlider from './sliders/GrassIntensitySlider'
 import RenderWaterCheckbox from './RenderWaterCheckbox'
 import RenderGroundEnvCheckbox from './RenderGroundEnvCheckbox'
 import MovingSunCheckbox from './MovingSunCheckbox'
@@ -45,6 +47,12 @@ class GUI extends Component<any, IGuiState> {
         </MenuItem>
         <MenuItem label='Scale'>
           <ScaleSlider />
+        </MenuItem>
+        <MenuItem label='Grass detail'>
+          <GrassDetailSlider />
+        </MenuItem>
+        <MenuItem label='Grass intensity'>
+          <GrassIntensitySlider />
         </MenuItem>
         <MenuItem label='Render water'>
           <RenderWaterCheckbox />

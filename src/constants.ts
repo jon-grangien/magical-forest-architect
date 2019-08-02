@@ -24,3 +24,5 @@ export const PLANE_WIDTH_HEIGHT: number = 2048
 export const PLANE_WIDTH_HEIGHT_SEGMENTS: number = 512
 export const WATER_WIDTH_HEIGHT: number = 4096
 export const WATER_WIDTH_HEIGHT_SEGMENTS: number = 512
+
+export const USE_COLEMAK: boolean = false

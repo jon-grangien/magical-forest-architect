@@ -4,11 +4,18 @@
   padding: 0 10px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  padding: auto 10px;
 
   font-family: $main-fontfam;
   font-size: $main-font-size;
   color: $main-font-color;
+}
+
+.itemTwoCol {
+  justify-content: space-between;
+}
+.itemSingleCol {
+  justify-content: center;
 }
 
 .label {

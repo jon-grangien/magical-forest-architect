@@ -23,7 +23,6 @@ class GUI extends Component<any, IGuiState> {
 
   shouldComponentUpdate(_: any, nextState: IGuiState) {
     if (this.state.renderedOnce !== nextState.renderedOnce) {
-      console.log('resize')
       window.dispatchEvent(new Event('resize'))
     }
 
@@ -56,7 +55,7 @@ class GUI extends Component<any, IGuiState> {
         <MenuItem label='Toggle moving sun'>
           <MovingSunCheckbox />
         </MenuItem>
-        <MenuItem label='Finish and spawn!'>
+        <MenuItem>
           <SpawnButton />
         </MenuItem>
       </Menu>
@@ -65,3 +64,4 @@ class GUI extends Component<any, IGuiState> {
 }
 
 export default GUI
+

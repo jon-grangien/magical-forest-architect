@@ -24,9 +24,10 @@ class SpawnButton extends Component<ISpawnProps, any> {
   render() {
       return <Button 
         disabled={this.props.spawned} 
-        raised 
+        compact
+        style={{color: 'white', marginBottom: '10px', marginTop: '5px'}}
         onClick={this.handleClick}>
-          GO
+          Finish and look around
       </Button>
   }
 }

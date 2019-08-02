@@ -11,7 +11,7 @@ class Fairies extends PlaneEnvObjects {
   constructor(params: IPlaneEnvObjects) {
     super(params)
 
-    const ballGeo = new THREE.SphereGeometry(8, 16, 16)
+    const ballGeo = new THREE.SphereGeometry(4, 16, 16)
     const ballMat = new THREE.MeshBasicMaterial({ color: 0x41f488 })
     this._ball = new THREE.Mesh(ballGeo, ballMat)
 
@@ -68,7 +68,7 @@ class Fairies extends PlaneEnvObjects {
     let prevTween
     for (let i = 0; i < amountTweens; i++) {
       const iterFirst = i === 0
-      const iterLast = i === amountTweens - 1
+      const iterLast = i === (amountTweens - 1)
 
       const xTarget = THREE.Math.randFloat(this._posRangeMin, this._posRangeMax)
       const yTarget = THREE.Math.randFloat(this._posRangeMin, this._posRangeMax)
@@ -106,6 +106,29 @@ class Fairies extends PlaneEnvObjects {
     }
 
     firstTween.start()
+
+    const duration = THREE.Math.randFloat(300, 5000)
+    const sizeTween1 = new TWEEN.Tween(fairy.scale.clone())
+      .to({
+        x: 0.9,
+        y: 0.8,
+        z: 0.85
+      }, duration)
+      .delay(0)
+      .onUpdate(obj => fairy.scale.set(obj.x, obj.y, obj.z))
+      .onComplete(() => sizeTween2.start())
+
+    const sizeTween2 = new TWEEN.Tween(fairy.scale.clone())
+      .to({
+        x: 1.1,
+        y: 1.2,
+        z: 1.15
+      }, duration)
+      .delay(0)
+      .onUpdate(obj => fairy.scale.set(obj.x, obj.y, obj.z))
+      .onComplete(() => sizeTween1.start())
+
+    sizeTween1.start()
   }
 
 }

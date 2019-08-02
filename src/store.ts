@@ -13,7 +13,7 @@ const initialState: any = {
   renderGroundEnv: true,
   movingSun: false,
   spawned: false,
-  isChrome: !!window['chrome'] && !!window['chrome'].webstore,
+  isChrome: !!window['chrome'],
 
   // App uniforms
   depth: 50,

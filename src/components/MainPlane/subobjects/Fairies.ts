@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import * as TWEEN from '@tweenjs/tween.js'
 import { IPos2D } from '../../../utils/CommonInterfaces'
+import UniformSingleton from '../../../UniformsSingleton'
 import PlaneEnvObjects, { IPlaneEnvObjects } from './PlaneEnvObjects'
 
 class Fairies extends PlaneEnvObjects {
@@ -11,8 +12,20 @@ class Fairies extends PlaneEnvObjects {
   constructor(params: IPlaneEnvObjects) {
     super(params)
 
+    const uniforms: any = UniformSingleton.Instance.uniforms
+
     const ballGeo = new THREE.SphereGeometry(4, 16, 16)
-    const ballMat = new THREE.MeshBasicMaterial({ color: 0x41f488 })
+    const ballMat = new THREE.ShaderMaterial({
+      vertexShader: require('../shaders/fairyglow.vert'),
+      fragmentShader: require('../shaders/fairyglow.frag'),
+      uniforms,
+      defines: {
+        USE_MAP: ''
+      },
+      side: THREE.DoubleSide,
+      transparent: true
+    })
+
     this._ball = new THREE.Mesh(ballGeo, ballMat)
 
     for (let i = 0; i < params.amount; i++) {

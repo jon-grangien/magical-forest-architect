@@ -7,8 +7,6 @@ import PlaneEnvObjects, { IPlaneEnvObjects } from './PlaneEnvObjects'
 class Fairies extends PlaneEnvObjects {
   readonly HEIGHT_ABOVE_GROUND: number = 20
 
-  private _ball: THREE.Object3D
-
   constructor(params: IPlaneEnvObjects) {
     super(params)
 
@@ -26,7 +24,7 @@ class Fairies extends PlaneEnvObjects {
       transparent: true
     })
 
-    this._ball = new THREE.Mesh(ballGeo, ballMat)
+    const fairyMesh = new THREE.Mesh(ballGeo, ballMat)
 
     const wingMat = new THREE.MeshBasicMaterial( {color: 0xdafcd2, side: THREE.DoubleSide} )
     const wingGeo = new THREE.PlaneGeometry( 1, 4, 2 )
@@ -36,7 +34,6 @@ class Fairies extends PlaneEnvObjects {
     wingGeo.vertices[2].y -= 2
     wingGeo.vertices[4].y -= 1
     wingGeo.vertices[1].y -= 3
-
     wingGeo.verticesNeedUpdate = true
 
     const wing1 = new THREE.Mesh(wingGeo, wingMat)
@@ -50,8 +47,8 @@ class Fairies extends PlaneEnvObjects {
     const wing2 = wing1.clone()
     wing2.translateZ(-3)
 
-    this._ball.add(wing1)
-    this._ball.add(wing2)
+    fairyMesh.add(wing1)
+    fairyMesh.add(wing2)
 
     for (let i = 0; i < params.amount; i++) {
       const min = this._posRangeMin
@@ -60,12 +57,12 @@ class Fairies extends PlaneEnvObjects {
       const posY = THREE.Math.randFloat(min, max)
       const posZ = this.calculateAdjustedHeight(posX, posY)
 
-      const fairy = this._ball.clone()
+      const fairy = fairyMesh.clone()
       fairy.position.set(posX, posY, posZ)
       this.generateAndSetTween(posX, posY, fairy)
 
       const wingMovementTween1 = new TWEEN.Tween(fairy.children[0].rotation)
-        .to({y: -Math.PI / 1.5}, 800)
+        .to({y: -Math.PI / 1.3}, 400)
         .delay(0)
         .yoyo(true)
         .repeat(Infinity)
@@ -75,7 +72,7 @@ class Fairies extends PlaneEnvObjects {
       wingMovementTween1.start()
 
       const wingMovementTween2 = new TWEEN.Tween(fairy.children[1].rotation)
-        .to({y: -Math.PI / 2.5}, 800)
+        .to({y: -Math.PI / 2.8}, 400)
         .delay(0)
         .yoyo(true)
         .repeat(Infinity)
@@ -85,7 +82,7 @@ class Fairies extends PlaneEnvObjects {
       wingMovementTween2.start()
 
       const fairySpinTween = new TWEEN.Tween(fairy.rotation)
-        .to({z: 10 * Math.PI}, 20000)
+        .to({z: 10 * Math.PI}, 30000)
         .delay(0)
         .yoyo(true)
         .repeat(Infinity)
@@ -93,6 +90,9 @@ class Fairies extends PlaneEnvObjects {
           fairy.rotation.z = obj.z
         })
       fairySpinTween.start()
+
+      const light = new THREE.PointLight( 0xd8ffd1, 0.5, 20 )
+      fairy.add(light)
 
       this._objects.push(fairy)
     }

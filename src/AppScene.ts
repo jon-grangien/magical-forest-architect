@@ -138,6 +138,7 @@ class AppScene {
     this.renderer.clear()
 
     Uniforms.Instance.uniforms.u_time.value += 0.05
+    const mainPlaneComponent = this.getComponent(constants.MAIN_PLANE_COMPONENT_KEY)
 
     for (const key in this.components) {
       if (this.components.hasOwnProperty(key)) {
@@ -155,7 +156,6 @@ class AppScene {
       workingObject.rotation.x += Math.PI / 2
       workingObject.rotation.z -= Math.PI / 2
 
-      const mainPlaneComponent = this.getComponent(constants.MAIN_PLANE_COMPONENT_KEY)
       const heightValue = mainPlaneComponent.getHeightValueForXYPosition(workingObject.position.x, workingObject.position.y) + 50
       // const heightValue = mainPlaneComponent.getHeightValueForXYPosition(x, z) + 50
       // workingObject.z = height

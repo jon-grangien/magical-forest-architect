@@ -31,7 +31,6 @@ class ContainerGround extends BaseComponent {
     const openEnded = true
     const color = 0x110a00
 
-
     const cylGeometry = new THREE.CylinderBufferGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded)
     const cylMaterial = new THREE.MeshBasicMaterial({
       color,
@@ -65,8 +64,8 @@ class ContainerGround extends BaseComponent {
     const bottomBackside = new THREE.Mesh(bottomGeo, bottomMatBasic)
 
     pos = bottom.position
-    bottom.position.set(pos.x, pos.y, pos.z - 500)
-    bottomBackside.position.set(pos.x, pos.y, pos.z) // pos was modified
+    bottom.position.set(pos.x, pos.y, pos.z - 230)
+    bottomBackside.position.set(pos.x, pos.y, pos.z) 
 
     this.add(cylinder)
     this.add(bottom)

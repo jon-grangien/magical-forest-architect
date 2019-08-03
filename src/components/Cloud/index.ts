@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import * as TWEEN from '@tweenjs/tween.js'
 import BaseComponent from '../BaseComponent'
 import UniformSingleton from '../../UniformsSingleton'
 import { IPos3D } from '../../utils/CommonInterfaces'
@@ -34,29 +35,46 @@ class Cloud extends BaseComponent {
     const mesh = new THREE.Mesh(geometry, material)
     const pos: IPos3D = this.generatePosition()
     mesh.position.set(pos.x, pos.y, pos.z)
+
+    const posXOrig = pos.x
+    const duration = THREE.Math.randFloat(4000, 25000)
+    const movementTween = new TWEEN.Tween(mesh.position)
+      .to({x: (posXOrig - 200)}, duration)
+      .delay(0)
+      .yoyo(true)
+      .repeat(Infinity)
+      .onUpdate(obj => mesh.position.x = obj.x)
+    movementTween.start()
+
     this.add(mesh)
   }
 
   /**
    * @Override
    */
-  public update() { }
+  public update() {
+    this.lookAt(new THREE.Vector3(0, 0, 0))
+  }
 
   private generatePosition(): IPos3D {
     const pos: IPos3D = new THREE.Vector3(0.0, 0.0, 0.0)
 
-    const range = 800
-    const fracRange = 400
-    pos.x = THREE.Math.randFloatSpread(range)
-    pos.y = THREE.Math.randFloatSpread(range)
-    pos.z = THREE.Math.randFloat(800, 1300)
+    const rangeMax = 2000
+    const rangeMin = 800
 
-    if (pos.x < fracRange && pos.x > -fracRange) {
-      pos.x *= 3.0
+    pos.x = THREE.Math.randFloat(rangeMin, rangeMax)
+    pos.y = THREE.Math.randFloat(rangeMin, rangeMax)
+    pos.z = THREE.Math.randFloat(rangeMin, 1300)
+
+    const poll = Math.random()
+    const poll2 = Math.random()
+
+    if (poll > 0.5) {
+      pos.x *= -1
     }
 
-    if (pos.y < fracRange && pos.y > -fracRange) {
-      pos.y *= 3.0
+    if (poll2 > 0.5) {
+      pos.y *= -1
     }
 
     return pos
@@ -64,3 +82,4 @@ class Cloud extends BaseComponent {
 }
 
 export default Cloud
+

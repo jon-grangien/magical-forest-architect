@@ -13,7 +13,7 @@ export const CLOUD_COMPONENT_KEY: string = 'cloud'
 export const SUN_LIGHT_COLOR: number = 0xF4F142
 export const SUN_INITIAL_POSITION: IPos3D = { x: 450.0, y: 5000.0, z: 400.0 }
 export const NUMBER_OF_SUN_POSITION_TWEENS: number = 6
-export const NUMBER_OF_CLOUDS: number = 3
+export const NUMBER_OF_CLOUDS: number = 8
 
 export const RENDER_WATER_STATE_KEY: string = 'renderWater'
 export const RENDER_GROUND_ENV_STATE_KEY: string = 'renderGroundEnv'

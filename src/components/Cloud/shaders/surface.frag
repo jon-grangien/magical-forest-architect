@@ -276,7 +276,8 @@ void main() {
     //f1f2 = cellular(vec3(0.5 * snoise(f1f2)));
 
 		vec2 uvTimeVariation = 1.5 * sin(0.04 * u_time) * vUv;
-    float noise = clamp(0.5 * (cell1.y - cell1.x), 0.0, 1.0);
+    // float noise = clamp(0.5 * (cell1.y - cell1.x), 0.0, 1.0);
+    float noise = 0.3 * (cell1.y - cell1.x);
     float alpha = smoothstep(0.0, 1.0, noise);
     gl_FragColor = vec4(c_white, alpha);
 }

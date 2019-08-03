@@ -66,9 +66,7 @@ class Fairies extends PlaneEnvObjects {
         .delay(0)
         .yoyo(true)
         .repeat(Infinity)
-        .onUpdate(obj => {
-          fairy.children[0].rotation.y = obj.y
-        })
+        .onUpdate(obj => fairy.children[0].rotation.y = obj.y)
       wingMovementTween1.start()
 
       const wingMovementTween2 = new TWEEN.Tween(fairy.children[1].rotation)
@@ -76,9 +74,7 @@ class Fairies extends PlaneEnvObjects {
         .delay(0)
         .yoyo(true)
         .repeat(Infinity)
-        .onUpdate(obj => {
-          fairy.children[1].rotation.y = obj.y
-        })
+        .onUpdate(obj => fairy.children[1].rotation.y = obj.y)
       wingMovementTween2.start()
 
       const fairySpinTween = new TWEEN.Tween(fairy.rotation)
@@ -86,9 +82,7 @@ class Fairies extends PlaneEnvObjects {
         .delay(0)
         .yoyo(true)
         .repeat(Infinity)
-        .onUpdate(obj => {
-          fairy.rotation.z = obj.z
-        })
+        .onUpdate(obj => fairy.rotation.z = obj.z)
       fairySpinTween.start()
 
       const light = new THREE.PointLight( 0xd8ffd1, 0.5, 20 )

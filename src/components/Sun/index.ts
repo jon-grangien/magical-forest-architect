@@ -45,6 +45,59 @@ class Sun extends BaseComponent {
 
     // Glow object
     this.add(this.addGlow(size, widthSegments, heightSegments))
+
+    const cylGeometry = new THREE.CylinderGeometry(1300, 1000, 2, 64, 64, true)
+    const cylMaterial = new THREE.ShaderMaterial({
+      vertexShader: require('./shaders/disc.vert'),
+      fragmentShader: require('./shaders/disc.frag'),
+      uniforms,
+      defines: {
+        USE_MAP: ''
+      },
+      transparent: true,
+      side: THREE.DoubleSide
+    })
+    const cylinder = new THREE.Mesh(cylGeometry, cylMaterial)
+    cylinder.rotation.x = Math.PI / 6
+    cylinder.rotation.z = Math.PI / 12
+    cylinder.rotation.y = -Math.PI / 4
+
+    const cylGeometry2 = new THREE.CylinderGeometry(950, 800, 2, 64, 64, true)
+    const cylMaterial2 = new THREE.ShaderMaterial({
+      vertexShader: require('./shaders/disc.vert'),
+      fragmentShader: require('./shaders/disc.frag'),
+      uniforms,
+      defines: {
+        USE_MAP: ''
+      },
+      transparent: true,
+      side: THREE.DoubleSide
+    })
+    const cylinder2 = new THREE.Mesh(cylGeometry2, cylMaterial2)
+    cylinder2.rotation.x = Math.PI / 6
+    cylinder2.rotation.z = Math.PI / 12
+    cylinder2.rotation.y = -Math.PI / 4
+
+    const cylGeometry3 = new THREE.CylinderGeometry(790, 700, 2, 64, 64, true)
+    const cylMaterial3 = new THREE.ShaderMaterial({
+      vertexShader: require('./shaders/disc.vert'),
+      fragmentShader: require('./shaders/disc.frag'),
+      uniforms,
+      defines: {
+        USE_MAP: ''
+      },
+      premultipliedAlpha: true,
+      transparent: true,
+      side: THREE.DoubleSide
+    })
+    const cylinder3 = new THREE.Mesh(cylGeometry3, cylMaterial3)
+    cylinder3.rotation.x = Math.PI / 6
+    cylinder3.rotation.z = Math.PI / 12
+    cylinder3.rotation.y = -Math.PI / 4
+
+    this.add(cylinder)
+    this.add(cylinder2)
+    this.add(cylinder3)
   }
 
   /**

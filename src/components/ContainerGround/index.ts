@@ -64,7 +64,7 @@ class ContainerGround extends BaseComponent {
     const bottomBackside = new THREE.Mesh(bottomGeo, bottomMatBasic)
 
     pos = bottom.position
-    bottom.position.set(pos.x, pos.y, pos.z - 230)
+    bottom.position.set(pos.x, pos.y, pos.z - 350)
     bottomBackside.position.set(pos.x, pos.y, pos.z) 
 
     this.add(cylinder)

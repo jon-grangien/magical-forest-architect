@@ -10,7 +10,7 @@ export interface IVisualizeNormalsCheckboxProps {
 }
 
 /**
- * Test component for checkbox
+ * Visualize normals checkbox
  */
 class VisualizeNormalsCheckbox extends Component<IVisualizeNormalsCheckboxProps, any> {
   constructor(props: IVisualizeNormalsCheckboxProps) {

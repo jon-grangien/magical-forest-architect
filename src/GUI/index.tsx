@@ -1,4 +1,5 @@
 import { h, Component } from 'preact'
+import { connect } from 'redux-zero/preact'
 import Menu from './Menu'
 import MenuItem from './MenuItem'
 import DepthSlider from './sliders/DepthSlider'
@@ -6,6 +7,7 @@ import HeightSlider from './sliders/HeightSlider'
 import ScaleSlider from './sliders/ScaleSlider'
 import GrassDetailSlider from './sliders/GrassDetailSlider'
 import GrassIntensitySlider from './sliders/GrassIntensitySlider'
+import NormalsDensitySlider from './sliders/NormalsDensitySlider'
 import RenderWaterCheckbox from './RenderWaterCheckbox'
 import RenderGroundEnvCheckbox from './RenderGroundEnvCheckbox'
 import VisualizeNormalsCheckbox from './VisualizeNormalsCheckbox'
@@ -16,7 +18,11 @@ export interface IGuiState {
   renderedOnce: boolean
 }
 
-class GUI extends Component<any, IGuiState> {
+export interface IGuiProps {
+  visualizeNormals: boolean
+}
+
+class GUI extends Component<IGuiProps, IGuiState> {
   constructor() {
     super()
     this.state = {
@@ -32,7 +38,7 @@ class GUI extends Component<any, IGuiState> {
     return true
   }
 
-  render(_: any, _state: IGuiState) {
+  render(props: IGuiProps, _state: IGuiState) {
 
     // if (!state.renderedOnce) {
     //   this.setState({ renderedOnce: true })
@@ -67,6 +73,13 @@ class GUI extends Component<any, IGuiState> {
         <MenuItem label='Visualize ground normals'>
           <VisualizeNormalsCheckbox />
         </MenuItem>
+
+        { props.visualizeNormals ? (
+        <MenuItem label='Normals offset factor (performance warning)'>
+          <NormalsDensitySlider />
+        </MenuItem>
+        ) : null }
+
         <MenuItem>
           <SpawnButton />
         </MenuItem>
@@ -75,5 +88,7 @@ class GUI extends Component<any, IGuiState> {
   }
 }
 
-export default GUI
+const mapToProps = ({ visualizeNormals }) => ({ visualizeNormals })
+
+export default connect(mapToProps, null)(GUI)
 

@@ -26,6 +26,7 @@ class MainPlane extends BaseComponent {
 
   private _shouldVisualizeNormals: boolean = false
   private _normalUpdateTimer: any
+  private _normalsDensityFactor: number = 3
 
   /**
    * @param  {IPlaneSize} size - The size of the plane
@@ -83,12 +84,16 @@ class MainPlane extends BaseComponent {
 
     let currentRenderWaterState
     let currentVisualizeNormalsState
+    let currentNormalsDensityState
+
     store.subscribe(() => {
       let previousRenderWaterState = currentRenderWaterState
       let previousVisualizeNormalsState = currentVisualizeNormalsState
+      let previousNormalsDensityState = currentNormalsDensityState
 
       currentRenderWaterState = store.getState()[RENDER_WATER_STATE_KEY]
       currentVisualizeNormalsState = store.getState()['visualizeNormals']
+      currentNormalsDensityState = store.getState()['normalsDensityFactor']
 
       if (previousRenderWaterState !== currentRenderWaterState) {
         if (currentRenderWaterState === true) {
@@ -109,6 +114,14 @@ class MainPlane extends BaseComponent {
           this.updateNormalsVisualization()
         } else {
           this.remove(this._normalArrows)
+        }
+      }
+
+      if (previousNormalsDensityState !== currentNormalsDensityState) {
+        this._normalsDensityFactor = currentNormalsDensityState
+
+        if (this._shouldVisualizeNormals) {
+          this.updateNormalsVisualization()
         }
       }
     })
@@ -179,7 +192,7 @@ class MainPlane extends BaseComponent {
   private updateNormalsVisualization(): void {
     this.remove(this._normalArrows)
     this._normalArrows = new THREE.Group()
-    const sizeOffset = 64
+    const sizeOffset = 16 * this._normalsDensityFactor
     const pixelLength = this._planeFBOPixels.length
 
     for (let x = 0; x < this._size.width; x += sizeOffset) {

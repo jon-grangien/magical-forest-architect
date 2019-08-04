@@ -147,7 +147,7 @@ class AppControls {
       this._direction.normalize()
 
       if (this._moveForward || this._moveBackward) { 
-        this._velocity.z -= this._direction.z * 400.0 * delta
+        this._velocity.z -= this._direction.z * 600.0 * delta
       }
 
       if (this._moveLeft || this._moveRight) { 

@@ -37,6 +37,7 @@ class AppScene {
     this.scene.rotation.z += Math.PI / 2
     this.scene.rotation.x -= Math.PI / 2
 
+    this.scene.add(new THREE.AmbientLight(0x505050))
     this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.05, 20000)
     this.camera.position.set(1200.0, 400.0, 0.0)
     this.camera.up.set(0, 1, 0)

@@ -397,7 +397,7 @@ void main() {
   vec3 grad, temp;
 
   // Main noise
-  float elevation = snoise(vec3(u_spikyness * vPos) - 0.5, temp);
+  float elevation = snoise(vPos * u_spikyness, temp);
   grad = temp;
 
   // Generate noise frequency
@@ -415,10 +415,6 @@ void main() {
 
   float bumpHeight = u_depth;
   vec3 finalElevation = bumpHeight * elevation * vNormal;
-
-  // Apply noise
-  // vec3 variedpos = vPos;
-  // variedpos += finalElevation;
   float height = vPos.z + finalElevation.z;
 
   // Transform normal
@@ -433,6 +429,8 @@ void main() {
   //   variedpos.x += 50.0;
   // }
 
-  // Height map: x = height value, yzw = normal
+  // Height map
+  // x = height value
+  // yzw = normal
   gl_FragColor = vec4(height, transformedNormal.x, transformedNormal.y, transformedNormal.z);
 }

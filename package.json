@@ -25,6 +25,7 @@
     "@types/three": "^0.89.2",
     "@types/tween.js": "^16.9.0",
     "@types/webfontloader": "^1.6.29",
+    "babel-core": "^6.26.3",
     "babel-loader": "^7.1.2",
     "babel-plugin-glslify": "^2.0.0",
     "babel-polyfill": "^6.16.0",

@@ -415,14 +415,12 @@ void main() {
   addedLights.rgb += clamp(dot(-lightDirection, vNormal), 0.0, 1.0) + lightColor; // multiply for more accurate
 
   vec3 tmp;
-  float noise_pos_base = 0.04 * u_grassDetailFactor;
+  float noise_pos_base = 0.08 * u_grassDetailFactor;
   float smallGrass = snoise(noise_pos_base * vPos, tmp)
     + 0.5*snoise(noise_pos_base * 2.0 * vPos, tmp)
     + 0.25*snoise(noise_pos_base * 2.0 * vPos, tmp)
     + 0.125*snoise(noise_pos_base * 2.0 * vPos, tmp)
-    + 0.0625*snoise(noise_pos_base * vPos, tmp);
-
-  /* float bigGrass = cnoise(vec4(0.001 * vPos.x, 0.003 * vPos.y, 0.002 * vPos.z, 8.0)); */
+    + 0.0625*snoise(noise_pos_base * 2.0 * vPos, tmp);
 
   vec3 ambientColor = 0.3 * vec3(0.7, 0.9, 0.5);
   ambientColor += 0.02 * u_grassIntensityFactor * smallGrass; // slider: 0.02 to 0.20
@@ -437,7 +435,6 @@ void main() {
   subSurfaceLevel = subSurfaceLevel + 0.35;
   subSurfaceLevel = min(subSurfaceLevel, 1.0);
 
-  // vec3 subSurfaceColor = vec3(0.37, 0.3, 0.24);
   vec3 subSurfaceColor = vec3(1.0, 0.63, 0.35);
   vec3 additiveSubSurfaceColor = 0.35 * subSurfaceColor;
   diffuse = mix(diffuse, diffuse + additiveSubSurfaceColor, smoothstep(0.0, 1.0, subSurfaceLevel));

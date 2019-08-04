@@ -12,6 +12,7 @@ const initialState: any = {
   renderWater: true,
   renderGroundEnv: true,
   movingSun: false,
+  visualizeNormals: false,
   spawned: false,
   isChrome: !!window['chrome'],
 
@@ -35,6 +36,7 @@ export const actions = (_store) => ({
   toggleMenuVisible: ({ menuVisible }) => ({ menuVisible: !menuVisible }),
   toggleRenderWater: ({ renderWater }) => ({ renderWater: !renderWater }),
   toggleRenderGroundEnv: ({ renderGroundEnv }) => ({ renderGroundEnv: !renderGroundEnv }),
+  toggleVisualizeNormals: ({ visualizeNormals }) => ({ visualizeNormals: !visualizeNormals }),
   toggleMovingSun: ({ movingSun }) => ({ movingSun: !movingSun }),
   toggleSpawned: ({ spawned }) => ({ spawned: !spawned }),
 

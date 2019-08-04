@@ -424,10 +424,10 @@ void main() {
 
   /* float bigGrass = cnoise(vec4(0.001 * vPos.x, 0.003 * vPos.y, 0.002 * vPos.z, 8.0)); */
 
-  vec3 ambientColor = 0.15 * vec3(0.7, 0.9, 0.5);
+  vec3 ambientColor = 0.3 * vec3(0.7, 0.9, 0.5);
   ambientColor += 0.02 * u_grassIntensityFactor * smallGrass; // slider: 0.02 to 0.20
 
-  vec3 diffuse = ambientColor * 1.2 + addedLights.rgb * 0.2;
+  vec3 diffuse = ambientColor * 0.6 + addedLights.rgb * 0.2;
 
   float subSurfaceLevel = vPos.z;
   subSurfaceLevel = min(subSurfaceLevel, -0.000001);        // Take the negative part

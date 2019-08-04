@@ -408,6 +408,7 @@ void main() {
     elevation += u_height/(factor) * snoise(vec3(factor*hillFactor*vPos) - 0.5, temp);
     grad += temp;
   }
+  grad = normalize(grad);
 
   // Truncate low enough values
   elevation = max(elevation, -4.0);
@@ -422,8 +423,8 @@ void main() {
 
   // Transform normal
   vec3 g1 = dot(grad, vNormal) * vNormal;
-  vec3 g2 = grad - g1;
-  vec3 n = vNormal.xyz - g2;
+  vec3 g2 = normalize(grad - g1);
+  vec3 n = normalize(vNormal - g2);
   vec3 transformedNormal = normalize(n);
 
   // float centerDistance = distance(uv, vec2(0.5, 0.5));

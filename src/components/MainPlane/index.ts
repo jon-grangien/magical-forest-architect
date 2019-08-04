@@ -22,6 +22,10 @@ class MainPlane extends BaseComponent {
 
   private _trees: Trees
   private _fairies: Fairies
+  private _normalArrows: THREE.Group
+
+  private _shouldVisualizeNormals: boolean = false
+  private _normalUpdateTimer: any
 
   /**
    * @param  {IPlaneSize} size - The size of the plane
@@ -30,6 +34,7 @@ class MainPlane extends BaseComponent {
   constructor(size: IPlaneSize, renderer: THREE.WebGLRenderer) {
     super()
     this._size = size
+    this._normalArrows = new THREE.Group()
     const uniforms: IUniforms = UniformSingleton.Instance.uniforms
 
     const textureHeightShader = new THREE.ShaderMaterial({
@@ -77,9 +82,13 @@ class MainPlane extends BaseComponent {
     })
 
     let currentRenderWaterState
+    let currentVisualizeNormalsState
     store.subscribe(() => {
       let previousRenderWaterState = currentRenderWaterState
+      let previousVisualizeNormalsState = currentVisualizeNormalsState
+
       currentRenderWaterState = store.getState()[RENDER_WATER_STATE_KEY]
+      currentVisualizeNormalsState = store.getState()['visualizeNormals']
 
       if (previousRenderWaterState !== currentRenderWaterState) {
         if (currentRenderWaterState === true) {
@@ -90,6 +99,16 @@ class MainPlane extends BaseComponent {
           this._trees.showAll()
           this._trees.waterIsRendering = false
           this._fairies.waterIsRendering = false
+        }
+      }
+
+      if (previousVisualizeNormalsState !== currentVisualizeNormalsState) {
+        this._shouldVisualizeNormals = currentVisualizeNormalsState
+
+        if (currentVisualizeNormalsState) {
+          this.updateNormalsVisualization()
+        } else {
+          this.remove(this._normalArrows)
         }
       }
     })
@@ -114,6 +133,20 @@ class MainPlane extends BaseComponent {
         this._fairies.updateHeightValues()
       }
 
+      if (this._shouldVisualizeNormals) {
+
+        // Simulate render on change behavior
+        // to not rerender on every slider input change
+        if (this._normalUpdateTimer) {
+          clearTimeout(this._normalUpdateTimer)
+        } 
+
+        this._normalUpdateTimer = setTimeout(() => {
+          this.updateNormalsVisualization()
+          this._normalUpdateTimer = null
+        }, 100)
+
+      }
       UniformSingleton.Instance.hillValueListenerHandledChange(this.PLANE_FBO_LISTENER)
     }
 
@@ -141,6 +174,33 @@ class MainPlane extends BaseComponent {
     }
 
     return this._planeFBOPixels[idx] + 5 // reconsider
+  }
+
+  private updateNormalsVisualization(): void {
+    this.remove(this._normalArrows)
+    this._normalArrows = new THREE.Group()
+    const sizeOffset = 64
+    const pixelLength = this._planeFBOPixels.length
+
+    for (let x = 0; x < this._size.width; x += sizeOffset) {
+      for (let y = 0; y < this._size.height; y += sizeOffset) {
+        const idx = Math.floor(y * this._size.width * 4 + (x * 4))
+
+        if (idx > pixelLength) {
+          continue
+        }
+
+        const heightValue = this._planeFBOPixels[idx]
+        const normal = new THREE.Vector3(this._planeFBOPixels[idx + 1], this._planeFBOPixels[idx + 2], this._planeFBOPixels[idx + 3])
+
+        const arrowOrigin = new THREE.Vector3(x, y, heightValue)
+        const arrow = new THREE.ArrowHelper(normal, arrowOrigin, 30, 0xffaaff)
+        this._normalArrows.add(arrow)
+      }
+    }
+    this._normalArrows.translateX(-this._size.width / 2)
+    this._normalArrows.translateY(-this._size.height / 2)
+    this.add(this._normalArrows)
   }
 
   private setHeightMapMinMax(pixels: Float32Array): void {

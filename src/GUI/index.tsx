@@ -8,6 +8,7 @@ import GrassDetailSlider from './sliders/GrassDetailSlider'
 import GrassIntensitySlider from './sliders/GrassIntensitySlider'
 import RenderWaterCheckbox from './RenderWaterCheckbox'
 import RenderGroundEnvCheckbox from './RenderGroundEnvCheckbox'
+import VisualizeNormalsCheckbox from './VisualizeNormalsCheckbox'
 import MovingSunCheckbox from './MovingSunCheckbox'
 import SpawnButton from './SpawnButton'
 
@@ -62,6 +63,9 @@ class GUI extends Component<any, IGuiState> {
         </MenuItem>
         <MenuItem label='Toggle moving sun'>
           <MovingSunCheckbox />
+        </MenuItem>
+        <MenuItem label='Visualize ground normals'>
+          <VisualizeNormalsCheckbox />
         </MenuItem>
         <MenuItem>
           <SpawnButton />

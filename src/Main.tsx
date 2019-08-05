@@ -48,7 +48,7 @@ class Main extends Component<IMainAppProps, any> {
       showGUI: false
     }
 
-    this.CHROME_ADVICE = 'You are running a browser that is not Chrome. This app works best in a modern version of Chrome, as some features may not work properly in other browsers at this stage of development.'
+    this.CHROME_ADVICE = 'You are running a browser that is not Chrome. This app works best in a modern version of Chrome, some features may not work properly in other browsers at this point in development.'
   }
 
   componentWillMount() {

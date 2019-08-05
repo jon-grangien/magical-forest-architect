@@ -2,6 +2,7 @@ import * as THREE from 'three'
 const TrackballControls = require('three-trackballcontrols')
 import PointerLockControls from './PointerLockControls'
 import { USE_COLEMAK } from '../constants'
+import * as TWEEN from '@tweenjs/tween.js'
 
 class AppControls {
   private _threeControls: any
@@ -31,9 +32,9 @@ class AppControls {
 
     this._pointerLockClickListener = () => {
       if (this._threeControls.isLocked !== undefined && this._threeControls.isLocked === false) {
-        this._threeControls.lock()
+        this.lock()
       } else {
-        this._threeControls.unlock()
+        this.unlock()
       }
     }
 
@@ -97,14 +98,19 @@ class AppControls {
   switchToPlayerView(camera: any, domElement: any) {
     this._isPlayerViewMode = true
     this._threeControls.dispose()
-    this._threeControls = new PointerLockControls(camera, domElement)
+
+    const pointerUnlockedCallback = () => {
+      this.showAndFadeInstructionsOnScreen('mouse-instruction', 3500)
+    }
+
+    this._threeControls = new PointerLockControls(camera, domElement, pointerUnlockedCallback)
 
     document.addEventListener('click', this._pointerLockClickListener, false)
     document.addEventListener('keydown', this._keyDownListener, false)
     document.addEventListener('keyup', this._keyUpListener, false)
 
     if (this._threeControls.isLocked !== undefined && !this._threeControls.isLocked) {
-      this._threeControls.lock()
+      this.lock()
     }
   }
 
@@ -112,7 +118,7 @@ class AppControls {
     this._isPlayerViewMode = false
 
     if (this._threeControls.isLocked !== undefined && this._threeControls.isLocked) {
-      this._threeControls.unlock()
+      this.unlock()
     }
 
     this._threeControls = new TrackballControls(camera, domElement)
@@ -148,8 +154,32 @@ class AppControls {
     }
   }
 
-  getControls(): any {
-    return this._threeControls
+  private showAndFadeInstructionsOnScreen(nodeId: string, duration: number): void {
+    const instructionsNode = document.getElementById(nodeId)
+    instructionsNode.style.display = 'flex'
+    instructionsNode.style.opacity = '1'
+
+    const opacityTween = new TWEEN.Tween({opacity: 1})
+      .to({opacity: 0}, duration)
+      .delay(0)
+      .onUpdate(obj => {
+        const roundedOpacity = Math.round( Number(obj.opacity) * 100) / 100
+        instructionsNode.style.opacity = roundedOpacity.toString()
+      })
+      .onComplete(() => {
+        instructionsNode.style.display = 'none'
+        instructionsNode.style.opacity = '0'
+      })
+    opacityTween.start()
+  }
+
+  private lock(): void {
+    this.showAndFadeInstructionsOnScreen('controls-instruction', 2000)
+    this._threeControls.lock()
+  }
+
+  private unlock(): void {
+    this._threeControls.unlock()
   }
 
   private controlsHaveFunction(funcName: string) {

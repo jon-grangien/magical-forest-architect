@@ -11,10 +11,12 @@ import {
   Quaternion
 } from 'three'
 
-let PointerLockControls = function ( camera: any, domElement?: any ) {
+let PointerLockControls = function ( camera: any, domElement?: any, unlockCallback?: Function) {
 
   this.domElement = domElement || document.body
   this.isLocked = false
+
+  this.unlockCallback = unlockCallback || null
 
   //
   // internals
@@ -60,6 +62,10 @@ let PointerLockControls = function ( camera: any, domElement?: any ) {
     } else {
 
       scope.dispatchEvent( unlockEvent )
+
+      if (scope.unlockCallback) {
+        scope.unlockCallback()
+      }
 
       scope.isLocked = false
 

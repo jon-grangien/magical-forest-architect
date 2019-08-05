@@ -8,3 +8,36 @@ body {
     background: linear-gradient(to bottom, rgba(15,30,51,1) 10%,rgba(0,33,33,1) 91%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1b1e33', endColorstr='#210021',GradientType=0 );
 }
+
+#controls-instruction,
+#mouse-instruction {
+  display: none;
+  opacity: 1;
+  z-index: 99;
+  width: 100vw;
+  height: 100px;
+  position: fixed;
+  bottom: 0;
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  align-self: flex-end;
+  background-color: transparent;
+}
+#controls-instruction p,
+#mouse-instruction p {
+  font-size: 72px;
+  text-align: center;
+  color: #fff;
+  font-family: 'Anonymous Pro', 'Roboto', 'Arial';
+}
+#controls-instruction {
+  margin-bottom: 20%;
+}
+#mouse-instruction {
+  margin-bottom: 30%;
+}
+
+#renderer-handle {
+  z-index: 1;
+}

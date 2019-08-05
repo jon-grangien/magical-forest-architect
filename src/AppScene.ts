@@ -20,7 +20,6 @@ class AppScene {
   private components: any
   private controls: AppControls
   private clock: THREE.Clock
-  private sun: Sun
   private _orbitViewIsActive: boolean = true
 
   constructor() {
@@ -49,7 +48,7 @@ class AppScene {
     this.renderer = new THREE.WebGLRenderer()
     this.renderer.setSize(window.innerWidth, window.innerHeight)
     this.renderer.autoClear = false
-    document.body.appendChild(this.renderer.domElement)
+    document.getElementById('renderer-handle').appendChild(this.renderer.domElement)
 
     uniforms.u_resolution.value.x = this.renderer.domElement.width
     uniforms.u_resolution.value.y = this.renderer.domElement.height

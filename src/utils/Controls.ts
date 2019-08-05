@@ -1,14 +1,10 @@
 import * as THREE from 'three'
 const TrackballControls = require('three-trackballcontrols')
-import FirstPersonControls from './FirstPersonControls'
 import PointerLockControls from './PointerLockControls'
 import { USE_COLEMAK } from '../constants'
 
 class AppControls {
   private _threeControls: any
-  private _cameraHandle: any
-  private _domElementHandle: any
-
   private _isPlayerViewMode: boolean
   private _pointerLockClickListener: any
   private _keyDownListener: any
@@ -22,8 +18,6 @@ class AppControls {
   private _moveBackward: boolean
 
   constructor(camera: any, domElement: any) {
-    this._cameraHandle = camera
-    this._domElementHandle = domElement
     this._isPlayerViewMode = false
 
     this._velocity = new THREE.Vector3()
@@ -68,15 +62,6 @@ class AppControls {
           this._moveRight = true
           break
 
-        // case 32: // space
-
-          // if (this._orbitViewIsActive) {
-            // this.switchToPlayerView()
-          // } else {
-            // this.switchToOrbitView()
-          // }
-
-          // break
         default:
           break
       }

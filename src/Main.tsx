@@ -200,7 +200,6 @@ class Main extends Component<IMainAppProps, any> {
 
   render(props: IMainAppProps, state: IMainAppState) {
     const { showGUI } = state
-    console.log(props)
     if (!showGUI || props.spawned) {
       return null
     }

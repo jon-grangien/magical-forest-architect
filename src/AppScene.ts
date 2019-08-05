@@ -3,10 +3,9 @@ const TrackballControls = require('three-trackballcontrols')
 import * as TWEEN from '@tweenjs/tween.js'
 import * as constants from './constants'
 
-import Sun from './components/Sun'
 import Uniforms from './UniformsSingleton'
 import AppControls from './utils/Controls'
-import { SUN_COMPONENT_KEY, SUN_INITIAL_POSITION } from './constants'
+import { SUN_INITIAL_POSITION } from './constants'
 
 /**
  * Main class
@@ -57,23 +56,6 @@ class AppScene {
     this.clock = new THREE.Clock(true)
 
     this.render()
-
-    const onKeyDown = (event) => {
-      switch (event.keyCode) {
-        case 32: // space
-
-          if (this._orbitViewIsActive) {
-            this.switchToPlayerView()
-          } else {
-            this.switchToOrbitView()
-          }
-
-          break
-        default:
-          break
-      }
-    }
-    document.addEventListener('keydown', onKeyDown, false)
   }
 
   /**

@@ -12,6 +12,7 @@ import {
  */
 class ContainerGround extends BaseComponent {
   private _turtle: THREE.Group
+  private _gnu: THREE.Object3D
 
   /**
    * Constructor
@@ -89,6 +90,18 @@ class ContainerGround extends BaseComponent {
       mtlFilename: '10042_Sea_Turtle_V2_iterations-2.mtl',
       onLoadObjCallback: onLoadTurtleObj
     })
+
+    const gnuGeo = new THREE.PlaneGeometry(512, 254, 4, 4)
+    const gnuTex = new THREE.TextureLoader().load('gnu.png')
+    const gnuPlane = new THREE.MeshBasicMaterial({
+      map: gnuTex,
+      transparent: true,
+      side: THREE.FrontSide
+    })
+    this._gnu = new THREE.Mesh(gnuGeo, gnuPlane)
+    this._gnu.rotation.x = Math.PI
+    this.add(this._gnu)
+
   }
 
   /**
@@ -100,6 +113,9 @@ class ContainerGround extends BaseComponent {
     if (this._turtle) {
       this._turtle.position.z += 1.0 * Math.sin(0.5 * time)
       this._turtle.position.x += 0.5 * Math.sin(0.3 * time)
+
+      const {x, y, z} = this._turtle.position
+      this._gnu.position.set(x, y, z - 10)
     }
   }
 }

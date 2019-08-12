@@ -301,15 +301,15 @@ void main() {
   vUv = uv;
 
   vec3 tmp;
-  float mag = 2.0;
+  float mag = 50.0;
   float xd = position.x + mag * snoise(vec3(freq * position.x, freq * position.y, freq * mag * position.z), tmp);
   float yd = position.y + mag * snoise(vec3(freq * position.x, freq * position.y, freq * mag * position.z), tmp);
   float zd = position.z + mag * snoise(vec3(freq * position.x, freq * position.y, freq * mag * position.z), tmp);
 
   vec3 n;
   float timeVariation = sin(0.002 * u_time);
-  vec3 displacement = 0.1 * vec3(xd * timeVariation, yd * timeVariation, zd * timeVariation);
-  float noise = 0.5 * snoise(displacement, n);
+  vec3 displacement = 0.5 * vec3(xd * timeVariation, yd * timeVariation, zd * timeVariation);
+  float noise = 10.0 * snoise(displacement, n);
   // noise += 5.0 * snoise(2.0 * displacement, n);
   // noise += 5.0 * snoise(4.0 * displacement, n);
 
